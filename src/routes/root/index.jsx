@@ -9,15 +9,17 @@ import { Link } from "react-router";
 function Pagination({ className, currentPage, setCurrentPage, hasNextPage }) {
     return (
         <div className={cn("flex justify-center", className)}>
-            {currentPage === 1?"":
-            <Button
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-                variant={"outline"}
-            >
-                Previous
-            </Button>
-            }
+            {currentPage === 1 ? (
+                ""
+            ) : (
+                <Button
+                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                    variant={"outline"}
+                >
+                    Previous
+                </Button>
+            )}
 
             <span className="px-4 py-2">{currentPage}</span>
             <Button onClick={() => setCurrentPage((prev) => prev + 1)} disabled={!hasNextPage} variant={"outline"}>
@@ -95,11 +97,11 @@ function MoviesSection({ section }) {
                 <ul className="flex gap-4 flex-wrap">
                     {data?.data.map((media, index) => (
                         <li key={index} className="flex-shrink-0 flex-grow-0 flex-1 min-w-40 min-h-64">
-                            <div>
-                                <img src={media.imgUrl} alt={media.title} />
-                            </div>
-                            <Link to={media.link} className="line-clamp-1">
-                                {media.title}
+                            <Link to={media.link}>
+                                <div>
+                                    <img src={media.imgUrl} alt={media.title} />
+                                </div>
+                                <div className="line-clamp-1">{media.title}</div>
                             </Link>
                         </li>
                     ))}
