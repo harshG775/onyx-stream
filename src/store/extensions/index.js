@@ -6,29 +6,47 @@ export const extensions = [
         sections: [
             {
                 id: "3d49dbd4-6512-4232-a019-1635c9b108c0",
-                name: "latest TvShows",
+                name: "Trending TvShows",
                 requestConfig: {
-                    url: "https://vidsrc.xyz/tvshows/latest/page-1.json",
+                    url: "https://api.themoviedb.org/3/trending/tv/day?language=en-US",
+                    headers: {
+                        Authorization:
+                            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMDRjNGQ1ODhlYTA0ZTE1NDI4NDllNWIwM2ZlYWRjOSIsIm5iZiI6MTY0Nzg2Mjg1NC41MjksInN1YiI6IjYyMzg2NDQ2OWVlMGVmMDA0NmRhNTA0NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oBGxSzK3gykXoMkyTZ8PTvchWBQaJytbHVat0psQxWo",
+                    },
                 },
+                // pagination: {
+                //     pageParam: "page",
+                //     initialPage: 1,
+                // },
                 handleFormatResponse: async (response) => {
-                    // Modify the API response to the format
-                    return response.data.result.map((item) => ({
-                        title: item.title, // Title from the placeholder API
-                        link: `/tv/${item.tmdb_id}`, // Mocked streaming URL
+                    return response.data.results.map((item) => ({
+                        title: item.name, // Title from the placeholder API
+                        link: `/tv/${item.id}`, // Mocked streaming URL
+                        imgUrl: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
                     }));
                 },
             },
             {
                 id: "3d49dbd4-6512-4232-a019-8885c9b108c0",
-                name: "latest movies",
+                name: "now playing movies",
                 requestConfig: {
-                    url: "https://vidsrc.xyz/movies/latest/page-1.json",
+                    url: "https://api.themoviedb.org/3/movie/now_playing?language=en-US",
+                    headers: {
+                        Authorization:
+                            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMDRjNGQ1ODhlYTA0ZTE1NDI4NDllNWIwM2ZlYWRjOSIsIm5iZiI6MTY0Nzg2Mjg1NC41MjksInN1YiI6IjYyMzg2NDQ2OWVlMGVmMDA0NmRhNTA0NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oBGxSzK3gykXoMkyTZ8PTvchWBQaJytbHVat0psQxWo",
+                    },
+                },
+                pagination: {
+                    pageParam: "page",
+                    initialPage: 1,
+                    perPage:20
                 },
                 handleFormatResponse: async (response) => {
                     // Modify the API response to the format
-                    return response.data.result.map((item) => ({
+                    return response.data.results.map((item) => ({
                         title: item.title, // Title from the placeholder API
-                        link: `/tv/${item.tmdb_id}`, // Mocked streaming URL
+                        link: `/movies/${item.id}`, // Mocked streaming URL
+                        imgUrl: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
                     }));
                 },
             },
