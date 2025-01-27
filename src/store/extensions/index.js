@@ -52,28 +52,26 @@ export const extensions = [
             },
         ],
         info: {
-            movie: {
-                name: "TvShow",
-                requestConfig: {
-                    url: "https://api.themoviedb.org/3/movie/{movie_id}?language=en-US",
-                    headers: {
-                        Authorization:
-                            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMDRjNGQ1ODhlYTA0ZTE1NDI4NDllNWIwM2ZlYWRjOSIsIm5iZiI6MTY0Nzg2Mjg1NC41MjksInN1YiI6IjYyMzg2NDQ2OWVlMGVmMDA0NmRhNTA0NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oBGxSzK3gykXoMkyTZ8PTvchWBQaJytbHVat0psQxWo",
-                    },
+            name: "movie",
+            requestConfig: {
+                url: "https://api.themoviedb.org/3/movie/{movie_id}?language=en-US",
+                headers: {
+                    Authorization:
+                        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMDRjNGQ1ODhlYTA0ZTE1NDI4NDllNWIwM2ZlYWRjOSIsIm5iZiI6MTY0Nzg2Mjg1NC41MjksInN1YiI6IjYyMzg2NDQ2OWVlMGVmMDA0NmRhNTA0NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oBGxSzK3gykXoMkyTZ8PTvchWBQaJytbHVat0psQxWo",
                 },
-                idPrefix: "{movie_id}",
-                handleFormatResponse: async (response) => {
-                    const result = response.data;
-                    console.log(result);
-                    return {
-                        title: result.original_title,
-                        overview: result.overview,
-                        imgUrl: `https://image.tmdb.org/t/p/w500${result.poster_path}`,
-                        plot: result.overview,
-                        year: result.release_date,
-                        duration: `${result.runtime}min`,
-                    };
-                },
+            },
+            idPrefix: "{movie_id}",
+            handleFormatResponse: async (response) => {
+                const result = response.data;
+                console.log(result);
+                return {
+                    title: result.original_title,
+                    overview: result.overview,
+                    imgUrl: `https://image.tmdb.org/t/p/w500${result.poster_path}`,
+                    plot: result.overview,
+                    year: result.release_date,
+                    duration: `${result.runtime}min`,
+                };
             },
         },
     },
