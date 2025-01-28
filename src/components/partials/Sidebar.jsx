@@ -1,8 +1,7 @@
-import { AlignLeft } from "lucide-react";
-import { Button } from "../ui/button";
 import TopNavbar from "./TopNavbar";
 import useZustandStore from "@/store/zustand/useZustandStore";
 import { useLayoutEffect } from "react";
+import { ScrollArea } from "../ui/scroll-area";
 
 export default function Sidebar({ children }) {
     const { isSidebarOpen } = useZustandStore((state) => state);
@@ -25,22 +24,16 @@ export default function Sidebar({ children }) {
         <>
             <div
                 className={`
-                    z-50 fixed inset-0 h-screen w-72 bg-background transition-transform duration-300 ease-in-out
+                    pt-14 flex flex-col z-50 fixed inset-0 h-screen w-72 bg-background transition-transform duration-300 ease-in-out
                     ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
                 `}
             >
-                <div className="px-4 py-2 ${}">
-                    <div>
-                        <Button
-                            onClick={() => setIsSidebarOpen(false)}
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 p-0 [&_svg]:size-6"
-                        >
-                            <AlignLeft />
-                        </Button>
-                    </div>
-                </div>
+                <ScrollArea className="px-4 py-0">
+                    {Array.from({ length: 10 }, (_, i) => (
+                        <div key={i} className="h-20">item</div>
+                    ))}
+                    <div>last</div>
+                </ScrollArea>
             </div>
             <div
                 className={`${
@@ -50,8 +43,8 @@ export default function Sidebar({ children }) {
             ></div>
             <TopNavbar
                 className={`${
-                    isSidebarOpen ? "md:ml-72 md:h-auto" : "md:ml-0"
-                } transition-all duration-300 ease-in-out z-10 sticky top-0 bg-background `}
+                    isSidebarOpen ? "" : "md:ml-0"
+                } transition-all duration-300 ease-in-out z-50 fixed top-0 left-0 right-0 h-14 bg-background `}
             />
 
             <div

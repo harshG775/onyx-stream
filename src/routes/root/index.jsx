@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { extensions } from "@/store/extensions";
 import { useQuery } from "@tanstack/react-query";
@@ -123,10 +124,10 @@ export default function RootRoute() {
     const [currentExtensions] = useState(extensions[0]);
 
     return (
-        <div>
+        <ScrollArea className="h-[calc(100vh-3.5rem)] mt-14">
             <div>Home Page</div>
             <MoviesSection section={currentExtensions.sections[0]} />
             <MoviesSection section={currentExtensions.sections[1]} />
-        </div>
+        </ScrollArea>
     );
 }

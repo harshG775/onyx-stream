@@ -4,14 +4,13 @@ import { Link } from "react-router";
 import { cn } from "@/lib/utils";
 import useZustandStore from "@/store/zustand/useZustandStore";
 export default function TopNavbar({ className }) {
-    const { isSidebarOpen } = useZustandStore((state) => state);
     const { setIsSidebarOpen } = useZustandStore((state) => state);
 
     return (
-        <header className={cn("px-4 py-2 flex gap-2", className)}>
-            <div className={`h-8 w-8 p-0 block ${isSidebarOpen ? "scale-0" : "scale-100"}`}>
+        <header className={cn("px-4 py-2 flex gap-2 items-center", className)}>
+            <div className={`h-8 w-8 p-0 block`}>
                 <Button
-                    onClick={() => setIsSidebarOpen(true)}
+                    onClick={() => setIsSidebarOpen(prev=>!prev)}
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8 p-0 [&_svg]:size-6"

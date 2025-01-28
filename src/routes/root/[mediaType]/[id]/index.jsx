@@ -1,3 +1,4 @@
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { extensions } from "@/store/extensions";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -35,6 +36,7 @@ export default function InfoRoute() {
 
     // Render UI
     return (
+        <ScrollArea className="h-[calc(100vh-3.5rem)] mt-14">
         <main className="max-w-4xl mx-auto py-8">
             {isLoading && <div>Loading...</div>}
             {isError && <div>Error loading data. Please try again.</div>}
@@ -72,5 +74,6 @@ export default function InfoRoute() {
                 </>
             )}
         </main>
+        </ScrollArea>
     );
 }
