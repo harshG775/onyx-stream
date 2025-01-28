@@ -29,7 +29,7 @@ export default function Sidebar({ children }) {
                     ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
                 `}
             >
-                <div className="px-4 py-2">
+                <div className="px-4 py-2 ${}">
                     <div>
                         <Button
                             onClick={() => setIsSidebarOpen(false)}
@@ -40,7 +40,6 @@ export default function Sidebar({ children }) {
                             <AlignLeft />
                         </Button>
                     </div>
-                    
                 </div>
             </div>
             <div
@@ -49,14 +48,17 @@ export default function Sidebar({ children }) {
                 } transition-opacity duration-300 md:hidden`}
                 onClick={() => setIsSidebarOpen(false)}
             ></div>
+            <TopNavbar
+                className={`${
+                    isSidebarOpen ? "md:ml-72 md:h-auto" : "md:ml-0"
+                } transition-all duration-300 ease-in-out z-10 sticky top-0 bg-background `}
+            />
+
             <div
                 className={`${
-                    isSidebarOpen
-                        ? "md:ml-72 md:h-auto h-dvh md:overflow-auto overflow-hidden md:scale-100 scale-90"
-                        : "md:ml-0 md:scale-100 scale-100"
-                } transition-all duration-300 ease-in-out  flex flex-col origin-top`}
+                    isSidebarOpen ? "md:ml-72 md:h-auto" : "md:ml-0"
+                } transition-all duration-300 ease-in-out`}
             >
-                <TopNavbar className={"z-10"} />
                 {children}
             </div>
         </>
