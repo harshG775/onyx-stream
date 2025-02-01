@@ -1,55 +1,87 @@
-import { Button } from "@/components/ui/button";
+import HeaderSection from "@/components/home/HeaderSection";
+import Section from "@/components/home/Section";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Link } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
-function HeaderSection({ data }) {
+function MoviesSection() {
+    const handleFetch = async () => {
+        const response = await axios({
+            url: "https://api.themoviedb.org/3/movie/now_playing?language=en-US",
+            method: "get",
+            headers: {
+                Authorization:
+                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMDRjNGQ1ODhlYTA0ZTE1NDI4NDllNWIwM2ZlYWRjOSIsIm5iZiI6MTY0Nzg2Mjg1NC41MjksInN1YiI6IjYyMzg2NDQ2OWVlMGVmMDA0NmRhNTA0NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oBGxSzK3gykXoMkyTZ8PTvchWBQaJytbHVat0psQxWo",
+            },
+        });
+        return response.data.results.map((item) => ({
+            title: item.title,
+            id: item.id,
+            imgUrl: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+            mediaType: "movies",
+        }));
+    };
+    const { data, isSuccess, isLoading, isError } = useQuery({
+        queryKey: ["Movies"], // Include currentPage in queryKey
+        queryFn: handleFetch,
+        keepPreviousData: true, // Keep previous data while fetching new
+    });
     return (
-        <section className="px-3 py-2">
-            <ul>
-                {data.map((_item, i) => (
-                    <li key={i} className="h-96 w-full animate-pulse bg-gray-600/40">
-                        <Link to={""} className="flex h-full gap-2 items-center justify-center ">
-                            <div>img</div>
-                            <div>item</div>
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-        </section>
+        <Section
+            title={"Movies"}
+            linkTo={"movies"}
+            isSuccess={isSuccess}
+            isLoading={isLoading}
+            isError={isError}
+            data={data}
+        />
     );
 }
-function Section({ title, linkTo, data }) {
+function TvShowsSection() {
+    const handleFetch = async () => {
+        const response = await axios({
+            url: "https://api.themoviedb.org/3/trending/tv/day?language=en-US",
+            method: "get",
+            headers: {
+                Authorization:
+                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMDRjNGQ1ODhlYTA0ZTE1NDI4NDllNWIwM2ZlYWRjOSIsIm5iZiI6MTY0Nzg2Mjg1NC41MjksInN1YiI6IjYyMzg2NDQ2OWVlMGVmMDA0NmRhNTA0NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oBGxSzK3gykXoMkyTZ8PTvchWBQaJytbHVat0psQxWo",
+            },
+        });
+        return response.data.results.map((item) => ({
+            title: item.title,
+            id: item.id,
+            imgUrl: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+            mediaType: "tv-shows",
+        }));
+    };
+    const { data, isSuccess, isLoading, isError } = useQuery({
+        queryKey: ["tvShows"], // Include currentPage in queryKey
+        queryFn: handleFetch,
+        keepPreviousData: true, // Keep previous data while fetching new
+    });
     return (
-        <section className="mt-4 mb-16 px-3">
-            <div className="flex items-center justify-between py-2 pl-2 pr-4">
-                <h2 className="font-bold text-2xl">{title}</h2>
-                <div>
-                    <Button variant="link" asChild>
-                        <Link to={linkTo}>More</Link>
-                    </Button>
-                </div>
-            </div>
-            <ul className="grid grid-cols-3 sm:grid-cols-[repeat(auto-fit,minmax(12rem,1fr))] gap-2">
-                {data.map((_item, i) => (
-                    <li key={i} className="w-full aspect-[6/8] animate-pulse bg-gray-600/40 rounded-md">
-                        <Link to={""} className="flex h-full items-center justify-center">
-                            item
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-        </section>
+        <Section
+            title={"Tv Show"}
+            linkTo={"tv-shows"}
+            isSuccess={isSuccess}
+            isLoading={isLoading}
+            isError={isError}
+            data={data}
+        />
     );
+}
+function AnimeSection() {
+    const data = Array.from({ length: 20 });
+    return <Section title={"Movies"} linkTo={"movies"} data={data} />;
 }
 
 export default function HomePage() {
-    const data = Array.from({ length: 20 });
     return (
         <ScrollArea className="h-[calc(100vh-3.5rem)] mt-14 max-w-[96rem] mx-auto ">
             <HeaderSection data={[1]} />
-            <Section title={"Movies"} linkTo={"movies"} data={data} />
-            <Section title={"TvShows"} linkTo={"tv-shows"} data={data} />
-            <Section title={"Anime"} linkTo={"anime"} data={data} />
+            <MoviesSection />
+            <TvShowsSection />
+            <AnimeSection />
         </ScrollArea>
     );
 }
