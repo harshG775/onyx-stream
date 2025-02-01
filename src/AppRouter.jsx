@@ -9,6 +9,7 @@ import ErrorBoundary from "./components/appRouter/ErrorBoundary";
 const NotFoundRoute = lazy(() => import("@/routes/not-found"));
 const RootRoute = lazy(() => import("@/routes/root"));
 const InfoRoute = lazy(() => import("@/routes/root/[mediaType]/[id]"));
+const WatchRoute = lazy(() => import("@/routes/root/[mediaType]/watch/[id]"));
 
 const router = createBrowserRouter([
     {
@@ -28,8 +29,18 @@ const router = createBrowserRouter([
                 element: <RootRoute />,
             },
             {
-                path: "/:mediaType/:id",
-                element: <InfoRoute />,
+                path: "/:mediaType",
+                element: <Outlet />,
+                children: [
+                    {
+                        path: ":id",
+                        element: <InfoRoute />,
+                    },
+                    {
+                        path: "watch/:id",
+                        element: <WatchRoute />,
+                    },
+                ],
             },
             {
                 path: "*",
