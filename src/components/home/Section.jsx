@@ -13,7 +13,7 @@ function ListItemLoading() {
                             className=" transition-all duration-300 group-hover:scale-110 group-hover:rotate-2 group-hover:origin-bottom"
                         />
                     </Link>
-                    <div className="bg-gray-800/60 text-white absolute top-0 left-0 right-0 z-10 p-2">
+                    <div className="bg-black/20 text-white absolute top-0 left-0 right-0 z-10 p-2">
                         <h3 className="line-clamp-1 text-lg font-bold">{item?.title || "_"}</h3>
                     </div>
                 </li>
@@ -31,7 +31,7 @@ function ListItem({ item }) {
                     className=" transition-all duration-300 group-hover:scale-110 group-hover:rotate-2 group-hover:origin-bottom"
                 />
             </Link>
-            <div className="bg-gray-800/60 text-white absolute top-0 left-0 right-0 z-10 p-2">
+            <div className="bg-black/20 text-white absolute top-0 left-0 right-0 z-10 p-2">
                 <h3 className="line-clamp-1 text-lg font-bold">{item?.title || "_"}</h3>
             </div>
         </li>
