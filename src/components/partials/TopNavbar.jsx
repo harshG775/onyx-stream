@@ -10,7 +10,7 @@ export default function TopNavbar({ className }) {
         <header className={cn("px-4 py-2 flex gap-2 items-center", className)}>
             <div className={`h-8 w-8 p-0 block`}>
                 <Button
-                    onClick={() => setIsSidebarOpen(prev=>!prev)}
+                    onClick={() => setIsSidebarOpen((prev) => !prev)}
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8 p-0 [&_svg]:size-6"
@@ -18,10 +18,10 @@ export default function TopNavbar({ className }) {
                     <AlignLeft />
                 </Button>
             </div>
-            <div className="flex text-2xl font-bold">
+            <Link to="/" className="flex text-2xl font-bold">
                 <div className="italic text-primary">Onyx</div>
                 <div>stream</div>
-            </div>
+            </Link>
             <nav>
                 <ul>
                     <li>
