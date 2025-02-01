@@ -72,7 +72,7 @@ function TvShowsSection() {
 }
 function AnimeSection() {
     const data = Array.from({ length: 20 });
-    return <Section title={"Movies"} linkTo={"movies"} data={data} />;
+    return <Section title={"Anime"} linkTo={"anime"} data={data} />;
 }
 
 export default function HomePage() {
