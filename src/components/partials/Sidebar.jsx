@@ -7,12 +7,15 @@ export default function Sidebar({ children }) {
     const { isSidebarOpen } = useZustandStore((state) => state);
     const { setIsSidebarOpen } = useZustandStore((state) => state);
     useLayoutEffect(() => {
-        const mediaQuery = window.matchMedia("(min-width: 768px)");
+        const mediaQuery = window.matchMedia("(min-width: 1024px)");
         const handleMediaQueryChange = (e) => {
-            setIsSidebarOpen(e.matches);
+            // setIsSidebarOpen(e.matches);
+            if (!e.matches) {
+                setIsSidebarOpen(e.matches);
+            }
         };
         // Set the initial state
-        setIsSidebarOpen(mediaQuery.matches);
+        // setIsSidebarOpen(mediaQuery.matches);
         // Listen for changes
         mediaQuery.addEventListener("change", handleMediaQueryChange);
         // Cleanup
