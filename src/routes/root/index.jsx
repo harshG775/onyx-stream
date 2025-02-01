@@ -1,133 +1,55 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { cn } from "@/lib/utils";
-import { extensions } from "@/store/extensions";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { useState } from "react";
 import { Link } from "react-router";
 
-function Pagination({ className, currentPage, setCurrentPage, hasNextPage }) {
+function HeaderSection({ data }) {
     return (
-        <div className={cn("flex justify-center", className)}>
-            {currentPage === 1 ? (
-                ""
-            ) : (
-                <Button
-                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                    disabled={currentPage === 1}
-                    variant={"outline"}
-                >
-                    Previous
-                </Button>
-            )}
-
-            <span className="px-4 py-2">{currentPage}</span>
-            <Button onClick={() => setCurrentPage((prev) => prev + 1)} disabled={!hasNextPage} variant={"outline"}>
-                Next
-            </Button>
-        </div>
+        <section className="py-2">
+            <ul>
+                {data.map((_item, i) => (
+                    <li key={i} className="h-96 w-full animate-pulse bg-gray-600/40 rounded-md">
+                        <Link to={""} className="flex h-full gap-2 items-center justify-center ">
+                            <div>img</div>
+                            <div>item</div>
+                        </Link>
+                    </li>
+                ))}
+            </ul>
+        </section>
+    );
+}
+function Section({ title, linkTo, data }) {
+    return (
+        <section className="mt-4 mb-16">
+            <div className="flex items-center justify-between py-2 pl-2 pr-4">
+                <h2 className="font-bold text-2xl">{title}</h2>
+                <div>
+                    <Button variant="link" asChild>
+                        <Link to={linkTo}>More</Link>
+                    </Button>
+                </div>
+            </div>
+            <ul className="grid grid-cols-3 sm:grid-cols-[repeat(auto-fit,minmax(12rem,1fr))] gap-2">
+                {data.map((_item, i) => (
+                    <li key={i} className="w-full aspect-[6/8] animate-pulse bg-gray-600/40 rounded-md">
+                        <Link to={""} className="flex h-full items-center justify-center">
+                            item
+                        </Link>
+                    </li>
+                ))}
+            </ul>
+        </section>
     );
 }
 
-function MoviesSection({ section }) {
-    const [currentPage, setCurrentPage] = useState(1);
-
-    // Fetch data with pagination or without
-    const handleFetch = async ({ queryKey }) => {
-        const [_key, page] = queryKey;
-
-        if (!section) {
-            throw new Error("No sections available in the extensions configuration");
-        }
-
-        const config = { ...section.requestConfig };
-        if (section.pagination) {
-            config.params = {
-                ...(config.params || {}),
-                [section.pagination.pageParam || "page"]: page,
-            };
-        }
-
-        const response = await axios(config);
-        if (section.handleFormatResponse) {
-            const formattedData = await section.handleFormatResponse(response);
-            return {
-                data: formattedData,
-                hasNextPage: section.pagination ? response.data.page < response.data.total_pages : false, // If pagination isn't supported, assume there's no next page
-            };
-        }
-
-        throw new Error("Extension error");
-    };
-
-    // Use React Query to fetch and cache paginated data
-    const { data, isLoading, isError } = useQuery({
-        queryKey: [section.id, currentPage], // Include currentPage in queryKey
-        queryFn: handleFetch,
-        keepPreviousData: true, // Keep previous data while fetching new
-    });
-
-    // Loading and error states
-    // if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Failed to load data</div>;
-
+export default function HomePage() {
+    const data = Array.from({ length: 20 });
     return (
-        <div className="max-w-6xl mx-auto mt-8">
-            <div className="flex flex-wrap justify-between py-4">
-                <h2 className="text-2xl capitalize">{section.name}</h2>
-                <Pagination
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                    hasNextPage={section.pagination || data?.hasNextPage}
-                />
-            </div>
-            {isLoading && (
-                <ul className="flex gap-4 flex-wrap">
-                    {Array.from({ length: 20 }, (_, i) => (
-                        <li
-                            key={i}
-                            className="flex-shrink-0 flex-grow-0 flex-1 min-w-40 min-h-64 animate-pulse bg-gray-600/40"
-                        >
-                            {/* create loading for it */}
-                        </li>
-                    ))}
-                </ul>
-            )}
-            {!isLoading && (
-                <ul className="flex gap-4 flex-wrap">
-                    {data?.data.map((media, index) => (
-                        <li key={index} className="flex-shrink-0 flex-grow-0 flex-1 min-w-40 min-h-64">
-                            <Link to={media.link}>
-                                <div>
-                                    <img src={media.imgUrl} alt={media.title} />
-                                </div>
-                                <div className="line-clamp-1">{media.title}</div>
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            )}
-
-            <div className="flex justify-end py-4">
-                <Pagination
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                    hasNextPage={section.pagination || data?.hasNextPage}
-                />
-            </div>
-        </div>
-    );
-}
-
-export default function RootRoute() {
-    const [currentExtensions] = useState(extensions[0]);
-
-    return (
-        <ScrollArea className="h-[calc(100vh-3.5rem)] mt-14">
-            <div>Home Page</div>
-            <MoviesSection section={currentExtensions.sections[0]} />
-            <MoviesSection section={currentExtensions.sections[1]} />
+        <ScrollArea className="h-[calc(100vh-3.5rem)] mt-14 max-w-[96rem] mx-auto px-3">
+            <HeaderSection data={[1]} />
+            <Section title={"Movies"} linkTo={"movies"} data={data} />
+            <Section title={"TvShows"} linkTo={"tv-shows"} data={data} />
+            <Section title={"Anime"} linkTo={"anime"} data={data} />
         </ScrollArea>
     );
 }
