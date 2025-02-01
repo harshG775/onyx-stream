@@ -48,7 +48,7 @@ function TvShowsSection() {
             },
         });
         return response.data.results.map((item) => ({
-            title: item.title,
+            title: item.name,
             id: item.id,
             imgUrl: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
             mediaType: "tv-shows",
