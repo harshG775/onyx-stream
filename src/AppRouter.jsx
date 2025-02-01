@@ -14,13 +14,13 @@ const router = createBrowserRouter([
     {
         path: "/",
         element: (
-            <RootLayout>
-                <ErrorBoundary>
-                    <Suspense fallback={<Loading />}>
+            <ErrorBoundary>
+                <Suspense fallback={<Loading />}>
+                    <RootLayout>
                         <Outlet />
-                    </Suspense>
-                </ErrorBoundary>
-            </RootLayout>
+                    </RootLayout>
+                </Suspense>
+            </ErrorBoundary>
         ),
         children: [
             {
