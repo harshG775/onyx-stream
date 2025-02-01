@@ -1,79 +1,83 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { extensions } from "@/store/extensions";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useState } from "react";
 import { useParams } from "react-router";
 
 export default function InfoRoute() {
-    const [currentExtensions] = useState(extensions[0]);
-    const info = currentExtensions.info.movie;
     const { mediaType, id } = useParams();
 
     const handleFetch = async ({ queryKey }) => {
         const [_key, id] = queryKey;
 
-        const url = info.requestConfig.url.replace(info.idPrefix, id);
-        const config = { ...info.requestConfig, url };
+        const media = mediaType === "movies" ? "movie" : mediaType === "tv-shows" ? "tv" : "people";
+        const response = await axios({
+            method: "get",
+            url: `https://api.themoviedb.org/3/${media}/${id}?language=en-US`,
+            headers: {
+                Authorization:
+                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMDRjNGQ1ODhlYTA0ZTE1NDI4NDllNWIwM2ZlYWRjOSIsIm5iZiI6MTY0Nzg2Mjg1NC41MjksInN1YiI6IjYyMzg2NDQ2OWVlMGVmMDA0NmRhNTA0NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oBGxSzK3gykXoMkyTZ8PTvchWBQaJytbHVat0psQxWo",
+            },
+        });
+        const result = response.data;
+        console.log(result);
 
-        const response = await axios(config);
-
-        // Format the data for rendering
-        if (info.handleFormatResponse) {
-            const formattedData = await info.handleFormatResponse(response);
-            return {
-                data: formattedData,
-            };
-        }
-        throw new Error("Extension error");
+        return {
+            title: result.title,
+            overview: result.overview,
+            imgUrl: `https://image.tmdb.org/t/p/w500${result.poster_path}`,
+            plot: result.overview,
+            year: result.release_date,
+            duration: `${result.runtime}min`,
+        };
     };
 
-    // Use React Query to fetch data
-    const { data, isLoading, isError } = useQuery({
+    const { data, isLoading, isError, error } = useQuery({
         queryKey: [mediaType, id],
         queryFn: handleFetch,
     });
 
-    // Render UI
+    if (isError) {
+        console.error(error);
+    }
     return (
         <ScrollArea className="h-[calc(100vh-3.5rem)] mt-14">
-        <main className="max-w-4xl mx-auto py-8">
-            {isLoading && <div>Loading...</div>}
-            {isError && <div>Error loading data. Please try again.</div>}
-            {data && (
-                <>
-                    <div className="flex gap-8">
-                        <div className="flex-shrink-0">
-                            <img
-                                src={data?.data?.imgUrl}
-                                alt={data?.data?.title}
-                                className="w-64 h-96 object-cover rounded-md shadow-md"
-                            />
+            <main className="max-w-4xl mx-auto py-8">
+                {isLoading && <div>Loading...</div>}
+                {isError && <div>Error loading data. Please try again.</div>}
+                {data && (
+                    <>
+                        <div className="flex gap-8">
+                            <div className="flex-shrink-0">
+                                <img
+                                    src={data?.imgUrl}
+                                    alt={data?.title}
+                                    className="w-64 h-96 object-cover rounded-md shadow-md"
+                                />
+                            </div>
+                            <div className="flex flex-col gap-4">
+                                <h1 className="text-3xl font-bold">{data?.title}</h1>
+                                <div className="text-lg text-gray-600">
+                                    <span className="font-semibold">Year:</span> {data?.year}
+                                </div>
+                                <div className="text-lg text-gray-600">
+                                    <span className="font-semibold">Duration:</span> {data?.duration}
+                                </div>
+                                {data.site && (
+                                    <div className="text-lg text-blue-500">
+                                        <a href={data.site} target="_blank" rel="noopener noreferrer">
+                                            Official Site
+                                        </a>
+                                    </div>
+                                )}
+                            </div>
                         </div>
-                        <div className="flex flex-col gap-4">
-                            <h1 className="text-3xl font-bold">{data?.data?.title}</h1>
-                            <div className="text-lg text-gray-600">
-                                <span className="font-semibold">Year:</span> {data?.data?.year}
-                            </div>
-                            <div className="text-lg text-gray-600">
-                                <span className="font-semibold">Duration:</span> {data?.data?.duration}
-                            </div>
-                            {/* {data.site && (
-                            <div className="text-lg text-blue-500">
-                                <a href={data.site} target="_blank" rel="noopener noreferrer">
-                                    Official Site
-                                </a>
-                            </div>
-                        )} */}
+                        <div>
+                            <div>Plot:</div>
+                            <p>{data?.plot}</p>
                         </div>
-                    </div>
-                    <div>
-                        <div>Plot:</div>
-                        <p>{data?.data?.plot}</p>
-                    </div>
-                </>
-            )}
-        </main>
+                    </>
+                )}
+            </main>
         </ScrollArea>
     );
 }
