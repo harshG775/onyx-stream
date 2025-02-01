@@ -80,11 +80,13 @@ function AnimeSection() {
 
 export default function HomePage() {
     return (
-        <ScrollArea className="h-[calc(100vh-3.5rem)] mt-14 max-w-[96rem] mx-auto ">
-            <HeaderSection data={[1]} />
-            <MoviesSection />
-            <TvShowsSection />
-            <AnimeSection />
+        <ScrollArea className="h-[calc(100vh-3.5rem)] mt-14">
+            <main className="max-w-[96rem] mx-auto ">
+                <HeaderSection data={[1]} />
+                <MoviesSection />
+                <TvShowsSection />
+                <AnimeSection />
+            </main>
         </ScrollArea>
     );
 }

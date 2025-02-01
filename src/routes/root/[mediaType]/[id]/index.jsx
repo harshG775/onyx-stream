@@ -3,12 +3,18 @@ import { useQuery } from "@tanstack/react-query";
 import { axiosTMDBInstance } from "@/lib/axios";
 import { useParams } from "react-router";
 
+function Loading() {
+    return (<div>loading...</div>);
+}
+function Error({ error }) {
+    console.error(error);
+    return (<div>Error loading data. Please try again.</div>);
+}
 export default function InfoRoute() {
     const { mediaType, id } = useParams();
 
     const handleFetch = async ({ queryKey }) => {
         const [_key, id] = queryKey;
-
         const media = mediaType === "movies" ? "movie" : mediaType === "tv-shows" ? "tv" : "people";
         const response = await axiosTMDBInstance.get(`${media}/${id}?language=en-US`);
         const result = response.data;
@@ -23,20 +29,18 @@ export default function InfoRoute() {
         };
     };
 
-    const { data, isLoading, isError, error } = useQuery({
+    const { data, isLoading, isError, isSuccess, error } = useQuery({
         queryKey: [mediaType, id],
         queryFn: handleFetch,
     });
 
-    if (isError) {
-        console.error(error);
-    }
+
     return (
-        <ScrollArea className="h-[calc(100vh-3.5rem)] mt-14">
-            <main className="max-w-4xl mx-auto py-8">
-                {isLoading && <div>Loading...</div>}
-                {isError && <div>Error loading data. Please try again.</div>}
-                {data && (
+        <ScrollArea className="h-[calc(100vh-3.5rem)] mt-14 max-w-[96rem] mx-auto ">
+            <main className="max-w-[96rem] mx-auto ">
+                {isLoading && <Loading />}
+                {isError && <Error error={error}/>}
+                {isSuccess && (
                     <>
                         <div className="flex gap-8">
                             <div className="flex-shrink-0">
