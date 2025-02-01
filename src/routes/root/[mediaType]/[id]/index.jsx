@@ -1,6 +1,6 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { axiosTMDBInstance } from "@/lib/axios";
 import { useParams } from "react-router";
 
 export default function InfoRoute() {
@@ -10,16 +10,8 @@ export default function InfoRoute() {
         const [_key, id] = queryKey;
 
         const media = mediaType === "movies" ? "movie" : mediaType === "tv-shows" ? "tv" : "people";
-        const response = await axios({
-            method: "get",
-            url: `https://api.themoviedb.org/3/${media}/${id}?language=en-US`,
-            headers: {
-                Authorization:
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMDRjNGQ1ODhlYTA0ZTE1NDI4NDllNWIwM2ZlYWRjOSIsIm5iZiI6MTY0Nzg2Mjg1NC41MjksInN1YiI6IjYyMzg2NDQ2OWVlMGVmMDA0NmRhNTA0NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oBGxSzK3gykXoMkyTZ8PTvchWBQaJytbHVat0psQxWo",
-            },
-        });
+        const response = await axiosTMDBInstance.get(`${media}/${id}?language=en-US`);
         const result = response.data;
-        console.log(result);
 
         return {
             title: result.title,

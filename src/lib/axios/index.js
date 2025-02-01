@@ -1,0 +1,1 @@
+export { axiosTMDBInstance } from "./axiosTMDBInstance";

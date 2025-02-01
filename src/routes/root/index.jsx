@@ -1,28 +1,23 @@
 import HeaderSection from "@/components/home/HeaderSection";
 import Section from "@/components/home/Section";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { constants } from "@/config";
+import { axiosTMDBInstance } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+const { imageBaseUrl } = constants.TMDB;
 
 function MoviesSection() {
     const handleFetch = async () => {
-        const response = await axios({
-            url: "https://api.themoviedb.org/3/movie/now_playing?language=en-US",
-            method: "get",
-            headers: {
-                Authorization:
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMDRjNGQ1ODhlYTA0ZTE1NDI4NDllNWIwM2ZlYWRjOSIsIm5iZiI6MTY0Nzg2Mjg1NC41MjksInN1YiI6IjYyMzg2NDQ2OWVlMGVmMDA0NmRhNTA0NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oBGxSzK3gykXoMkyTZ8PTvchWBQaJytbHVat0psQxWo",
-            },
-        });
+        const response = await axiosTMDBInstance.get(`/movie/now_playing?language=en-US`);
         return response.data.results.map((item) => ({
             title: item.title,
             id: item.id,
-            imgUrl: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+            imgUrl: `${imageBaseUrl}/w500${item.poster_path}`,
             mediaType: "movies",
         }));
     };
     const { data, isSuccess, isLoading, isError } = useQuery({
-        queryKey: ["Movies"], // Include currentPage in queryKey
+        queryKey: ["Movies"],
         queryFn: handleFetch,
         keepPreviousData: true, // Keep previous data while fetching new
     });
@@ -39,23 +34,17 @@ function MoviesSection() {
 }
 function TvShowsSection() {
     const handleFetch = async () => {
-        const response = await axios({
-            url: "https://api.themoviedb.org/3/trending/tv/day?language=en-US",
-            method: "get",
-            headers: {
-                Authorization:
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMDRjNGQ1ODhlYTA0ZTE1NDI4NDllNWIwM2ZlYWRjOSIsIm5iZiI6MTY0Nzg2Mjg1NC41MjksInN1YiI6IjYyMzg2NDQ2OWVlMGVmMDA0NmRhNTA0NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oBGxSzK3gykXoMkyTZ8PTvchWBQaJytbHVat0psQxWo",
-            },
-        });
+        const response = await axiosTMDBInstance.get(`/trending/tv/day?language=en-US`);
+
         return response.data.results.map((item) => ({
             title: item.name,
             id: item.id,
-            imgUrl: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+            imgUrl: `${imageBaseUrl}/w500${item.poster_path}`,
             mediaType: "tv-shows",
         }));
     };
     const { data, isSuccess, isLoading, isError } = useQuery({
-        queryKey: ["tvShows"], // Include currentPage in queryKey
+        queryKey: ["tvShows"],
         queryFn: handleFetch,
         keepPreviousData: true, // Keep previous data while fetching new
     });
@@ -71,8 +60,22 @@ function TvShowsSection() {
     );
 }
 function AnimeSection() {
-    const data = Array.from({ length: 20 });
-    return <Section title={"Anime"} linkTo={"anime"} data={data} />;
+    const { data, isSuccess, isLoading, isError } = {
+        data: Array.from({ length: 20 }),
+        isSuccess: null,
+        isLoading: true,
+        isError: false,
+    };
+    return (
+        <Section
+            title={"Anime"}
+            linkTo={"anime"}
+            isSuccess={isSuccess}
+            isLoading={isLoading}
+            isError={isError}
+            data={data}
+        />
+    );
 }
 
 export default function HomePage() {
