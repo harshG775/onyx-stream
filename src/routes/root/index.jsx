@@ -4,10 +4,10 @@ import { Link } from "react-router";
 
 function HeaderSection({ data }) {
     return (
-        <section className="py-2">
+        <section className="px-3 py-2">
             <ul>
                 {data.map((_item, i) => (
-                    <li key={i} className="h-96 w-full animate-pulse bg-gray-600/40 rounded-md">
+                    <li key={i} className="h-96 w-full animate-pulse bg-gray-600/40">
                         <Link to={""} className="flex h-full gap-2 items-center justify-center ">
                             <div>img</div>
                             <div>item</div>
@@ -20,7 +20,7 @@ function HeaderSection({ data }) {
 }
 function Section({ title, linkTo, data }) {
     return (
-        <section className="mt-4 mb-16">
+        <section className="mt-4 mb-16 px-3">
             <div className="flex items-center justify-between py-2 pl-2 pr-4">
                 <h2 className="font-bold text-2xl">{title}</h2>
                 <div>
@@ -45,7 +45,7 @@ function Section({ title, linkTo, data }) {
 export default function HomePage() {
     const data = Array.from({ length: 20 });
     return (
-        <ScrollArea className="h-[calc(100vh-3.5rem)] mt-14 max-w-[96rem] mx-auto px-3">
+        <ScrollArea className="h-[calc(100vh-3.5rem)] mt-14 max-w-[96rem] mx-auto ">
             <HeaderSection data={[1]} />
             <Section title={"Movies"} linkTo={"movies"} data={data} />
             <Section title={"TvShows"} linkTo={"tv-shows"} data={data} />
