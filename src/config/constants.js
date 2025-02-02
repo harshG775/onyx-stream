@@ -42,4 +42,18 @@ export const constants = Object.freeze({
             },
         },
     },
+    mediaSources: [
+        {
+            name: "me",
+            url: "https://vidsrc.me/embed/${mediaType}?tmdb=${id}",
+        },
+        {
+            name: "to",
+            url: "https://vidsrc.to/embed/${mediaType}/${id}",
+        },
+        {
+            name: "superembed",
+            url: "https://multiembed.mov/?video_id=${id}&tmdb=1",
+        },
+    ],
 });

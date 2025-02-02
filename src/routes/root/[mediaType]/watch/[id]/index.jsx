@@ -1,10 +1,12 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
+import IframePlayer from "@/components/watch/IframePlayer";
 import { constants } from "@/config";
 import { axiosTMDBInstance } from "@/lib/axios";
 import NotFoundRoute from "@/routes/not-found";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router";
 const { IMAGE_SIZES } = constants.TMDB;
+
 function MoviesWatchRoute({ params }) {
     const { mediaType, id } = params;
 
@@ -16,14 +18,6 @@ function MoviesWatchRoute({ params }) {
         console.log(result);
 
         return result;
-        // return {
-        //     title: result.title,
-        //     overview: result.overview,
-        //     imgUrl: `https://image.tmdb.org/t/p/w500${result.poster_path}`,
-        //     plot: result.overview,
-        //     year: result.release_date,
-        //     duration: `${result.runtime}min`,
-        // };
     };
 
     const {
@@ -38,23 +32,16 @@ function MoviesWatchRoute({ params }) {
     });
 
     return (
-        <main className="max-w-[96rem] mx-auto grid lg:grid-cols-[2fr,24rem] gap-4 p-2 sm:p-4">
-            <div>
-                <section
-                // className="sticky top-4"
-                >
-                    <div className="w-full aspect-video bg-secondary overflow-hidden rounded-lg">
+        <main className="max-w-[96rem] mx-auto flex flex-wrap gap-4 p-2 sm:p-4">
+            <div className="sm:flex-[1_0_42rem] flex-1">
+                <section>
+                    <div className="w-full aspect-video relative overflow-hiddenk rounded-lg">
                         <img
                             src={`https://image.tmdb.org/t/p/${IMAGE_SIZES.BACKDROP_SIZES.W300}${data?.backdrop_path}`}
                             alt={data?.title}
-                            className="w-full blur-md"
+                            className="w-full blur-md absolute inset-0 -z-10"
                         />
-                        {/* <iframe
-                    src="https://vidsrc.me/embed/movie?tmdb=939243"
-                    referrerPolicy="origin"
-                    allowFullScreen
-                    className="w-full h-full aspect-video"
-                /> */}
+                        <IframePlayer id={data?.id} mediaType={"movie"} />
                     </div>
                     <div>{data?.title}</div>
                 </section>
@@ -70,9 +57,10 @@ function MoviesWatchRoute({ params }) {
                             </Link>
                         ))}
                     </div>
+                    <div className="min-h-96">comments</div>
                 </div>
             </div>
-            <section className="bg-secondary/20  overflow-y-auto">
+            <section className="sm:flex-[1_0_20rem] flex-auto w-full bg-secondary/20  overflow-y-auto">
                 {Array.from({ length: 40 }, (_, i) => (
                     <div key={i}>item</div>
                 ))}
