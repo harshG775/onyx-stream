@@ -87,7 +87,7 @@ function AnimeWatchRoute({ params }) {
 
 export default function WatchRoute() {
     const params = useParams();
-    const validMediaTypes = /^(tv-show|movies|anime)$/;
+    const validMediaTypes = /^(tv-shows|movies|anime)$/;
     if (!validMediaTypes.test(params?.mediaType)) {
         return <NotFoundRoute />;
     }

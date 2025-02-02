@@ -1,14 +1,16 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useQuery } from "@tanstack/react-query";
 import { axiosTMDBInstance } from "@/lib/axios";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
+import { Button } from "@/components/ui/button";
+import { CirclePlay } from "lucide-react";
 
 function Loading() {
-    return (<div>loading...</div>);
+    return <div>loading...</div>;
 }
 function Error({ error }) {
     console.error(error);
-    return (<div>Error loading data. Please try again.</div>);
+    return <div>Error loading data. Please try again.</div>;
 }
 export default function InfoRoute() {
     const { mediaType, id } = useParams();
@@ -26,6 +28,7 @@ export default function InfoRoute() {
             plot: result.overview,
             year: result.release_date,
             duration: `${result.runtime}min`,
+            id: result.id,
         };
     };
 
@@ -34,12 +37,11 @@ export default function InfoRoute() {
         queryFn: handleFetch,
     });
 
-
     return (
         <ScrollArea className="h-[calc(100vh-3.5rem)] mt-14 max-w-[96rem] mx-auto ">
             <main className="max-w-[96rem] mx-auto ">
                 {isLoading && <Loading />}
-                {isError && <Error error={error}/>}
+                {isError && <Error error={error} />}
                 {isSuccess && (
                     <>
                         <div className="flex gap-8">
@@ -65,6 +67,13 @@ export default function InfoRoute() {
                                         </a>
                                     </div>
                                 )}
+                                <div>
+                                    <Button asChild className="rounded-xl h-auto py-2 text-2xl [&_svg]:w-8 [&_svg]:h-8">
+                                        <Link to={`/${mediaType}/watch/${id}`}>
+                                            <CirclePlay /> Watch
+                                        </Link>
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                         <div>
