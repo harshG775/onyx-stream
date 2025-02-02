@@ -74,7 +74,6 @@ function TvShowWatchRoute({ params }) {
         const media = mediaType === "movies" ? "movie" : mediaType === "tv-shows" ? "tv" : "people";
         const response = await axiosTMDBInstance.get(`${media}/${id}?language=en-US`);
         const result = response.data;
-        console.log(result);
 
         return result;
     };

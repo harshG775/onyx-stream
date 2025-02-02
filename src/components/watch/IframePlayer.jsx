@@ -156,7 +156,7 @@ export default function IframePlayer({ id, mediaType, number_of_seasons, number_
         return <IframePlayerMovie id={id} mediaType={mediaType} />;
     }
     if (mediaType === "tv") {
-        const filteredSeasons = seasons.filter((season) => season?.name !== "Specials");
+        const filteredSeasons = seasons?.filter((season) => season?.name !== "Specials");
         return (
             <IframePlayerTV
                 id={id}
