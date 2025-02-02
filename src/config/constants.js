@@ -45,15 +45,19 @@ export const constants = Object.freeze({
     mediaSources: [
         {
             name: "me",
-            url: "https://vidsrc.me/embed/${mediaType}?tmdb=${id}",
+            url: "https://vidsrc.me/embed/${mediaType}?tmdb=${id}&season=${season}&episode=${episode}",
         },
         {
             name: "to",
-            url: "https://vidsrc.to/embed/${mediaType}/${id}",
+            url: "https://vidsrc.to/embed/${mediaType}/${id}/${season}/${episode}",
         },
         {
             name: "superembed",
-            url: "https://multiembed.mov/?video_id=${id}&tmdb=1",
+            url: "https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1&s=${season}&e=${episode}",
+        },
+        {
+            name: "2embed",
+            url: "https://www.2embed.stream/embed/${mediaType}/${id}/${season}/${episode}",
         },
     ],
 });
