@@ -4,7 +4,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { constants } from "@/config";
 import { axiosTMDBInstance } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
-const { imageBaseUrl } = constants.TMDB;
+const { IMAGE_BASE_URL } = constants.TMDB;
 
 function MoviesSection() {
     const handleFetch = async () => {
@@ -12,7 +12,7 @@ function MoviesSection() {
         return response.data.results.map((item) => ({
             title: item.title,
             id: item.id,
-            imgUrl: `${imageBaseUrl}/w500${item.poster_path}`,
+            imgUrl: `${IMAGE_BASE_URL}/w500${item.poster_path}`,
             mediaType: "movies",
         }));
     };
@@ -39,7 +39,7 @@ function TvShowsSection() {
         return response.data.results.map((item) => ({
             title: item.name,
             id: item.id,
-            imgUrl: `${imageBaseUrl}/w500${item.poster_path}`,
+            imgUrl: `${IMAGE_BASE_URL}/w500${item.poster_path}`,
             mediaType: "tv-shows",
         }));
     };
