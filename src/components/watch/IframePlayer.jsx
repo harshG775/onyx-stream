@@ -1,6 +1,5 @@
 import { constants } from "@/config";
 import { useEffect, useState } from "react";
-import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
 const { IMAGE_SIZES } = constants.TMDB;
 
