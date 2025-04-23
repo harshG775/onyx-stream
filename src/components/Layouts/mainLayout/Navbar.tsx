@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { ListVideoIcon, Menu, MoveIcon, TvIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { usePathname } from "next/navigation";
@@ -45,11 +45,16 @@ const Sidebar = ({ isOpen, toggleSidebar }: { isOpen: boolean; toggleSidebar: ()
                     </Button>
                     <NavLogo />
                 </div>
-                {StreamMode.map(({ id, name }) => (
-                    <Button key={id} variant="link" className="cursor-pointer" asChild>
-                        <Link href={`/${id}`}>{name}</Link>
-                    </Button>
-                ))}
+                <div className="flex flex-col p-2">
+                    {StreamMode.map(({ id, name, Icon }) => (
+                        <Button key={id} variant="ghost" className="cursor-pointer font-bold text-lg flex justify-start gap-4" asChild>
+                            <Link href={`/${id}`}>
+                                <Icon className="size-6"/>
+                                {name}
+                            </Link>
+                        </Button>
+                    ))}
+                </div>
             </nav>
         </aside>
     );
@@ -82,10 +87,10 @@ const Overlay = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) 
 };
 
 const StreamMode = [
-    { name: "TV", id: "tv" },
-    { name: "Movie", id: "movie" },
-    { name: "Anime", id: "anime" },
-    { name: "Live", id: "live" },
+    { name: "TV", id: "tv", Icon: TvIcon },
+    { name: "Movie", id: "movie", Icon: MoveIcon },
+    { name: "Anime", id: "anime", Icon: TvIcon },
+    { name: "Live", id: "live", Icon: ListVideoIcon },
 ];
 
 const NavLogo = () => (
