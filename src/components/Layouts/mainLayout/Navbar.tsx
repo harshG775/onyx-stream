@@ -1,28 +1,64 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Menu } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 type MainNavbarProps = {
     children: React.ReactNode;
 };
-export default function MainNavbar({ children, ...props }: MainNavbarProps) {
+export default function MainNavbar({ children }: MainNavbarProps) {
+    const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+    const handleSideBar = () => {
+        setIsSideBarOpen((p) => !p);
+    };
     return (
         <>
-            <header {...props} className="sticky top-0 z-50 bg-background text-foreground border-b">
-                <nav className="max-w-7xl mx-auto h-16 w-full flex items-center gap-2 p-2">
-                    <NavLogo />
+            <aside
+                className={`fixed left-0 top-0 z-40 h-full w-72 bg-background text-foreground  border-r ${
+                    isSideBarOpen ? "translate-x-0" : "-translate-x-full"
+                }`}
+            >
+                <nav>
+                    <div className="h-16 w-full flex items-center gap-2 p-2" onClick={handleSideBar}>
+                        <Button size={"icon"} variant={"ghost"}>
+                            <Menu />
+                        </Button>
+                        <NavLogo />
+                    </div>
                     {StreamMode.map((item) => (
-                        <Button key={item.id} variant={"link"} className="cursor-pointer" asChild>
+                        <Button
+                            key={item.id}
+                            variant={"link"}
+                            className="cursor-pointer"
+                            onClick={handleSideBar}
+                            asChild
+                        >
                             <Link href={`/${item.id}`}>{item.name}</Link>
                         </Button>
                     ))}
                 </nav>
+            </aside>
+            <header className="sticky top-0 z-30 bg-background text-foreground border-b">
+                <nav className="h-16 w-full flex items-center gap-2 p-2">
+                    <Button size={"icon"} variant={"ghost"} onClick={handleSideBar}>
+                        <Menu />
+                    </Button>
+                    <NavLogo />
+                </nav>
             </header>
-            {children}
+            <div className={`${isSideBarOpen ? "lg:ml-72" : ""}`}>{children}</div>
+            <div
+                onClick={handleSideBar}
+                className={`z-30 fixed inset-0 w-full h-full bg-black/50 transition-opacity duration-300  ${
+                    isSideBarOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+                }`}
+            />
         </>
     );
 }
-
 
 const StreamMode = [
     {
