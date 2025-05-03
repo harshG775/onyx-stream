@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ListVideoIcon, Menu, MoveIcon, TvIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 type MainNavbarProps = {
     children: React.ReactNode;
@@ -21,8 +21,8 @@ export default function MainNavbar({ children }: MainNavbarProps) {
     }, [pathname]);
     return (
         <>
-            <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-            <Header onToggle={toggleSidebar} />
+            <Sidebar isOpen={isSidebarOpen} onToggle={toggleSidebar} />
+            <TopNavbar isOpen={isSidebarOpen} onToggle={toggleSidebar} />
             <main className={`transition-[margin-left] duration-100 ${isSidebarOpen ? "lg:ml-72" : ""}`}>
                 {children}
             </main>
@@ -31,25 +31,30 @@ export default function MainNavbar({ children }: MainNavbarProps) {
     );
 }
 
-const Sidebar = ({ isOpen, toggleSidebar }: { isOpen: boolean; toggleSidebar: () => void }) => {
+const Sidebar = ({ isOpen, onToggle }: { isOpen: boolean; onToggle: () => void }) => {
     return (
         <aside
-            className={`fixed left-0 top-0 z-40 h-full w-72 border-r bg-background text-foreground transition-transform duration-100 ${
+            className={`fixed left-0 top-0 lg:z-40 z-50 h-full w-72 bg-background text-foreground transition-transform duration-100 ${
                 isOpen ? "translate-x-0" : "-translate-x-full"
             }`}
         >
             <nav>
                 <div className="h-16 flex items-center gap-2 p-2">
-                    <Button size="icon" variant="ghost" onClick={toggleSidebar}>
+                    <Button size="icon" variant="ghost" onClick={onToggle}>
                         {isOpen ? <X /> : <Menu />}
                     </Button>
                     <NavLogo />
                 </div>
                 <div className="flex flex-col p-2">
                     {StreamMode.map(({ id, name, Icon }) => (
-                        <Button key={id} variant="ghost" className="cursor-pointer font-bold text-lg flex justify-start gap-4" asChild>
+                        <Button
+                            key={id}
+                            variant="ghost"
+                            className="cursor-pointer font-bold text-medium flex justify-start gap-4"
+                            asChild
+                        >
                             <Link href={`/${id}`}>
-                                <Icon className="size-6"/>
+                                <Icon className="size-4" />
                                 {name}
                             </Link>
                         </Button>
@@ -60,12 +65,12 @@ const Sidebar = ({ isOpen, toggleSidebar }: { isOpen: boolean; toggleSidebar: ()
     );
 };
 
-const Header = ({ onToggle }: { onToggle: () => void }) => {
+const TopNavbar = ({ isOpen, onToggle }: { isOpen: boolean; onToggle: () => void }) => {
     return (
-        <header className="sticky top-0 z-30 border-b bg-background text-foreground">
+        <header className="sticky top-0 z-40 bg-background text-foreground">
             <nav className="h-16 flex items-center gap-2 p-2">
                 <Button size="icon" variant="ghost" onClick={onToggle}>
-                    <Menu />
+                    {isOpen ? <X /> : <Menu />}
                 </Button>
                 <NavLogo />
             </nav>
@@ -77,11 +82,11 @@ const Overlay = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) 
     return (
         <div
             onClick={onClick}
-            className={`fixed inset-0 z-30 h-full w-full bg-black/50 transition-opacity duration-100 ${
-                isOpen
-                    ? "lg:opacity-0 opacity-100 lg:pointer-events-none pointer-events-auto"
-                    : "opacity-0 pointer-events-none"
-            }`}
+            className={cn(
+                "fixed inset-0 z-40 h-full w-full bg-black/50 transition-opacity duration-0",
+                { "lg:opacity-0 opacity-100 lg:pointer-events-none pointer-events-auto": isOpen },
+                { "opacity-0 pointer-events-none": !isOpen }
+            )}
         />
     );
 };
@@ -93,21 +98,12 @@ const StreamMode = [
     { name: "Live", id: "live", Icon: ListVideoIcon },
 ];
 
-const NavLogo = () => (
-    <Tooltip delayDuration={1000}>
-        <TooltipTrigger aria-label="OnyxStream-Logo" asChild>
-            <LogoIcon />
-        </TooltipTrigger>
-        <TooltipContent>
-            <p>OnyxStream</p>
-        </TooltipContent>
-    </Tooltip>
-);
+const NavLogo = () => <LogoIcon />;
 
 const LogoIcon = () => (
     <Link href="/" className="group flex h-9 items-center rounded-md px-4 py-2 text-2xl font-bold cursor-pointer">
         <div className="text-primary">Onyx</div>
-        tream
+        Stream
         <svg
             xmlns="http://www.w3.org/2000/svg"
             width="640"
