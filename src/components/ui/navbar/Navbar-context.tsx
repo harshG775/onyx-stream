@@ -3,8 +3,9 @@ import * as React from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { TooltipProvider } from "../tooltip";
 import { cn } from "@/lib/utils";
-import { Menu, X } from "lucide-react";
+import { PanelLeft} from "lucide-react";
 import { Button } from "../button";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "../sheet";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -114,7 +115,6 @@ const SidebarProvider = React.forwardRef<
                 >
                     {children}
                 </div>
-                <Overlay />
             </TooltipProvider>
         </SidebarContext.Provider>
     );
@@ -126,18 +126,43 @@ SidebarProvider.displayName = "SidebarProvider";
 const MainContent = ({ children }: { children: React.ReactNode }) => {
     const { open } = useSidebar();
 
-    return <div className={`transition-[margin-left] duration-100 ${open ? "lg:ml-72" : ""}`}>{children}</div>;
+    return <div className={`transition-[margin-left] ease-in-out duration-300 ${open ? "lg:ml-72" : ""}`}>{children}</div>;
 };
 
 type SidebarProps = {
     children?: React.ReactNode;
+    side?: "left" | "right";
 };
-const Sidebar = ({ children }: SidebarProps) => {
-    const { open } = useSidebar();
+const Sidebar = ({ children, side = "left" }: SidebarProps) => {
+    const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
+    if (isMobile) {
+        return (
+            <Sheet open={openMobile} onOpenChange={setOpenMobile}>
+                <SheetContent
+                    data-sidebar="sidebar"
+                    data-mobile="true"
+                    className="w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
+                    style={
+                        {
+                            "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
+                        } as React.CSSProperties
+                    }
+                    side={side}
+                >
+                    <SheetHeader className="sr-only">
+                        <SheetTitle>Sidebar</SheetTitle>
+                        <SheetDescription>Displays the mobile sidebar.</SheetDescription>
+                    </SheetHeader>
+                    <div className="flex h-full w-full flex-col">{children}</div>
+                </SheetContent>
+            </Sheet>
+        );
+    }
+
     return (
         <div
-            className={`fixed left-0 top-0 lg:z-40 z-50 h-full w-72 bg-background text-foreground transition-transform duration-100 ${
-                open ? "translate-x-0" : "-translate-x-full"
+            className={`fixed left-0 top-0 lg:z-40 z-50 h-full w-72 bg-background text-foreground transition-transform ease-in-out duration-300 ${
+                state === "collapsed" ? "-translate-x-full" : "translate-x-0"
             }`}
         >
             {children}
@@ -145,12 +170,12 @@ const Sidebar = ({ children }: SidebarProps) => {
     );
 };
 function SidebarHeader({ children }: { children?: React.ReactNode }) {
-    const { open, toggleSidebar } = useSidebar();
+    const { toggleSidebar } = useSidebar();
 
     return (
         <div className="h-16 flex items-center gap-2 p-2">
             <Button size="icon" variant="ghost" onClick={toggleSidebar}>
-                {open ? <X /> : <Menu />}
+                <PanelLeft />
             </Button>
             {children}
         </div>
@@ -158,33 +183,17 @@ function SidebarHeader({ children }: { children?: React.ReactNode }) {
 }
 
 const TopNavbar = ({ children }: { children?: React.ReactNode }) => {
-    const { open, toggleSidebar } = useSidebar();
+    const { toggleSidebar } = useSidebar();
 
     return (
         <header className="sticky top-0 z-40 bg-background text-foreground h-16 flex items-center gap-2 p-2">
             <Button size="icon" variant="ghost" onClick={toggleSidebar}>
-                {open ? <X /> : <Menu />}
+                <PanelLeft />
             </Button>
             {children}
         </header>
     );
 };
-
-const Overlay = () => {
-    const { open, toggleSidebar } = useSidebar();
-
-    return (
-        <div
-            onClick={toggleSidebar}
-            className={cn(
-                "fixed inset-0 z-40 h-full w-full bg-black/50 transition-opacity duration-0",
-                { "lg:opacity-0 opacity-100 lg:pointer-events-none pointer-events-auto": open },
-                { "opacity-0 pointer-events-none": !open }
-            )}
-        />
-    );
-};
-
 /************************************************/
 export {
     //context
@@ -195,5 +204,4 @@ export {
     SidebarHeader,
     TopNavbar,
     MainContent,
-    Overlay,
 };
