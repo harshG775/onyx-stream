@@ -27,12 +27,20 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 }
 export function TopNavbar() {
     return (
-        <header className="bg-background text-foreground fixed left-0 right-0 top-0 z-50 h-16 flex items-center gap-2 px-1">
-            <SidebarGroup className="flex-row items-center gap-1">
-                <CustomTrigger />
-                <LogoIcon />
-            </SidebarGroup>
-        </header>
+        <nav className="bg-background text-foreground fixed left-0 right-0 top-0 z-50 h-16 flex items-center gap-1">
+            <div className="w-[calc(var(--sidebar-width)-4px)] p-2">
+                <SidebarGroup className="flex-row items-center gap-2">
+                    <CustomTrigger />
+                    <LogoIcon />
+                </SidebarGroup>
+            </div>
+            <div className="flex flex-1 items-center justify-end gap-2 p-4">
+                <div className="mx-auto md:mx-0">
+                    <input type="text" placeholder="Search" />
+                </div>
+                <div className="h-8 w-8 rounded-full border-2 border-primary"></div>
+            </div>
+        </nav>
     );
 }
 const StreamMode = [
@@ -45,7 +53,7 @@ function AppSidebar() {
     return (
         <Sidebar collapsible="icon" className="border-none">
             <SidebarHeader className="flex md:hidden bg-background text-foreground">
-                <SidebarGroup className="flex-row items-center gap-1 px-1">
+                <SidebarGroup className="flex-row items-center gap-2">
                     <CustomTrigger />
                     <LogoIcon />
                 </SidebarGroup>
