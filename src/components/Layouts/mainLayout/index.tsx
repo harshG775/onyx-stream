@@ -17,7 +17,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     return (
         <SidebarProvider>
             <AppSidebar />
-            <main className="pt-16">
+            <main className="pt-16 w-full">
                 <header className="bg-background text-foreground fixed left-0 right-0 top-0 z-50 h-16 flex items-center gap-2 p-2">
                     <SidebarGroup className="flex-row items-center gap-1">
                         <SidebarTrigger />
