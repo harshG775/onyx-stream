@@ -3,33 +3,40 @@ import {
     SidebarContent,
     SidebarFooter,
     SidebarGroup,
+    SidebarGroupContent,
+    SidebarGroupLabel,
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 import Link from "next/link";
 import { ListVideoIcon, MoveIcon, TvIcon } from "lucide-react";
+import { CustomTrigger } from "./CustomTrigger";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
     return (
         <SidebarProvider>
             <AppSidebar />
-            <main className="pt-16 w-full">
-                <header className="bg-background text-foreground fixed left-0 right-0 top-0 z-50 h-16 flex items-center gap-2 p-2">
-                    <SidebarGroup className="flex-row items-center gap-1">
-                        <SidebarTrigger />
-                        <LogoIcon />
-                    </SidebarGroup>
-                </header>
+            <main className="mt-16 w-full">
+                <TopNavbar />
                 {children}
             </main>
         </SidebarProvider>
     );
 }
-
+export function TopNavbar() {
+    return (
+        <header className="bg-background text-foreground fixed left-0 right-0 top-0 z-50 h-16 flex items-center gap-2 px-1">
+            <SidebarGroup className="flex-row items-center gap-1">
+                <CustomTrigger />
+                <LogoIcon />
+            </SidebarGroup>
+        </header>
+    );
+}
 const StreamMode = [
     { name: "TV", id: "tv", Icon: TvIcon },
     { name: "Movie", id: "movie", Icon: MoveIcon },
@@ -38,27 +45,30 @@ const StreamMode = [
 ];
 function AppSidebar() {
     return (
-        <Sidebar className="border-none">
-            <SidebarHeader>
-                <SidebarGroup className="flex-row items-center gap-1">
-                    <SidebarTrigger />
+        <Sidebar collapsible="icon" className="border-none">
+            <SidebarHeader className="bg-background text-foreground">
+                <SidebarGroup className="flex-row items-center gap-1 px-1">
+                    <CustomTrigger />
                     <LogoIcon />
                 </SidebarGroup>
             </SidebarHeader>
-            <SidebarContent className=" bg-background text-foreground">
+            <SidebarContent className="bg-background text-foreground">
                 <SidebarGroup>
-                    <SidebarMenu>
-                        {StreamMode.map(({ id, name, Icon }) => (
-                            <SidebarMenuItem key={id}>
-                                <SidebarMenuButton asChild>
-                                    <Link href={`/${id}`}>
-                                        <Icon className="size-4" />
-                                        <span>{name}</span>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        ))}
-                    </SidebarMenu>
+                    <SidebarGroupLabel>Stream</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            {StreamMode.map(({ id, name, Icon }) => (
+                                <SidebarMenuItem key={id}>
+                                    <SidebarMenuButton asChild>
+                                        <Link href={`/${id}`}>
+                                            <Icon className="size-4" />
+                                            <span>{name}</span>
+                                        </Link>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            ))}
+                        </SidebarMenu>
+                    </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
             <SidebarFooter />
