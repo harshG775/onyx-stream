@@ -55,34 +55,47 @@ export default function Search({ className }: { className?: string }) {
                                 <AppLogo className="px-0" />
                             </div>
                         </SheetTitle>
-                        <Label htmlFor="search">Search</Label>
-                        <form className="flex gap-2" onSubmit={handleSearch}>
+                    </SheetHeader>
+                    <form className="px-4 mb-4" onSubmit={handleSearch}>
+                        <div className="flex relative">
+                            <Label htmlFor="search" className="sr-only">
+                                Search
+                            </Label>
                             <Input
                                 type="text"
                                 id="search"
                                 placeholder="Search..."
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
+                                className="pr-20"
                             />
-                            <Button>Search</Button>
-                        </form>
-                    </SheetHeader>
-                    <div className="flex gap-2 px-4 mb-2 ">
-                        <Button
-                            variant={mediaType === "multi" ? "default" : "outline"}
-                            onClick={() => setMediaType("multi")}
-                        >
-                            All
-                        </Button>
-                        <Button variant={mediaType === "tv" ? "default" : "outline"} onClick={() => setMediaType("tv")}>
-                            Tv Series
-                        </Button>
-                        <Button
-                            variant={mediaType === "movie" ? "default" : "outline"}
-                            onClick={() => setMediaType("movie")}
-                        >
-                            Movie
-                        </Button>
+                            <Button className="rounded-l-none absolute right-0">Search</Button>
+                        </div>
+                    </form>
+                    <div className="flex px-4 mb-2 ">
+                        <div className="border rounded-md flex">
+                            <Button
+                                variant={mediaType === "multi" ? "default" : "ghost"}
+                                onClick={() => setMediaType("multi")}
+                                className="h-6 rounded-r-none"
+                            >
+                                All
+                            </Button>
+                            <Button
+                                variant={mediaType === "tv" ? "default" : "ghost"}
+                                onClick={() => setMediaType("tv")}
+                                className="h-6 rounded-none"
+                            >
+                                Tv Series
+                            </Button>
+                            <Button
+                                variant={mediaType === "movie" ? "default" : "ghost"}
+                                onClick={() => setMediaType("movie")}
+                                className="h-6 rounded-l-none"
+                            >
+                                Movie
+                            </Button>
+                        </div>
                     </div>
                     <SearchResult isLoading={isLoading} isError={isError} media={data?.results || []} />
                 </SheetContent>
