@@ -15,6 +15,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { BananaIcon, MoveIcon, TvIcon, TvMinimalIcon } from "lucide-react";
 import { CustomTrigger } from "./CustomTrigger";
+import Search from "@/components/Search/Search";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
     return (
@@ -35,9 +36,7 @@ export function TopNavbar() {
                 </SidebarGroup>
             </div>
             <div className="flex flex-1 items-center justify-end gap-2 p-4">
-                <div className="mx-auto md:mx-0">
-                    <input type="text" placeholder="Search" />
-                </div>
+                <Search/>
                 <div className="h-8 w-8 rounded-full border-2 border-primary"></div>
             </div>
         </nav>

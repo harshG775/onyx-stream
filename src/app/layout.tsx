@@ -24,7 +24,10 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html
+            lang="en"
+            className="scrollbar-thin scrollbar-thumb-primary scrollbar-track-background"
+        >
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
                 <MainLayout>{children}</MainLayout>
             </body>
