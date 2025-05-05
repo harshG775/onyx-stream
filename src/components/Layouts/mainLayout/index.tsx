@@ -13,7 +13,7 @@ import {
 import { SidebarProvider } from "@/components/ui/sidebar";
 
 import Link from "next/link";
-import { ListVideoIcon, MoveIcon, TvIcon } from "lucide-react";
+import { BananaIcon, MoveIcon, TvIcon, TvMinimalIcon } from "lucide-react";
 import { CustomTrigger } from "./CustomTrigger";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
@@ -36,10 +36,10 @@ export function TopNavbar() {
     );
 }
 const StreamMode = [
-    { name: "TV", id: "tv", Icon: TvIcon },
+    { name: "TV", id: "tv", Icon: TvMinimalIcon },
     { name: "Movie", id: "movie", Icon: MoveIcon },
-    { name: "Anime", id: "anime", Icon: TvIcon },
-    { name: "Live", id: "live", Icon: ListVideoIcon },
+    { name: "Anime", id: "anime", Icon: BananaIcon },
+    { name: "Live", id: "live", Icon: TvIcon },
 ];
 function AppSidebar() {
     return (
@@ -58,7 +58,7 @@ function AppSidebar() {
                         <SidebarMenu>
                             {StreamMode.map(({ id, name, Icon }) => (
                                 <SidebarMenuItem key={id}>
-                                    <SidebarMenuButton asChild>
+                                    <SidebarMenuButton asChild tooltip={name}>
                                         <Link href={`/${id}`}>
                                             <Icon className="size-4" />
                                             <span>{name}</span>
