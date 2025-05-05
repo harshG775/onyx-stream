@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import MainLayout from "@/components/Layouts/mainLayout";
+import { TamstackQueryProvider } from "@/components/providers/tanstack-query.provider";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -24,12 +25,11 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html
-            lang="en"
-            className="scrollbar-thin scrollbar-thumb-primary scrollbar-track-background"
-        >
+        <html lang="en" className="scrollbar-thin scrollbar-thumb-primary scrollbar-track-background">
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-                <MainLayout>{children}</MainLayout>
+                <TamstackQueryProvider>
+                    <MainLayout>{children}</MainLayout>
+                </TamstackQueryProvider>
             </body>
         </html>
     );
