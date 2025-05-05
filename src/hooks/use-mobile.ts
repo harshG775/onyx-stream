@@ -39,7 +39,7 @@ function createDebounce<T extends (...args: unknown[]) => unknown>(
  * @param debounceTime - Optional debounce time in ms (defaults to 200ms)
  * @returns Whether the current screen size is mobile
  */
-export function useIsMobile(customBreakpoint: number = BREAKPOINTS.md, debounceTime = 200) {
+export function useIsMobile(customBreakpoint: number | undefined = BREAKPOINTS.md, debounceTime = 200) {
     const breakpoint = customBreakpoint || BREAKPOINTS.md;
     const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined);
 

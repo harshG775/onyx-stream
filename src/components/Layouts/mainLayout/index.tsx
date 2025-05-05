@@ -19,11 +19,9 @@ import { CustomTrigger } from "./CustomTrigger";
 export default function MainLayout({ children }: { children: React.ReactNode }) {
     return (
         <SidebarProvider>
+            <TopNavbar />
             <AppSidebar />
-            <main className="mt-16 w-full">
-                <TopNavbar />
-                {children}
-            </main>
+            <main className="mt-16 w-full">{children}</main>
         </SidebarProvider>
     );
 }
@@ -46,12 +44,13 @@ const StreamMode = [
 function AppSidebar() {
     return (
         <Sidebar collapsible="icon" className="border-none">
-            <SidebarHeader className="bg-background text-foreground">
+            <SidebarHeader className="flex md:hidden bg-background text-foreground">
                 <SidebarGroup className="flex-row items-center gap-1 px-1">
                     <CustomTrigger />
                     <LogoIcon />
                 </SidebarGroup>
             </SidebarHeader>
+            <div className="h-16 md:flex hidden"></div>
             <SidebarContent className="bg-background text-foreground">
                 <SidebarGroup>
                     <SidebarGroupLabel>Stream</SidebarGroupLabel>
