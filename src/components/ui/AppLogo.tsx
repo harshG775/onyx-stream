@@ -1,17 +1,20 @@
 import { cn } from "@/lib/utils";
 
-export function AppLogo({ className, ...props }: React.ComponentProps<"div"> & {}) {
-    const Comp = "div";
+export function AppLogo({ href, className, ...props }: React.ComponentProps<"a"> & { href?: string | undefined }) {
+    const Comp = href ? "a" : "span";
 
     return (
         <Comp
+            {...{ href }}
+            data-slot="app-logo"
             className={cn(
-                "group flex h-8 items-center rounded-md px-4 py-2 text-xl font-bold cursor-pointer",
+                "group flex h-8 items-center rounded-md px-4 py-2 text-xl font-bold",
+                { "cursor-pointer": href },
                 className
             )}
             {...props}
         >
-            <div className="text-primary">Onyx</div>
+            <span className="text-primary">Onyx</span>
             Stream
             <svg
                 xmlns="http://www.w3.org/2000/svg"
