@@ -5,8 +5,8 @@ import { Loader, SearchIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { AppLogo } from "../ui/AppLogo";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -14,10 +14,15 @@ import { useDebounce } from "@/hooks/usedebounce";
 import Link from "next/link";
 
 export default function Search({ className }: { className?: string }) {
+    const pathnames = usePathname();
+    const [isOpen, setIsOpen] = useState(false);
     const [mediaType, setMediaType] = useState<"movie" | "tv" | "person" | "multi">("multi");
     const [query, setQuery] = useState("");
     const [debouncedInput] = useDebounce(query, 500);
 
+    useEffect(() => {
+        setIsOpen(false);
+    }, [pathnames]);
     const { isLoading, isError, data } = useQuery({
         queryKey: ["search", debouncedInput, mediaType],
         queryFn: async ({ signal }) => {
@@ -41,7 +46,7 @@ export default function Search({ className }: { className?: string }) {
     };
     return (
         <div className={cn("", className)}>
-            <Sheet>
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
                     <Button variant={"secondary"} className="flex items-center gap-2 rounded-2xl">
                         <SearchIcon />
