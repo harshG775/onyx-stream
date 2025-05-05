@@ -8,13 +8,36 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AppLogo } from "../ui/AppLogo";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useDebounce } from "@/hooks/usedebounce";
+import Link from "next/link";
+
+const MEDIA_TYPE = {
+    movie: "movies",
+    tv: "tv-series",
+};
 
 export default function Search({ className }: { className?: string }) {
+    const [mediaType, setMediaType] = useState<"movie" | "tv" | "person" | "multi">("multi");
     const [query, setQuery] = useState("");
+    const [debouncedInput] = useDebounce(query, 500);
+
+    const { data } = useQuery({
+        queryKey: ["search", debouncedInput, mediaType],
+        queryFn: async ({ signal }) => {
+            const data = await axios.get(`https://api.themoviedb.org/3/search/${mediaType}`, {
+                params: {
+                    api_key: process.env.NEXT_PUBLIC_TMDB_API_KEY,
+                    query: query,
+                },
+                signal,
+            });
+            return data?.data;
+        },
+        enabled: !!debouncedInput && debouncedInput.length > 0,
+    });
     const router = useRouter();
-    const handleDebounseSearch = (queryString: string) => {
-        console.log(queryString);
-    };
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         if (!query) return;
         e.preventDefault();
@@ -44,18 +67,40 @@ export default function Search({ className }: { className?: string }) {
                                 id="search"
                                 placeholder="Search..."
                                 value={query}
-                                onChange={(e) => {
-                                    setQuery(e.target.value);
-                                    handleDebounseSearch(e.target.value);
-                                }}
+                                onChange={(e) => setQuery(e.target.value)}
                             />
                             <Button>Search</Button>
                         </form>
                     </SheetHeader>
-                    <div className="p-4 overflow-auto max-h-96">
-                        {Array.from({ length: 100 }).map((_, i) => (
-                            <div key={i}>search result</div>
-                        ))}
+                    <div className="p-4 overflow-auto max-h-96 bg-accent">
+                        {data?.results?.map((media: any) => {
+                            if (media.media_type === "person") return null;
+                            return (
+                                <Link
+                                    tabIndex={0}
+                                    key={media.id}
+                                    className=" odd:bg-background even:bg-accent hover:bg-primary/20 text-secondary-foreground flex gap-2 cursor-pointer p-2 rounded"
+                                    href={`/${MEDIA_TYPE?.[media.media_type]}/${media.id}`}
+                                    title={media.overview}
+                                >
+                                    {media.poster_path && (
+                                        // eslint-disable-next-line @next/next/no-img-element
+                                        <img
+                                            src={"https://image.tmdb.org/t/p/w200" + media.poster_path}
+                                            alt={media.title}
+                                            className="w-20 h-20 object-cover rounded"
+                                        />
+                                    )}
+                                    <div>
+                                        <div className="font-bold">{media.name || media.title}</div>
+                                        <div className="text-sm font-sans">
+                                            {media.release_date || media.first_air_date}
+                                        </div>
+                                        <div className="text-sm uppercase font-semibold">{media.media_type}</div>
+                                    </div>
+                                </Link>
+                            );
+                        })}
                     </div>
                 </SheetContent>
             </Sheet>
