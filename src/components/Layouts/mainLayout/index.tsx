@@ -20,7 +20,7 @@ import { AppLogo } from "@/components/ui/AppLogo";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
     return (
-        <SidebarProvider>
+        <SidebarProvider defaultOpen={false}>
             <TopNavbar />
             <AppSidebar />
             <main className="mt-16 w-full">{children}</main>
