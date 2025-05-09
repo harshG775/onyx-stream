@@ -1,22 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
+import { Progress } from "./progress";
 
 export default function ProgressBar() {
-    const [width, setWidth] = useState(40);
+    const [progress, setProgress] = useState(13);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setWidth((prev) => (prev >= 100 ? 0 : prev + 1));
-        }, 2000);
-        return () => clearInterval(interval);
+        const timer = setTimeout(() => setProgress(66), 500);
+        return () => clearTimeout(timer);
     }, []);
 
     return (
-        <div className="fixed bottom-0 left-0 w-full h-1 z-[999] bg-background">
-            <div
-                className="h-full bg-primary transition-all duration-100 ease-linear"
-                style={{ width: `${width}%` }}
-            ></div>
+        <div className="fixed top-0 left-0 w-full h-1 z-[999] bg-background">
+            <Progress value={progress} className="rounded-none" />
         </div>
     );
 }
