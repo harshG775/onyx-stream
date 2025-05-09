@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import MainLayout from "@/components/Layouts/mainLayout";
 import { TamstackQueryProvider } from "@/components/providers/tanstack-query.provider";
+import ProgressBar from "@/components/ui/progress-bar";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -30,6 +31,7 @@ export default function RootLayout({
                 <TamstackQueryProvider>
                     <MainLayout>{children}</MainLayout>
                 </TamstackQueryProvider>
+                <ProgressBar/>
             </body>
         </html>
     );
