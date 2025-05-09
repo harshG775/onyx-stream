@@ -14,15 +14,11 @@ import { useDebounce } from "@/hooks/usedebounce";
 import Link from "next/link";
 
 export default function Search({ className }: { className?: string }) {
-    const pathnames = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const [mediaType, setMediaType] = useState<"movie" | "tv" | "person" | "multi">("multi");
     const [query, setQuery] = useState("");
     const [debouncedInput] = useDebounce(query, 500);
 
-    useEffect(() => {
-        setIsOpen(false);
-    }, [pathnames]);
     const { isLoading, isError, data } = useQuery({
         queryKey: ["search", debouncedInput, mediaType],
         queryFn: async ({ signal }) => {
@@ -102,7 +98,13 @@ export default function Search({ className }: { className?: string }) {
                             </Button>
                         </div>
                     </div>
-                    <SearchResult isLoading={isLoading} isError={isError} media={data?.results || []} />
+                    <SearchResult
+                        isLoading={isLoading}
+                        isError={isError}
+                        media={data?.results || []}
+                        setIsOpen={setIsOpen}
+                        mediaType={mediaType}
+                    />
                 </SheetContent>
             </Sheet>
         </div>
@@ -123,6 +125,8 @@ type SearchResultProps = {
     isLoading: boolean;
     isError: boolean;
     media: MediaDataType[];
+    setIsOpen: (open: boolean) => void;
+    mediaType: "movie" | "tv" | "person" | "multi";
 };
 const MEDIA_TYPE = {
     movie: "movies",
@@ -130,7 +134,7 @@ const MEDIA_TYPE = {
     person: "person",
     multi: "multi",
 };
-function SearchResult({ isLoading, isError, media }: SearchResultProps) {
+function SearchResult({ isLoading, isError, media, setIsOpen, mediaType }: SearchResultProps) {
     return (
         <div className="p-4 overflow-auto max-h-96 bg-accent">
             {isLoading ? (
@@ -151,8 +155,9 @@ function SearchResult({ isLoading, isError, media }: SearchResultProps) {
                                 tabIndex={0}
                                 key={media.id}
                                 className=" odd:bg-background even:bg-accent hover:bg-primary/20 text-secondary-foreground flex gap-2 cursor-pointer p-2 rounded"
-                                href={`/${MEDIA_TYPE?.[media.media_type]}/${media.id}`}
+                                href={`/${MEDIA_TYPE?.[mediaType]}/${media.id}`}
                                 title={media.overview}
+                                onClick={() => setIsOpen(false)}
                             >
                                 {media.poster_path ? (
                                     // eslint-disable-next-line @next/next/no-img-element
@@ -171,7 +176,9 @@ function SearchResult({ isLoading, isError, media }: SearchResultProps) {
                                     <div className="text-sm font-sans">
                                         {media.release_date || media.first_air_date}
                                     </div>
-                                    <div className="text-sm uppercase font-semibold">{media.media_type}</div>
+                                    <div className="text-sm uppercase font-semibold">
+                                        {media.media_type || mediaType}
+                                    </div>
                                 </div>
                             </Link>
                         );
