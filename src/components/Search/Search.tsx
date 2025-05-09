@@ -155,7 +155,7 @@ function SearchResult({ isLoading, isError, media, setIsOpen, mediaType }: Searc
                                 tabIndex={0}
                                 key={media.id}
                                 className=" odd:bg-background even:bg-accent hover:bg-primary/20 text-secondary-foreground flex gap-2 cursor-pointer p-2 rounded"
-                                href={`/${MEDIA_TYPE?.[mediaType]}/${media.id}`}
+                                href={`/${MEDIA_TYPE?.[media.media_type || mediaType]}/${media.id}`}
                                 title={media.overview}
                                 onClick={() => setIsOpen(false)}
                             >
