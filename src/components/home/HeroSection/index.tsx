@@ -101,8 +101,9 @@ export const Thumb: React.FC<ThumbPropType> = (props) => {
                 "transition border-2 rounded-md overflow-hidden",
                 selected ? "border-primary" : "border-transparent opacity-70 hover:opacity-100"
             )}
+            onClick={onClick}
         >
-            <button key={index} onClick={onClick}>
+            <button key={index}>
                 <Image src={src} alt={`Thumbnail ${index}`} width={100} height={60} className="object-cover" />
             </button>
         </div>
