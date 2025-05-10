@@ -7,9 +7,26 @@ import { useCallback, useEffect, useState } from "react";
 
 const images = ["/img1.jpg", "/img2.jpg", "/img3.jpg", "/img4.jpg", "/img5.jpg", "/img6.jpg", "/img7.jpg"];
 
-export default function HeroSection() {
+type HeroSectionPropsType = {
+    className?: string;
+};
+export default function HeroSection({ className }: HeroSectionPropsType) {
+    return <CarouselThumb className={cn("w-full max-w-5xl mx-auto space-y-4", className)} />;
+}
+
+
+
+
+
+
+
+
+
+
+
+function CarouselThumb({ className }: { className?: string }) {
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const [emblaMainRef, emblaMainApi] = useEmblaCarousel();
+    const [mainRef, mainApi] = useEmblaCarousel();
     const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
         containScroll: "keepSnaps",
         dragFree: true,
@@ -17,30 +34,29 @@ export default function HeroSection() {
 
     const onThumbClick = useCallback(
         (index: number) => {
-            if (!emblaMainApi || !emblaThumbsApi) return;
-            emblaMainApi.scrollTo(index);
+            if (!mainApi || !emblaThumbsApi) return;
+            mainApi.scrollTo(index);
         },
-        [emblaMainApi, emblaThumbsApi]
+        [mainApi, emblaThumbsApi]
     );
 
     const onSelect = useCallback(() => {
-        if (!emblaMainApi || !emblaThumbsApi) return;
-        setSelectedIndex(emblaMainApi.selectedScrollSnap());
-        emblaThumbsApi.scrollTo(emblaMainApi.selectedScrollSnap());
-    }, [emblaMainApi, emblaThumbsApi, setSelectedIndex]);
+        if (!mainApi || !emblaThumbsApi) return;
+        setSelectedIndex(mainApi.selectedScrollSnap());
+        emblaThumbsApi.scrollTo(mainApi.selectedScrollSnap());
+    }, [mainApi, emblaThumbsApi, setSelectedIndex]);
 
     useEffect(() => {
-        if (!emblaMainApi) return;
+        if (!mainApi) return;
         onSelect();
 
-        emblaMainApi.on("select", onSelect).on("reInit", onSelect);
-    }, [emblaMainApi, onSelect]);
+        mainApi.on("select", onSelect).on("reInit", onSelect);
+    }, [mainApi, onSelect]);
 
     return (
-        <div className="relative w-full max-w-5xl mx-auto space-y-4"
-        >
+        <div className={cn("relative", className)}>
             {/* Main Carousel */}
-            <div ref={emblaMainRef} className="overflow-hidden rounded-lg">
+            <div ref={mainRef} className="overflow-hidden rounded-lg">
                 <div className="flex touch-pan-y touch-pinch-zoom">
                     {images.map((src, index) => (
                         <Main key={index} index={index} src={src} />
