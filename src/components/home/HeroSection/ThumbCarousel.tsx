@@ -231,7 +231,7 @@ function CarouselThumbItem({ className, index, ...props }: React.ComponentProps<
             className={cn(
                 "min-w-0 shrink-0 grow-0 basis-1/2 lg:basis-1/4 xl:basis-1/6",
                 "transition-scale duration-300 ease-in-out",
-                selectedIndex === index ? "scale-100" : "scale-75",
+                selectedIndex === index ? "scale-100" : "scale-90",
                 thumbOrientation === "horizontal" ? "pl-4" : "pt-4",
                 className
             )}
