@@ -1,16 +1,20 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { CarouselContent, CarouselItem, CarouselThumbContent, CarouselThumbItem, ThumbCarousel } from "./ThumbCarousel";
 import axios from "axios";
 import TMDBImage from "@/components/TMDB/Image";
+import { useTrending } from "@/hooks/useTMDB";
 
 type HeroSectionPropsType = {
     className?: string;
 };
-export default async function HeroSection({ className }: HeroSectionPropsType) {
-    const { data } = await axios.get("https://api.themoviedb.org/3/movie/now_playing", {
-        params: { api_key: process.env.NEXT_PUBLIC_TMDB_API_KEY },
-    });
-    const mediaArray = data.results;
+export default function HeroSection({ className }: HeroSectionPropsType) {
+    const { data, isLoading } = useTrending("movie", "day", 1, { keepPreviousData: true });
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    const mediaArray = data?.results;
     return (
         <ThumbCarousel className={cn("w-full max-w-7xl mx-auto space-y-4", className)}>
             <CarouselContent>
