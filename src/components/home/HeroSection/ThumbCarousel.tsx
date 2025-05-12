@@ -95,7 +95,7 @@ function ThumbCarousel({
             setSelectedIndex(api.selectedScrollSnap());
             thumbApi.scrollTo(api.selectedScrollSnap());
         },
-        [selectedIndex, thumbApi]
+        [thumbApi]
     );
 
     const scrollPrev = React.useCallback(() => {
