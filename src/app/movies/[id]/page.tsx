@@ -1,9 +1,9 @@
 import TMDBImage from "@/components/TMDB/Image";
-import { getTVDetails } from "@/lib/tmdb-api";
+import { getMovieDetails } from "@/lib/tmdb-api";
 
-export default async function TvSeriesDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function MoviesDetailsPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const result = await getTVDetails(Number(id));
+    const result = await getMovieDetails(Number(id));
 
     return (
         <main className="max-w-7xl mx-auto px-4 py-8 w-full">
@@ -12,7 +12,7 @@ export default async function TvSeriesDetailsPage({ params }: { params: Promise<
                 <div className="rounded-xl overflow-hidden shadow-md">
                     <TMDBImage
                         path={result.backdrop_path}
-                        alt={result.name || "TV Show image"}
+                        alt={result.title || "Movie image"}
                         type="backdrop"
                         size="original"
                     />
@@ -20,14 +20,12 @@ export default async function TvSeriesDetailsPage({ params }: { params: Promise<
 
                 {/* Metadata section */}
                 <div className="space-y-4">
-                    <h1 className="text-3xl font-bold">{result.name}</h1>
+                    <h1 className="text-3xl font-bold">{result.title}</h1>
                     <p className="text-muted-foreground text-sm leading-relaxed">{result.overview}</p>
                     <div className="text-sm text-muted-foreground flex flex-wrap gap-2">
-                        <span>🗓️ {new Date(result.first_air_date).getFullYear()}</span>
+                        <span>🗓️ {new Date(result.release_date).getFullYear()}</span>
                         <span>⭐ {result.vote_average.toFixed(1)}</span>
-                        {result.episode_run_time.length > 0 && (
-                            <span>⏱️ {result.episode_run_time[0]} min / episode</span>
-                        )}
+                        <span>🎬 {result.runtime} min</span>
                     </div>
                 </div>
             </div>

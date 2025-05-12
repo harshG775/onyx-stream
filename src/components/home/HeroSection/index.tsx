@@ -65,7 +65,7 @@ export default function HeroSection({ className }: HeroSectionPropsType) {
 
                                 {/* CTA Button */}
                                 <Button asChild className="mt-2">
-                                    <Link href={`/${media.media_type}/${media.id}`}>
+                                    <Link href={`/movies/${media.id}`}>
                                     <PlayIcon className="h-4 w-4" />
                                      Watch Now</Link>
                                 </Button>
