@@ -1,3 +1,4 @@
+import TMDBIframe from "@/components/TMDB/Iframe";
 import TMDBImage from "@/components/TMDB/Image";
 import { getMovieDetails } from "@/lib/tmdb-api";
 
@@ -10,14 +11,7 @@ export default async function MoviesDetailsPage({ params }: { params: Promise<{ 
             {/* Hero section */}
             <div className="grid lg:grid-cols-[2fr_1fr] gap-6">
                 <div className="rounded-xl overflow-hidden shadow-md">
-                    <iframe
-                        src={`https://vidsrc.me/embed/movie?tmdb=${result.id}`}
-                        referrerPolicy="origin"
-                        allowFullScreen
-                        width="100%"
-                        height="100%"
-                        className="w-full h-full aspect-video bg-secondary"
-                    ></iframe>
+                    <TMDBIframe tmdbId={result.id} type="movie" className="w-full h-full aspect-video bg-secondary" />
                 </div>
 
                 {/* Metadata section */}
