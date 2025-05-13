@@ -15,16 +15,17 @@ import TMDBImage from "@/components/TMDB/Image";
 import { useTrending } from "@/hooks/useTMDB";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { PlayIcon } from "lucide-react";
+import { Info, PlayIcon } from "lucide-react";
 
 type HeroSectionPropsType = {
     className?: string;
 };
 export default function HeroSection({ className }: HeroSectionPropsType) {
+    const { isReleased } = useIsReleased(new Date());
     const movieGenreMap = Object.fromEntries(genres.movie.map((g) => [g.id, g.name]));
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { data, isLoading ,error} = useTrending<any>("movie", "day", 1, { keepPreviousData: true });
+    const { data, isLoading, error } = useTrending<any>("movie", "day", 1, { keepPreviousData: true });
     const mediaArray = data?.results;
     return (
         <ThumbCarousel className={cn("w-full max-w-[96rem] mx-auto space-y-4", className)}>
@@ -69,7 +70,15 @@ export default function HeroSection({ className }: HeroSectionPropsType) {
                                       {/* Metadata Row */}
                                       <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
                                           <span className="capitalize">{media.media_type}</span>
-                                          <span>{new Date(media.release_date).getFullYear()}</span>
+                                          <span
+                                              className={`font-semibold ${
+                                                  isReleased(media.release_date)
+                                                      ? "text-green-600"
+                                                      : "text-destructive"
+                                              }`}
+                                          >
+                                              {formatDate(media.release_date)}
+                                          </span>
                                           <span>{media.vote_average.toFixed(1)}/10</span>
                                       </div>
 
@@ -96,8 +105,17 @@ export default function HeroSection({ className }: HeroSectionPropsType) {
                                       {/* CTA Button */}
                                       <Button asChild className="mt-2">
                                           <Link href={`/movies/${media.id}`}>
-                                              <PlayIcon className="h-4 w-4" />
-                                              Watch Now
+                                              {isReleased(media.release_date) ? (
+                                                  <>
+                                                      <PlayIcon className="h-4 w-4" />
+                                                      Watch Now
+                                                  </>
+                                              ) : (
+                                                  <>
+                                                      <Info className="h-4 w-4" />
+                                                      Info
+                                                  </>
+                                              )}
                                           </Link>
                                       </Button>
                                   </div>
@@ -188,4 +206,17 @@ const genres: { tv: { id: number; name: string }[]; movie: { id: number; name: s
         { id: 10752, name: "War" },
         { id: 37, name: "Western" },
     ],
+};
+
+const useIsReleased = (today: Date) => {
+    return {
+        isReleased: (release_date: string) => {
+            const releaseDate = new Date(release_date);
+            return today >= releaseDate;
+        },
+    };
+};
+const formatDate = (date: string) => {
+    const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(date).toLocaleDateString("en-US", options);
 };
