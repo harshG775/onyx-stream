@@ -73,7 +73,7 @@ function CardItem({ data, href }: CardItemProps) {
             </div>
             <div className="mt-2 px-2 pb-2 text-sm">
                 <div className="flex gap-2 justify-between items-center">
-                    <h2 className="font-bold line-clamp-1">{data.title}</h2>
+                    <h2 className="font-bold line-clamp-1 group-hover:text-primary">{data.title}</h2>
                     <div className="font-bold py-1">
                         <span className="text-primary">{data.vote_average.toFixed(1)}</span>/<span>10</span>
                     </div>
