@@ -44,9 +44,9 @@ export function TopNavbar() {
     );
 }
 const StreamMode = [
-    { name: "TV", id: "tv", Icon: TvMinimalIcon },
-    { name: "Movie", id: "movie", Icon: MoveIcon },
-    { name: "Anime", id: "anime", Icon: BananaIcon },
+    { name: "TV", id: "tv-series", Icon: TvMinimalIcon },
+    { name: "Movie", id: "movies", Icon: MoveIcon },
+    { name: "Anime", id: "animes", Icon: BananaIcon },
     { name: "Live", id: "live", Icon: TvIcon },
 ];
 function AppSidebar() {
