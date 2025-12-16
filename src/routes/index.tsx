@@ -38,7 +38,7 @@ function RootPage() {
                         {isError && "Error"}
                         {isLoading && "Loading"}
                         {!isLoading &&
-                            isError &&
+                            !isError &&
                             data?.results.map((media, idx) => {
                                 return (
                                     <Link
