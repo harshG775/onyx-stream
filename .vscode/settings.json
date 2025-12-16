@@ -1,6 +1,13 @@
 {
-    "cSpell.words": [
-        "onyxstream",
-        "SITEBASEURL"
-    ]
+    "files.watcherExclude": {
+        "**/routeTree.gen.ts": true
+    },
+    "search.exclude": {
+        "**/routeTree.gen.ts": true
+    },
+    "files.readonlyInclude": {
+        "**/routeTree.gen.ts": true
+    },
+    "prettier.tabWidth": 4,
+    "prettier.printWidth": 120
 }
