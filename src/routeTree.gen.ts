@@ -8,77 +8,79 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from "./routes/__root"
-import { Route as IndexRouteImport } from "./routes/index"
-import { Route as MoviesIdRouteImport } from "./routes/movies/$id"
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as MoviesIdRouteImport } from './routes/movies/$id'
 
 const IndexRoute = IndexRouteImport.update({
-    id: "/",
-    path: "/",
-    getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const MoviesIdRoute = MoviesIdRouteImport.update({
-    id: "/movies/$id",
-    path: "/movies/$id",
-    getParentRoute: () => rootRouteImport,
+  id: '/movies/$id',
+  path: '/movies/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
-    "/": typeof IndexRoute
-    "/movies/$id": typeof MoviesIdRoute
+  '/': typeof IndexRoute
+  '/movies/$id': typeof MoviesIdRoute
 }
 export interface FileRoutesByTo {
-    "/": typeof IndexRoute
-    "/movies/$id": typeof MoviesIdRoute
+  '/': typeof IndexRoute
+  '/movies/$id': typeof MoviesIdRoute
 }
 export interface FileRoutesById {
-    __root__: typeof rootRouteImport
-    "/": typeof IndexRoute
-    "/movies/$id": typeof MoviesIdRoute
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/movies/$id': typeof MoviesIdRoute
 }
 export interface FileRouteTypes {
-    fileRoutesByFullPath: FileRoutesByFullPath
-    fullPaths: "/" | "/movies/$id"
-    fileRoutesByTo: FileRoutesByTo
-    to: "/" | "/movies/$id"
-    id: "__root__" | "/" | "/movies/$id"
-    fileRoutesById: FileRoutesById
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '/movies/$id'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/movies/$id'
+  id: '__root__' | '/' | '/movies/$id'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-    IndexRoute: typeof IndexRoute
-    MoviesIdRoute: typeof MoviesIdRoute
+  IndexRoute: typeof IndexRoute
+  MoviesIdRoute: typeof MoviesIdRoute
 }
 
-declare module "@tanstack/react-router" {
-    interface FileRoutesByPath {
-        "/": {
-            id: "/"
-            path: "/"
-            fullPath: "/"
-            preLoaderRoute: typeof IndexRouteImport
-            parentRoute: typeof rootRouteImport
-        }
-        "/movies/$id": {
-            id: "/movies/$id"
-            path: "/movies/$id"
-            fullPath: "/movies/$id"
-            preLoaderRoute: typeof MoviesIdRouteImport
-            parentRoute: typeof rootRouteImport
-        }
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
+    '/movies/$id': {
+      id: '/movies/$id'
+      path: '/movies/$id'
+      fullPath: '/movies/$id'
+      preLoaderRoute: typeof MoviesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-    IndexRoute: IndexRoute,
-    MoviesIdRoute: MoviesIdRoute,
+  IndexRoute: IndexRoute,
+  MoviesIdRoute: MoviesIdRoute,
 }
-export const routeTree = rootRouteImport._addFileChildren(rootRouteChildren)._addFileTypes<FileRouteTypes>()
+export const routeTree = rootRouteImport
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
-import type { getRouter } from "./router.tsx"
-import type { createStart } from "@tanstack/react-start"
-declare module "@tanstack/react-start" {
-    interface Register {
-        ssr: true
-        router: Awaited<ReturnType<typeof getRouter>>
-    }
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
 }
