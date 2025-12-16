@@ -39,15 +39,14 @@ function RootPage() {
                         {isLoading && "Loading"}
                         {!isLoading &&
                             isError &&
-                            data &&
-                            data.results.map((media, idx) => {
+                            data?.results.map((media, idx) => {
                                 return (
                                     <Link
                                         to={`/${mediaPath}/$id`}
                                         params={{
                                             id: media.id.toString(),
                                         }}
-                                        key={`${idx}-${media?.id}`}
+                                        key={`${idx}-${media.id}`}
                                         className="shrink-0 max-w-44 group"
                                     >
                                         <img

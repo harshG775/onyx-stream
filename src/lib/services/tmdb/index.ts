@@ -2,7 +2,17 @@
 // Works with React / React Native / Expo / TanStack Query
 
 import axios from "axios"
-import type { AxiosInstance } from "axios";
+import type { AxiosInstance } from "axios"
+import type {
+    CreditsResponse,
+    MovieDetails,
+    MoviesResponse,
+    PaginatedResponse,
+    SearchMultiResponse,
+    TVShowDetails,
+    TVShowsResponse,
+    VideosResponse,
+} from "@/types/tmdb.types"
 import { env } from "@/env"
 
 const TMDB_BASE_URL = env.VITE_TMDB_BASE_URL
@@ -44,43 +54,43 @@ export class TMDBClient {
     /* ===================== Movies ===================== */
 
     getPopularMovies(page = 1) {
-        return this.request<import("@/types/tmdb.types").MoviesResponse>("/movie/popular", { page })
+        return this.request<MoviesResponse>("/movie/popular", { page })
     }
 
     getUpcomingMovies(page = 1) {
-        return this.request<import("@/types/tmdb.types").MoviesResponse>("/movie/upcoming", { page })
+        return this.request<MoviesResponse>("/movie/upcoming", { page })
     }
 
     getMovieDetails(id: number) {
-        return this.request<import("@/types/tmdb.types").MovieDetails>(`/movie/${id}`)
+        return this.request<MovieDetails>(`/movie/${id}`)
     }
 
     getMovieCredits(id: number) {
-        return this.request<import("@/types/tmdb.types").CreditsResponse>(`/movie/${id}/credits`)
+        return this.request<CreditsResponse>(`/movie/${id}/credits`)
     }
 
     getMovieVideos(id: number) {
-        return this.request<import("@/types/tmdb.types").VideosResponse>(`/movie/${id}/videos`)
+        return this.request<VideosResponse>(`/movie/${id}/videos`)
     }
 
     /* ===================== TV Shows ===================== */
 
     getPopularTV(page = 1) {
-        return this.request<import("@/types/tmdb.types").TVShowsResponse>("/tv/popular", { page })
+        return this.request<TVShowsResponse>("/tv/popular", { page })
     }
 
     getTVDetails(id: number) {
-        return this.request<import("@/types/tmdb.types").TVShowDetails>(`/tv/${id}`)
+        return this.request<TVShowDetails>(`/tv/${id}`)
     }
 
     getTVCredits(id: number) {
-        return this.request<import("@/types/tmdb.types").CreditsResponse>(`/tv/${id}/credits`)
+        return this.request<CreditsResponse>(`/tv/${id}/credits`)
     }
 
     /* ===================== Search ===================== */
 
     searchMulti(query: string, page = 1) {
-        return this.request<import("@/types/tmdb.types").SearchMultiResponse>("/search/multi", {
+        return this.request<SearchMultiResponse>("/search/multi", {
             query,
             page,
         })
@@ -89,17 +99,17 @@ export class TMDBClient {
     /* ===================== Trending ===================== */
 
     getTrendingAll(timeWindow: "day" | "week" = "day", page = 1) {
-        return this.request<import("@/types/tmdb.types").PaginatedResponse<any>>(`/trending/all/${timeWindow}`, {
+        return this.request<PaginatedResponse<any>>(`/trending/all/${timeWindow}`, {
             page,
         })
     }
 
     getTrendingMovies(timeWindow: "day" | "week" = "day", page = 1) {
-        return this.request<import("@/types/tmdb.types").MoviesResponse>(`/trending/movie/${timeWindow}`, { page })
+        return this.request<MoviesResponse>(`/trending/movie/${timeWindow}`, { page })
     }
 
     getTrendingTV(timeWindow: "day" | "week" = "day", page = 1) {
-        return this.request<import("@/types/tmdb.types").TVShowsResponse>(`/trending/tv/${timeWindow}`, { page })
+        return this.request<TVShowsResponse>(`/trending/tv/${timeWindow}`, { page })
     }
 }
 
