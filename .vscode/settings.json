@@ -9,5 +9,5 @@
         "**/routeTree.gen.ts": true
     },
     "prettier.tabWidth": 4,
-    "prettier.printWidth": 120,
+    "prettier.printWidth": 120
 }

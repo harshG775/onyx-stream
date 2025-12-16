@@ -10,7 +10,7 @@ export type ISODate = string // YYYY-MM-DD
 
 export interface PaginatedResponse<T> {
     page: number
-    results: T[]
+    results: Array<T>
     total_pages: number
     total_results: number
 }
@@ -37,7 +37,7 @@ export interface Movie {
     backdrop_path: string | null
     release_date: ISODate
     adult: boolean
-    genre_ids: number[]
+    genre_ids: Array<number>
     original_language: string
     popularity: number
     vote_average: number
@@ -50,14 +50,14 @@ export type MoviesResponse = PaginatedResponse<Movie>
 export interface MovieDetails extends Omit<Movie, "genre_ids"> {
     belongs_to_collection: Collection | null
     budget: number
-    genres: Genre[]
+    genres: Array<Genre>
     homepage: string | null
     imdb_id: string | null
-    production_companies: ProductionCompany[]
-    production_countries: ProductionCountry[]
+    production_companies: Array<ProductionCompany>
+    production_countries: Array<ProductionCountry>
     revenue: number
     runtime: number | null
-    spoken_languages: SpokenLanguage[]
+    spoken_languages: Array<SpokenLanguage>
     status: MovieStatus
     tagline: string | null
 }
@@ -76,28 +76,28 @@ export interface TVShow {
     poster_path: string | null
     backdrop_path: string | null
     first_air_date: ISODate
-    origin_country: string[]
+    origin_country: Array<string>
     original_language: string
     popularity: number
     vote_average: number
     vote_count: number
-    genre_ids: number[]
+    genre_ids: Array<number>
 }
 
 export type TVShowsResponse = PaginatedResponse<TVShow>
 
 export interface TVShowDetails extends Omit<TVShow, "genre_ids"> {
-    created_by: Creator[]
-    episode_run_time: number[]
-    genres: Genre[]
+    created_by: Array<Creator>
+    episode_run_time: Array<number>
+    genres: Array<Genre>
     homepage: string | null
     in_production: boolean
-    languages: string[]
+    languages: Array<string>
     last_air_date: ISODate
     number_of_episodes: number
     number_of_seasons: number
-    production_companies: ProductionCompany[]
-    seasons: Season[]
+    production_companies: Array<ProductionCompany>
+    seasons: Array<Season>
     status: TVStatus
     tagline: string | null
     type: string
@@ -148,8 +148,8 @@ export interface Crew {
 }
 
 export interface CreditsResponse {
-    cast: Cast[]
-    crew: Crew[]
+    cast: Array<Cast>
+    crew: Array<Crew>
 }
 
 /* =====================
@@ -214,8 +214,8 @@ export interface Season {
 ===================== */
 
 export interface ImagesResponse {
-    backdrops: TMDBImage[]
-    posters: TMDBImage[]
+    backdrops: Array<TMDBImage>
+    posters: Array<TMDBImage>
 }
 
 export interface Video {
@@ -230,5 +230,5 @@ export interface Video {
 }
 
 export interface VideosResponse {
-    results: Video[]
+    results: Array<Video>
 }

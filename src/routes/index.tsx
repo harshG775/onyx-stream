@@ -1,9 +1,10 @@
-import { Button } from "@/components/ui/button"
-import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
 import { useQuery } from "@tanstack/react-query"
-import { createFileRoute, Link } from "@tanstack/react-router"
+import { Link, createFileRoute } from "@tanstack/react-router"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
+import { Button } from "@/components/ui/button"
 
+export const Route = createFileRoute("/")({ component: RootPage })
 
 function RootPage() {
     const { isLoading, isError, data } = useQuery({
@@ -11,6 +12,7 @@ function RootPage() {
         queryFn: () => tmdb.getTrendingMovies("day", 1),
     })
 
+    const mediaPath: "movies" | "tv-shows" = "movies"
     return (
         <main>
             <section>
@@ -33,11 +35,18 @@ function RootPage() {
                         </div>
                     </div>
                     <div className="flex gap-2 overflow-x-auto">
+                        {isError && "Error"}
+                        {isLoading && "Loading"}
                         {!isLoading &&
-                            data?.results.map((media, idx) => {
+                            isError &&
+                            data &&
+                            data.results.map((media, idx) => {
                                 return (
                                     <Link
-                                        to={`movies/${media?.id}`}
+                                        to={`/${mediaPath}/$id`}
+                                        params={{
+                                            id: media.id.toString(),
+                                        }}
                                         key={`${idx}-${media?.id}`}
                                         className="shrink-0 max-w-44 group"
                                     >
@@ -61,4 +70,3 @@ function RootPage() {
         </main>
     )
 }
-export const Route = createFileRoute("/")({ component: RootPage })

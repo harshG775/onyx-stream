@@ -1,8 +1,9 @@
 // src/lib/tmdb/sdk.ts
 // Works with React / React Native / Expo / TanStack Query
 
+import axios from "axios"
+import type { AxiosInstance } from "axios";
 import { env } from "@/env"
-import axios, { AxiosInstance } from "axios"
 
 const TMDB_BASE_URL = env.VITE_TMDB_BASE_URL
 
