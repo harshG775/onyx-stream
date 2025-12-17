@@ -7,9 +7,9 @@ import { Calendar, Clock, Tag, Globe, Flag, Building2, Play, Youtube, Bookmark, 
 import { Suspense } from "react"
 
 export const Route = createFileRoute("/movies/$id")({
-    loader: async ({ params }) => {
+    loader: async ({ params, location }) => {
         const details = await tmdb.getMovieDetails(Number(params.id))
-        return details
+        return { ...details, host: location.url.host }
     },
     head: ({ loaderData }) => {
         if (!loaderData) return {}
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/movies/$id")({
 
         const poster = getTMDBImageUrl(loaderData.poster_path, "w780") || undefined
 
-        const url = `${window.location.origin}/movies/${loaderData.id}`
+        const url = `${loaderData.host}/movies/${loaderData.id}`
 
         return {
             meta: [
