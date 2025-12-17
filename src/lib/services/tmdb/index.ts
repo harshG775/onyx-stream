@@ -25,7 +25,7 @@ export interface TMDBConfig {
 
 export const TMDB_IMAGE_BASE_URL = env.VITE_TMDB_IMAGE_BASE_URL
 
-export type TMDBImageSize = "w92" | "w154" | "w185" | "w342" | "w500" | "w780" | "original"
+export type TMDBImageSize = "w92" | "w154" | "w185" | "w342" | "w500" | "w780" | "w1280" | "original"
 
 export function getTMDBImageUrl(path: string | null, size: TMDBImageSize = "w500") {
     if (!path) return null
