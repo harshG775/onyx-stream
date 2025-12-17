@@ -10,7 +10,7 @@ export const Route = createFileRoute("/movies/$id")({
     head: ({ loaderData }) => {
         if (!loaderData) return {}
 
-        const title = `OnyxStream | Detail | ${loaderData.title} (${loaderData.release_date?.slice(0, 4)})`
+        const title = `OnyxStream | ${loaderData.title} (${loaderData.release_date?.slice(0, 4)})`
         const description = loaderData.overview || `Details and information about ${loaderData.title}`
 
         const poster = getTMDBImageUrl(loaderData.poster_path, "w780") || undefined
@@ -50,7 +50,6 @@ export const Route = createFileRoute("/movies/$id")({
 
 function RouteComponent() {
     const loaderData: MovieDetails = Route.useLoaderData()
-    console.log(loaderData)
 
     return (
         <main>
@@ -79,33 +78,25 @@ function RouteComponent() {
                         <div>
                             <div>Genre</div>
                             <div className="text-muted-foreground">
-                                {loaderData.genres.map((genre) => (
-                                    <span>{`${genre.name}, `}</span>
-                                ))}
+                                {loaderData.genres.map((genre) => `${genre.name}, `)}
                             </div>
                         </div>
                         <div>
                             <div>Spoken Languages</div>
                             <div className="text-muted-foreground">
-                                {loaderData.spoken_languages.map((language) => (
-                                    <span>{`${language.name}, `}</span>
-                                ))}
+                                {loaderData.spoken_languages.map((language) => `${language.name}, `)}
                             </div>
                         </div>
                         <div>
                             <div>Production Countries</div>
                             <div className="text-muted-foreground">
-                                {loaderData.production_countries.map((country) => (
-                                    <span>{`${country.name}, `}</span>
-                                ))}
+                                {loaderData.production_countries.map((country) => `${country.name}, `)}
                             </div>
                         </div>
                         <div>
                             <div>Production Countries</div>
                             <div className="text-muted-foreground">
-                                {loaderData.production_companies.map((company) => (
-                                    <span>{`${company.name}, `}</span>
-                                ))}
+                                {loaderData.production_companies.map((company) => `${company.name}, `)}
                             </div>
                         </div>
                     </div>
