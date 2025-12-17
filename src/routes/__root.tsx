@@ -7,7 +7,6 @@ import TanStackQueryDevtools from "../integrations/tanstack-query/devtools"
 import appCss from "../styles.css?url"
 
 import type { QueryClient } from "@tanstack/react-query"
-
 interface MyRouterContext {
     queryClient: QueryClient
 }
@@ -35,6 +34,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     }),
 
     shellComponent: RootDocument,
+    notFoundComponent: () => {
+        return <p>page doesn't exist!</p>
+    },
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
