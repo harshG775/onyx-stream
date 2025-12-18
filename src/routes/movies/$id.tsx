@@ -149,9 +149,9 @@ const MetaRow: React.FC<MetaRowProps> = ({ icon, label, value }) => (
 function RouteComponent() {
     const loaderData: MovieDetails = Route.useLoaderData()
     return (
-        <main className="flex flex-col gap-4 xl:flex-row px-3 sm:px-4 lg:px-6 py-3 sm:py-4 lg:py-6">
+        <main className="flex flex-col gap-4 xl:flex-row sm:px-4 lg:px-6 sm:py-4 lg:py-6">
             <section className="flex-2 space-y-2">
-                <picture className="w-full aspect-video object-cover order rounded-2xl shadow">
+                <picture className="w-full aspect-video object-cover order sm:rounded-2xl shadow">
                     <source
                         media="(max-width: 640px)"
                         srcSet={getTMDBImageUrl(loaderData.backdrop_path, "w780") || ""}
@@ -163,11 +163,12 @@ function RouteComponent() {
                     <img
                         src={getTMDBImageUrl(loaderData.backdrop_path, "original") || ""}
                         alt={`Backdrop of ${loaderData.title}`}
-                        className="w-full aspect-video object-cover rounded-2xl shadow"
+                        className="w-full aspect-video object-cover sm:rounded-2xl shadow"
                         loading="lazy"
                     />
                 </picture>
-                <div className="mt-2 space-y-4">
+                <div className="px-3 mt-2 space-y-4">
+                    <h1 className="text-2xl font-semibold">{loaderData.title}</h1>
                     <div className="flex items-center gap-2 sm:gap-4">
                         <Button
                             title="Watch"
@@ -217,10 +218,9 @@ function RouteComponent() {
                             <span className="sr-only">Share</span>
                         </Button>
                     </div>
-                    <h1 className="text-2xl font-semibold">{loaderData.title}</h1>
                 </div>
             </section>
-            <section className="flex-1 space-y-2">
+            <section className="px-4 sm:px-0 flex-1 space-y-2">
                 <div>
                     <p className="text-lg font-bold">Overview</p>
                 </div>
