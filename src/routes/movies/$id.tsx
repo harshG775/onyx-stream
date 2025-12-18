@@ -220,7 +220,7 @@ function RouteComponent() {
                     </div>
                 </div>
             </section>
-            <section className="px-4 sm:px-0 flex-1 space-y-2">
+            <section className="px-4 pb-4 sm:px-0 flex-1 space-y-2">
                 <div>
                     <p className="text-lg font-bold">Overview</p>
                 </div>
