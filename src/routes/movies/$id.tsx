@@ -8,27 +8,19 @@ import { Calendar, Clock, Tag, Globe, Flag, Building2, Play, Youtube, Bookmark, 
 import { toast } from "sonner"
 
 export const Route = createFileRoute("/movies/$id")({
+    pendingComponent: MovieDetailsSkeleton,
+    errorComponent: ({ error }) => {
+        return <div>Error:{error.message}</div>
+    },
     loader: async ({ params, location }) => {
         const id = Number(params.id)
-
-        if (Number.isNaN(id)) {
+        const details = await tmdb.getMovieDetails(id)
+        // await new Promise((resolve) => setTimeout(resolve, 5000))
+        if (!details.id) {
             throw notFound()
         }
 
-        try {
-            const details = await tmdb.getMovieDetails(id)
-            if (!details) {
-                throw notFound()
-            }
-
-            return { ...details, host: location.url.origin }
-        } catch (error) {
-            if ((error as any)?.response?.status === 404) {
-                throw notFound()
-            }
-
-            throw error
-        }
+        return { ...details, host: location.url.origin }
     },
 
     head: ({ loaderData }) => {
@@ -69,10 +61,20 @@ export const Route = createFileRoute("/movies/$id")({
             ],
         }
     },
-    pendingComponent: MovieDetailsSkeleton,
     component: RouteComponent,
 })
 
+function MetaRowSkeleton() {
+    return (
+        <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+                <Skeleton className="h-4 w-4 rounded-full" />
+                <Skeleton className="h-4 w-24" />
+            </div>
+            <Skeleton className="h-4 w-40" />
+        </div>
+    )
+}
 function MovieDetailsSkeleton() {
     return (
         <main className="flex flex-col gap-4 xl:flex-row px-3 sm:px-4 lg:px-6 py-3 sm:py-4 lg:py-6">
@@ -116,18 +118,6 @@ function MovieDetailsSkeleton() {
                 </div>
             </section>
         </main>
-    )
-}
-
-function MetaRowSkeleton() {
-    return (
-        <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2">
-                <Skeleton className="h-4 w-4 rounded-full" />
-                <Skeleton className="h-4 w-24" />
-            </div>
-            <Skeleton className="h-4 w-40" />
-        </div>
     )
 }
 
