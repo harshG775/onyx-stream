@@ -8,6 +8,7 @@ import { Calendar, Clock, Tag, Globe, Flag, Building2, Play, Youtube, Bookmark, 
 import { toast } from "sonner"
 
 export const Route = createFileRoute("/movies/$id")({
+    ssr:false,
     pendingComponent: MovieDetailsSkeleton,
     errorComponent: ({ error }) => {
         return <div>Error:{error.message}</div>
