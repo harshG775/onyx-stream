@@ -16,7 +16,7 @@ export const Route = createFileRoute("/movies/$id")({
     loader: async ({ params, location }) => {
         const id = Number(params.id)
         const details = await tmdb.getMovieDetails(id)
-        await new Promise((resolve) => setTimeout(resolve, 5000))
+        // await new Promise((resolve) => setTimeout(resolve, 5000))
         if (!details.id) {
             throw notFound()
         }

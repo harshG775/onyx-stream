@@ -8,6 +8,7 @@ import appCss from "../styles.css?url"
 
 import type { QueryClient } from "@tanstack/react-query"
 import { Toaster } from "@/components/ui/sonner"
+import { PagesTopLoader } from "@/components/PagesTopLoader"
 interface MyRouterContext {
     queryClient: QueryClient
 }
@@ -41,12 +42,14 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+
     return (
         <html lang="en">
             <head>
                 <HeadContent />
             </head>
             <body>
+                <PagesTopLoader/>
                 {children}
                 <Toaster richColors={true} />
                 <TanStackDevtools
