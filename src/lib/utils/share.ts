@@ -1,3 +1,5 @@
+import { toast } from "sonner"
+
 export async function sharePage(options?: { title?: string; text?: string; url?: string }) {
     const title = options?.title ?? document.title
     const text = options?.text ?? "Check out this content!"
@@ -11,12 +13,13 @@ export async function sharePage(options?: { title?: string; text?: string; url?:
             console.error("Error sharing:", error)
         }
     } else {
-        console.log("Web Share API not supported. Copying link instead...")
+        console.info("Web Share API not supported. Copying link instead...")
         try {
             await navigator.clipboard.writeText(url)
-            alert("Link copied to clipboard!")
+            toast.success("Link copied to clipboard!")
         } catch (err) {
             console.error("Failed to copy link:", err)
+            toast.error("Failed to copy link")
         }
     }
 }
