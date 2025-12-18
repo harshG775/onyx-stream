@@ -8,7 +8,7 @@ import { Calendar, Clock, Tag, Globe, Flag, Building2, Play, Youtube, Bookmark, 
 import { toast } from "sonner"
 
 export const Route = createFileRoute("/movies/$id")({
-    ssr:false,
+    ssr: false,
     pendingComponent: MovieDetailsSkeleton,
     errorComponent: ({ error }) => {
         return <div>Error:{error.message}</div>
@@ -16,23 +16,23 @@ export const Route = createFileRoute("/movies/$id")({
     loader: async ({ params, location }) => {
         const id = Number(params.id)
         const details = await tmdb.getMovieDetails(id)
-        // await new Promise((resolve) => setTimeout(resolve, 5000))
+        await new Promise((resolve) => setTimeout(resolve, 5000))
         if (!details.id) {
             throw notFound()
         }
-
-        return { ...details, host: location.url.origin }
+        return { details, host: location.url.origin }
     },
 
-    head: ({ loaderData }) => {
-        if (!loaderData) return {}
+    head: async ({ loaderData }) => {
+        const details = loaderData?.details
+        if (!details) return {}
 
-        const title = `OnyxStream | ${loaderData.title} (${loaderData.release_date?.slice(0, 4)})`
-        const description = loaderData.overview || `Details and information about ${loaderData.title}`
+        const title = `OnyxStream | ${details.title} (${details.release_date?.slice(0, 4)})`
+        const description = details.overview || `Details and information about ${details.title}`
 
-        const poster = getTMDBImageUrl(loaderData.poster_path, "w780") || undefined
+        const poster = getTMDBImageUrl(details.poster_path, "w780") || undefined
 
-        const url = `${loaderData.host}/movies/${loaderData.id}`
+        const url = `${loaderData?.host}/movies/${details.id}`
 
         return {
             meta: [
@@ -138,28 +138,27 @@ const MetaRow: React.FC<MetaRowProps> = ({ icon, label, value }) => (
     </div>
 )
 function RouteComponent() {
-    const loaderData: MovieDetails = Route.useLoaderData()
+    const loaderData: { details: MovieDetails; host: string } = Route.useLoaderData()
+    const details = loaderData.details
+
     return (
         <main className="flex flex-col gap-4 xl:flex-row sm:px-4 lg:px-6 sm:py-4 lg:py-6">
             <section className="flex-2 space-y-2">
                 <picture className="w-full aspect-video object-cover order sm:rounded-2xl shadow">
-                    <source
-                        media="(max-width: 640px)"
-                        srcSet={getTMDBImageUrl(loaderData.backdrop_path, "w780") || ""}
-                    />
+                    <source media="(max-width: 640px)" srcSet={getTMDBImageUrl(details.backdrop_path, "w780") || ""} />
                     <source
                         media="(max-width: 1024px)"
-                        srcSet={getTMDBImageUrl(loaderData.backdrop_path, "w1280") || ""}
+                        srcSet={getTMDBImageUrl(details.backdrop_path, "w1280") || ""}
                     />
                     <img
-                        src={getTMDBImageUrl(loaderData.backdrop_path, "original") || ""}
-                        alt={`Backdrop of ${loaderData.title}`}
+                        src={getTMDBImageUrl(details.backdrop_path, "original") || ""}
+                        alt={`Backdrop of ${details.title}`}
                         className="w-full aspect-video object-cover sm:rounded-2xl shadow"
                         loading="lazy"
                     />
                 </picture>
                 <div className="px-3 mt-2 space-y-4">
-                    <h1 className="text-2xl font-semibold">{loaderData.title}</h1>
+                    <h1 className="text-2xl font-semibold">{details.title}</h1>
                     <div className="flex items-center gap-2 sm:gap-4">
                         <Button
                             title="Watch"
@@ -198,8 +197,8 @@ function RouteComponent() {
                             title="Share"
                             onClick={() =>
                                 sharePage({
-                                    title: loaderData.title,
-                                    text: `Watch "${loaderData.title}" (${loaderData.release_date?.slice(0, 4)}) on OnyxStream!`,
+                                    title: details.title,
+                                    text: `Watch "${details.title}" (${details.release_date?.slice(0, 4)}) on OnyxStream!`,
                                     url: window.location.href,
                                 })
                             }
@@ -217,44 +216,44 @@ function RouteComponent() {
                 </div>
                 <div className="space-y-4 p-4 border rounded-2xl shadow">
                     <div>
-                        <div className="italic text-xl">&quot;{loaderData.tagline}&quot;</div>
-                        <div className="text-muted-foreground text-sm">{loaderData.overview}</div>
+                        <div className="italic text-xl">&quot;{details.tagline}&quot;</div>
+                        <div className="text-muted-foreground text-sm">{details.overview}</div>
                     </div>
 
                     <MetaRow
                         icon={<Calendar className="w-4 h-4 text-muted-foreground" />}
                         label="Released"
-                        value={formatDate(loaderData.release_date)}
+                        value={formatDate(details.release_date)}
                     />
 
                     <MetaRow
                         icon={<Clock className="w-4 h-4 text-muted-foreground" />}
                         label="Runtime"
-                        value={formatRuntime(Number(loaderData.runtime))}
+                        value={formatRuntime(Number(details.runtime))}
                     />
 
                     <MetaRow
                         icon={<Tag className="w-4 h-4 text-muted-foreground" />}
                         label="Genre"
-                        value={loaderData.genres.map((g) => g.name).join(", ")}
+                        value={details.genres.map((g) => g.name).join(", ")}
                     />
 
                     <MetaRow
                         icon={<Globe className="w-4 h-4 text-muted-foreground" />}
                         label="Spoken Languages"
-                        value={loaderData.spoken_languages.map((l) => l.name).join(", ")}
+                        value={details.spoken_languages.map((l) => l.name).join(", ")}
                     />
 
                     <MetaRow
                         icon={<Flag className="w-4 h-4 text-muted-foreground" />}
                         label="Production Countries"
-                        value={loaderData.production_countries.map((c) => c.name).join(", ")}
+                        value={details.production_countries.map((c) => c.name).join(", ")}
                     />
 
                     <MetaRow
                         icon={<Building2 className="w-4 h-4 text-muted-foreground" />}
                         label="Production Companies"
-                        value={loaderData.production_companies.map((c) => c.name).join(", ")}
+                        value={details.production_companies.map((c) => c.name).join(", ")}
                     />
                 </div>
             </section>

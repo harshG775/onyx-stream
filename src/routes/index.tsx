@@ -4,7 +4,11 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
 import { Button } from "@/components/ui/button"
 
-export const Route = createFileRoute("/")({ component: RootPage })
+export const Route = createFileRoute("/")({
+    ssr: false,
+    pendingComponent: () => "loading root route",
+    component: RootPage,
+})
 
 function RootPage() {
     const { isLoading, isError, data } = useQuery({
