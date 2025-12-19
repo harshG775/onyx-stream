@@ -1,5 +1,3 @@
-"use client"
-
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { useState } from "react"
 import { SearchHeader } from "./search-header"
@@ -7,10 +5,11 @@ import { SearchInput } from "./search-input"
 import { SearchResult } from "./search-result"
 import { SearchIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useDebounce } from "@/hooks/use-debounce"
 
 export default function TopSearchBar() {
     const [query, setQuery] = useState("")
-
+    const [debounceQuery] = useDebounce(query, 400)
     return (
         <Sheet>
             <SheetTrigger asChild>
@@ -25,7 +24,7 @@ export default function TopSearchBar() {
 
                 <SearchInput query={query} onQueryChange={setQuery} />
 
-                <SearchResult query={query} />
+                <SearchResult query={debounceQuery} />
             </SheetContent>
         </Sheet>
     )
