@@ -89,10 +89,11 @@ export class TMDBClient {
     }
     /* ===================== Search ===================== */
 
-    searchMulti(query: string, page = 1) {
+    searchMulti(query: string, page = 1, signal?: AbortSignal) {
         return this.request<SearchMultiResponse>("/search/multi", {
             query,
             page,
+            signal,
         })
     }
 
