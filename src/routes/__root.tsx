@@ -9,7 +9,7 @@ import appCss from "../styles.css?url"
 import type { QueryClient } from "@tanstack/react-query"
 import { Toaster } from "@/components/ui/sonner"
 import { PagesTopLoader } from "@/components/PagesTopLoader"
-import TopSearchBar from "./components/top-search-bar/search"
+import TopSearchBar from "./-components/top-search-bar/search"
 interface MyRouterContext {
     queryClient: QueryClient
 }
