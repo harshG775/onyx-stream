@@ -56,23 +56,21 @@ export class TMDBClient {
     getPopularMovies(page = 1) {
         return this.request<MoviesResponse>("/movie/popular", { page })
     }
-
     getUpcomingMovies(page = 1) {
         return this.request<MoviesResponse>("/movie/upcoming", { page })
     }
-
     getMovieDetails(id: number) {
         return this.request<MovieDetails>(`/movie/${id}`)
     }
-
     getMovieCredits(id: number) {
         return this.request<CreditsResponse>(`/movie/${id}/credits`)
     }
-
     getMovieVideos(id: number) {
         return this.request<VideosResponse>(`/movie/${id}/videos`)
     }
-
+    getMovieImages(id: number) {
+        return this.request<VideosResponse>(`/movie/${id}/images`)
+    }
     /* ===================== TV Shows ===================== */
 
     getPopularTV(page = 1) {
@@ -86,7 +84,9 @@ export class TMDBClient {
     getTVCredits(id: number) {
         return this.request<CreditsResponse>(`/tv/${id}/credits`)
     }
-
+    getTVImages(id: number) {
+        return this.request<VideosResponse>(`/tv/${id}/images`)
+    }
     /* ===================== Search ===================== */
 
     searchMulti(query: string, page = 1) {
