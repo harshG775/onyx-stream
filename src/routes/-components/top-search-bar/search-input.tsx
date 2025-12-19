@@ -7,9 +7,10 @@ import { Search } from "lucide-react"
 interface SearchInputProps {
     query: string
     onQueryChange: (value: string) => void
+    resetSearch: () => void
 }
 
-export function SearchInput({ query, onQueryChange }: SearchInputProps) {
+export function SearchInput({ query, onQueryChange, resetSearch }: SearchInputProps) {
     return (
         <div className="px-4 mb-4 flex gap-2">
             <InputGroup className="has-[[data-slot=input-group-control]:focus-visible]:ring-[1px] has-[[data-slot=input-group-control]:focus-visible]:border-primary/50">
@@ -31,7 +32,13 @@ export function SearchInput({ query, onQueryChange }: SearchInputProps) {
             </InputGroup>
 
             <Button asChild>
-                <Link to={"/search"} search={{ query }}>
+                <Link
+                    to={"/search"}
+                    search={{ query }}
+                    onClick={() => {
+                        resetSearch()
+                    }}
+                >
                     <Search />
                     <span className="sr-only sm:not-sr-only">Search</span>
                 </Link>

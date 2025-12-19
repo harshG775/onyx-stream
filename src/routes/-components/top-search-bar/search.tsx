@@ -8,10 +8,17 @@ import { Button } from "@/components/ui/button"
 import { useDebounce } from "@/hooks/use-debounce"
 
 export default function TopSearchBar() {
+    const [open, setOpen] = useState(false)
     const [query, setQuery] = useState("")
     const [debounceQuery] = useDebounce(query, 400)
+
+    const resetSearch = () => {
+        setQuery("")
+        setOpen(false)
+    }
+
     return (
-        <Sheet>
+        <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
                 <Button variant="secondary">
                     <SearchIcon />
@@ -19,12 +26,10 @@ export default function TopSearchBar() {
                 </Button>
             </SheetTrigger>
 
-            <SheetContent side="top" className="gap-0 data-[state=closed]:duration-200 data-[state=open]:duration-400">
+            <SheetContent side="top">
                 <SearchHeader />
-
-                <SearchInput query={query} onQueryChange={setQuery} />
-
-                <SearchResult query={debounceQuery} />
+                <SearchInput query={query} onQueryChange={setQuery} resetSearch={resetSearch} />
+                <SearchResult query={debounceQuery} resetSearch={resetSearch} />
             </SheetContent>
         </Sheet>
     )

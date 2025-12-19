@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { tmdb } from "@/lib/services/tmdb"
 import { useQuery } from "@tanstack/react-query"
-import { Link } from "@tanstack/react-router"
+import { Link, Router } from "@tanstack/react-router"
 import { useState } from "react"
 
 function ResultList({ items }: { items: any[] }) {
@@ -27,10 +27,11 @@ function ResultList({ items }: { items: any[] }) {
 
 type Props = {
     query: string
+    resetSearch: () => void
 }
 
-export function SearchResult({ query }: Props) {
-    const [mediaType, setMediaType] = useState<"person" | "movie" | "tv" | string>("all")
+export function SearchResult({ query, resetSearch }: Props) {
+    const [mediaType, setMediaType] = useState<"person" | "movie" | "tv" | "multi" | string>("multi")
     const { data, isLoading, isError } = useQuery({
         queryKey: ["search", query],
         queryFn: ({ signal }) => tmdb.searchMulti(query, 1, signal),
@@ -100,6 +101,9 @@ export function SearchResult({ query }: Props) {
                         search={{
                             query,
                             media_type: mediaType,
+                        }}
+                        onClick={() => {
+                            resetSearch()
                         }}
                         className="text-sm"
                     >
