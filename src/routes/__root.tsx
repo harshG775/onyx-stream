@@ -9,6 +9,7 @@ import appCss from "../styles.css?url"
 import type { QueryClient } from "@tanstack/react-query"
 import { Toaster } from "@/components/ui/sonner"
 import { PagesTopLoader } from "@/components/PagesTopLoader"
+import TopSearchBar from "./components/top-search-bar/search"
 interface MyRouterContext {
     queryClient: QueryClient
 }
@@ -49,7 +50,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 <HeadContent />
             </head>
             <body>
-                <PagesTopLoader/>
+                <PagesTopLoader />
+                <TopSearchBar />
                 {children}
                 <Toaster richColors={true} />
                 <TanStackDevtools
