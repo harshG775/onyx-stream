@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
 import { Label } from "@/components/ui/label"
+import { Link } from "@tanstack/react-router"
 import { Search } from "lucide-react"
 
 interface SearchInputProps {
@@ -29,9 +30,11 @@ export function SearchInput({ query, onQueryChange }: SearchInputProps) {
                 </InputGroupAddon>
             </InputGroup>
 
-            <Button>
-                <Search />
-                <span className="sr-only sm:not-sr-only">Search</span>
+            <Button asChild>
+                <Link to={"/search"} search={{ query }}>
+                    <Search />
+                    <span className="sr-only sm:not-sr-only">Search</span>
+                </Link>
             </Button>
         </div>
     )

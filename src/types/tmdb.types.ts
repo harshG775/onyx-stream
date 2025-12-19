@@ -23,6 +23,7 @@ export interface TMDBImage {
     vote_count?: number
     width: number
 }
+export type Media_type = "person" | "movie" | "tv"
 
 /* =====================
    Movies
@@ -157,7 +158,7 @@ export interface CreditsResponse {
 ===================== */
 
 export type SearchMultiResult = Movie | TVShow | Person
-export type SearchMultiResponse = PaginatedResponse<SearchMultiResult>
+export type SearchMultiResponse = PaginatedResponse<SearchMultiResult & { media_type: Media_type }>
 
 /* =====================
    Supporting Models

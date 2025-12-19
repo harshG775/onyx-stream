@@ -1,8 +1,9 @@
-"use client"
-
+import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { tmdb } from "@/lib/services/tmdb"
 import { useQuery } from "@tanstack/react-query"
+import { Link } from "@tanstack/react-router"
+import { useState } from "react"
 
 function ResultList({ items }: { items: any[] }) {
     if (items.length === 0) {
@@ -29,6 +30,7 @@ type Props = {
 }
 
 export function SearchResult({ query }: Props) {
+    const [mediaType, setMediaType] = useState<"person" | "movie" | "tv" | string>("all")
     const { data, isLoading, isError } = useQuery({
         queryKey: ["search", query],
         queryFn: ({ signal }) => tmdb.searchMulti(query, 1, signal),
@@ -61,31 +63,50 @@ export function SearchResult({ query }: Props) {
         )
     }
 
-    const allResults = data.results ?? []
-    const movies = allResults.filter((r) => r.media_type === "movie")
-    const tvShows = allResults.filter((r) => r.media_type === "tv")
+    const results = data.results ?? []
+    const multi = results.filter((r) => r.media_type != "person")
+    const movies = results.filter((r) => r.media_type === "movie")
+    const tvShows = results.filter((r) => r.media_type === "tv")
 
     return (
-        <div className="bg-muted px-4 mb-4">
-            <Tabs defaultValue="all" className="w-full">
-                <TabsList>
-                    <TabsTrigger value="all">All ({allResults.length})</TabsTrigger>
-                    <TabsTrigger value="movie">Movies ({movies.length})</TabsTrigger>
-                    <TabsTrigger value="tv">TV Shows ({tvShows.length})</TabsTrigger>
-                </TabsList>
+        <Tabs value={mediaType} onValueChange={(value) => setMediaType(value)} className="w-full pt-2">
+            <TabsList className="px-4 py-2 h-12 w-full  justify-start rounded-none overflow-x-auto">
+                <TabsTrigger className="flex-none" value="multi">
+                    All ({multi.length})
+                </TabsTrigger>
+                <TabsTrigger className="flex-none" value="movie">
+                    Movies ({movies.length})
+                </TabsTrigger>
+                <TabsTrigger className="flex-none" value="tv">
+                    TV Shows ({tvShows.length})
+                </TabsTrigger>
+            </TabsList>
 
-                <TabsContent value="all" className="max-h-96 overflow-y-auto">
-                    <ResultList items={allResults} />
-                </TabsContent>
+            <TabsContent value="multi" className="bg-muted max-h-96 overflow-y-auto">
+                <ResultList items={multi} />
+            </TabsContent>
 
-                <TabsContent value="movie" className="max-h-96 overflow-y-auto">
-                    <ResultList items={movies} />
-                </TabsContent>
+            <TabsContent value="movie" className="bg-muted max-h-96 overflow-y-auto">
+                <ResultList items={movies} />
+            </TabsContent>
 
-                <TabsContent value="tv" className="max-h-96 overflow-y-auto">
-                    <ResultList items={tvShows} />
-                </TabsContent>
-            </Tabs>
-        </div>
+            <TabsContent value="tv" className="bg-muted max-h-96 overflow-y-auto">
+                <ResultList items={tvShows} />
+            </TabsContent>
+            {results.length > 0 && (
+                <Button asChild variant={"link"}>
+                    <Link
+                        to={"/search"}
+                        search={{
+                            query,
+                            media_type: mediaType,
+                        }}
+                        className="text-sm"
+                    >
+                        View all result for <em>&quot;{query.slice(0, 24)}...&quot;</em>
+                    </Link>
+                </Button>
+            )}
+        </Tabs>
     )
 }
