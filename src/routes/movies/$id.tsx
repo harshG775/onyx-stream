@@ -142,7 +142,7 @@ function RouteComponent() {
     const details = loaderData.details
 
     return (
-        <main className="flex flex-col gap-4 xl:flex-row sm:px-4 lg:px-6 sm:py-4 lg:py-6">
+        <main className="max-w-384 mx-auto flex flex-col gap-4 xl:flex-row sm:px-4 lg:px-6 sm:py-4 lg:py-6">
             <section className="flex-2 space-y-2">
                 <picture className="w-full aspect-video object-cover order sm:rounded-2xl shadow">
                     <source media="(max-width: 640px)" srcSet={getTMDBImageUrl(details.backdrop_path, "w780") || ""} />

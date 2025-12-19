@@ -7,7 +7,7 @@ import { SearchIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useDebounce } from "@/hooks/use-debounce"
 
-export default function TopSearchBar() {
+export function TopSearchBar() {
     const [open, setOpen] = useState(false)
     const [query, setQuery] = useState("")
     const [debounceQuery] = useDebounce(query, 400)
@@ -26,7 +26,7 @@ export default function TopSearchBar() {
                 </Button>
             </SheetTrigger>
 
-            <SheetContent side="top">
+            <SheetContent side="top" className="data-[state=closed]:duration-200 data-[state=open]:duration-400">
                 <SearchHeader />
                 <SearchInput query={query} onQueryChange={setQuery} resetSearch={resetSearch} />
                 <SearchResult query={debounceQuery} resetSearch={resetSearch} />

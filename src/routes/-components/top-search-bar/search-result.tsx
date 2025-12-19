@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { tmdb } from "@/lib/services/tmdb"
 import { useQuery } from "@tanstack/react-query"
-import { Link, Router } from "@tanstack/react-router"
+import { Link } from "@tanstack/react-router"
 import { useState } from "react"
 
 function ResultList({ items }: { items: any[] }) {
