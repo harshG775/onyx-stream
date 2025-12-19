@@ -41,7 +41,7 @@ export function SearchResult({ query }: Props) {
         return (
             <div className="bg-muted px-4 mb-4">
                 <p className="text-sm text-muted-foreground p-4 text-center">
-                    Try searching for a title, genre, or person.
+                    Try searching for a title movie or tv show
                 </p>
             </div>
         )

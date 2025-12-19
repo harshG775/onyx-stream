@@ -22,7 +22,7 @@ export function SearchInput({ query, onQueryChange }: SearchInputProps) {
                     placeholder="Search..."
                     value={query}
                     onChange={(e) => onQueryChange(e.target.value)}
-                    className="pr-20 rounded-md"
+                    className=" rounded-md"
                 />
 
                 <InputGroupAddon>
