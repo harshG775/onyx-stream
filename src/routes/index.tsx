@@ -3,13 +3,35 @@ import { Link, createFileRoute } from "@tanstack/react-router"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
 import { Button } from "@/components/ui/button"
+import { Spinner } from "@/components/ui/spinner"
 
 export const Route = createFileRoute("/")({
     ssr: false,
-    pendingComponent: () => "loading root route",
+    pendingComponent: () => (
+        <div className="grid place-content-center p-4">
+            <Spinner className="size-6" />
+        </div>
+    ),
     component: RootPage,
 })
 
+function RootHeroSection() {
+    const { isLoading, isError, data } = useQuery({
+        queryKey: ["trending", "movies"],
+        queryFn: () => tmdb.getTrendingAll("day", 1),
+    })
+    return (
+        <div>
+            {isError && "Error"}
+            {isLoading && "Loading"}
+            {!isLoading &&
+                !isError &&
+                data?.results.map((media, idx) => {
+                    return <div key={idx}>{media.media_type}</div>
+                })}
+        </div>
+    )
+}
 function RootPage() {
     const { isLoading, isError, data } = useQuery({
         queryKey: ["trending", "movies"],
@@ -20,7 +42,7 @@ function RootPage() {
     return (
         <main>
             <section>
-                <div>Main Content</div>
+                <RootHeroSection />
             </section>
             <div className="px-3 sm:px-4 lg:px-6   py-3 sm:py-4 lg:py-6">
                 <section>
