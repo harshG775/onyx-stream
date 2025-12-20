@@ -4,7 +4,7 @@ import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
 import { formatDate, formatRuntime, sharePage } from "@/lib/utils"
 import { MovieDetails } from "@/types/tmdb.types"
 import { createFileRoute, notFound } from "@tanstack/react-router"
-import { Calendar, Clock, Tag, Globe, Flag, Building2, Play, Youtube, Bookmark, Share2 } from "lucide-react"
+import { Calendar, Clock, Tag, Globe, Flag, Building2, Youtube, Bookmark, Share2, PlayCircle } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 
@@ -178,8 +178,8 @@ function RouteComponent() {
                             </picture>
                             <div className="absolute bottom-0 left-0 right-0 w-full flex justify-start">
                                 <div className="z-10 flex items-end relative">
-                                    <div className="-z-10 absolute bottom-[calc(100%-16px)] -left-[16px] border-b-16 border-l-16 border-background rounded-bl-4xl size-16"></div>
-                                    <div className="-z-10 absolute -bottom-[16px] left-[calc(100%-16px)] border-b-16 border-l-16 border-background rounded-bl-4xl size-16"></div>
+                                    <div className="-z-10 absolute bottom-[calc(100%-16px)] -left-[16px] border-b-16 border-l-16 border-background rounded-bl-4xl size-12"></div>
+                                    <div className="-z-10 absolute -bottom-[16px] left-[calc(100%-16px)] border-b-16 border-l-16 border-background rounded-bl-4xl size-12"></div>
                                     <div className="bg-background pl-0 p-3 rounded-tl-none rounded-t-2xl">
                                         <img
                                             src={getTMDBImageUrl(details.poster_path, "w780") || undefined}
@@ -188,9 +188,9 @@ function RouteComponent() {
                                         />
                                     </div>
                                     <div className="relative bg-background pl-0 p-3 rounded-tl-none rounded-t-2xl">
-                                        <div className="-z-10 absolute bottom-[calc(100%-16px)] -left-[16px] border-b-16 border-l-16 border-background rounded-bl-4xl size-16"></div>
-                                        <Button title="Watch" onClick={onClickWatch} size={"lg"}>
-                                            <Play />
+                                        <div className="-z-10 absolute bottom-[calc(100%-16px)] -left-[16px] border-b-16 border-l-16 border-background rounded-bl-4xl size-12"></div>
+                                        <Button size={"lg"} title="Watch" onClick={onClickWatch}>
+                                            <PlayCircle />
                                             <span>Watch</span>
                                         </Button>
                                     </div>
@@ -206,12 +206,11 @@ function RouteComponent() {
                             variant="secondary"
                             title="Trailer"
                             onClick={() => toast.info("Trailer is on the way! Stay tuned!")}
-                            size={"lg"}
+                            size={"sm"}
                         >
                             <Youtube />
                             <span>Trailer</span>
                         </Button>
-
                         <Button
                             variant="ghost"
                             title="Add to watch list"
