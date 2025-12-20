@@ -5,6 +5,7 @@ import { formatDate, formatRuntime, sharePage } from "@/lib/utils"
 import { MovieDetails } from "@/types/tmdb.types"
 import { createFileRoute, notFound } from "@tanstack/react-router"
 import { Calendar, Clock, Tag, Globe, Flag, Building2, Play, Youtube, Bookmark, Share2 } from "lucide-react"
+import { useState } from "react"
 import { toast } from "sonner"
 
 export const Route = createFileRoute("/movies/$id")({
@@ -78,7 +79,7 @@ function MetaRowSkeleton() {
 }
 function MovieDetailsSkeleton() {
     return (
-        <main className="flex flex-col gap-4 xl:flex-row px-3 sm:px-4 lg:px-6 py-3 sm:py-4 lg:py-6">
+        <main className="flex flex-col gap-4 lg:flex-row px-3 sm:px-4 lg:px-6 py-3 sm:py-4 lg:py-6">
             {/* Left section */}
             <section className="flex-2 space-y-4">
                 {/* Backdrop */}
@@ -138,37 +139,62 @@ const MetaRow: React.FC<MetaRowProps> = ({ icon, label, value }) => (
     </div>
 )
 function RouteComponent() {
+    const [isPlaying, setIsPlaying] = useState(false)
     const loaderData: { details: MovieDetails; host: string } = Route.useLoaderData()
     const details = loaderData.details
 
+    const onClickWatch = () => {
+        // () => toast.info("Coming soon! We're still cooking this feature!")
+        setIsPlaying(true)
+    }
     return (
-        <main className="max-w-384 mx-auto gap-4 grid xl:grid-cols-[2fr_1fr] sm:px-4 lg:px-6 sm:py-4 lg:py-6 mb-4">
+        <main className="max-w-384 mx-auto gap-4 grid lg:grid-cols-[2fr_1fr] sm:px-4 lg:px-6 sm:py-4 lg:py-6 mb-4">
             <section className="space-y-2">
-                <picture className="w-full aspect-video object-cover order sm:rounded-2xl shadow">
-                    <source media="(max-width: 640px)" srcSet={getTMDBImageUrl(details.backdrop_path, "w780") || ""} />
-                    <source
-                        media="(max-width: 1024px)"
-                        srcSet={getTMDBImageUrl(details.backdrop_path, "w1280") || ""}
-                    />
-                    <img
-                        src={getTMDBImageUrl(details.backdrop_path, "original") || ""}
-                        alt={`Backdrop of ${details.title}`}
-                        className="w-full aspect-video object-cover sm:rounded-2xl shadow"
-                        loading="lazy"
-                    />
-                </picture>
-                <div className="px-3 mt-2 space-y-4">
+                <div className="w-full aspect-14/9 sm:aspect-video sm:rounded-2xl relative">
+                    {isPlaying ? (
+                        <iframe
+                            src={`https://vidsrc.to/embed/movie/${details.id}`}
+                            className="w-full h-full sm:rounded-2xl bg-muted-foreground/80"
+                        />
+                    ) : (
+                        <div>
+                            <picture>
+                                <source
+                                    media="(max-width: 640px)"
+                                    srcSet={getTMDBImageUrl(details.backdrop_path, "w780") || ""}
+                                />
+                                <source
+                                    media="(max-width: 1024px)"
+                                    srcSet={getTMDBImageUrl(details.backdrop_path, "w1280") || ""}
+                                />
+                                <img
+                                    src={getTMDBImageUrl(details.backdrop_path, "original") || ""}
+                                    alt={`Backdrop of ${details.title}`}
+                                    className="w-full h-full object-cover sm:rounded-2xl"
+                                    loading="lazy"
+                                />
+                            </picture>
+                            <div className="absolute bottom-0 left-0 right-0 w-full flex justify-start">
+                                <div className="flex items-end">
+                                    <img
+                                        src={getTMDBImageUrl(details.poster_path, "w780") || undefined}
+                                        alt={`poster_path of ${details.title}`}
+                                        className="max-w-32 bg-background p-2 rounded-tl-none rounded-t-2xl"
+                                    />
+                                    <div className="bg-background p-2 rounded-tl-none rounded-t-2xl">
+                                        <Button title="Watch" onClick={onClickWatch} size={"lg"}>
+                                            <Play />
+                                            <span>Watch</span>
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+                <div className="px-3 mt-2 space-y-2">
                     <h1 className="text-2xl font-semibold">{details.title}</h1>
                     <div className="flex items-center gap-2 sm:gap-4">
-                        <Button
-                            title="Watch"
-                            onClick={() => toast.info("Coming soon! We're still cooking this feature!")}
-                            size={"lg"}
-                        >
-                            <Play />
-                            <span>Watch</span>
-                        </Button>
-
                         <Button
                             variant="secondary"
                             title="Trailer"
@@ -262,8 +288,8 @@ function RouteComponent() {
                     <p className="text-lg font-bold">Comments</p>
                 </div>
                 <div className="h-full space-y-4 p-4 border rounded-2xl shadow">
-                    <Skeleton className="h-4 rounded max-w-xs"/>
-                    <Skeleton className="h-4 rounded"/>
+                    <Skeleton className="h-4 rounded max-w-xs" />
+                    <Skeleton className="h-4 rounded" />
                 </div>
             </section>
         </main>
