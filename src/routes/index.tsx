@@ -7,7 +7,7 @@ import { Spinner } from "@/components/ui/spinner"
 import { RootHeroSection } from "./-components/sections/root-hero-section"
 
 export const Route = createFileRoute("/")({
-    ssr: false,
+    // ssr: false,
 
     pendingComponent: () => (
         <div className="grid place-content-center p-4">
