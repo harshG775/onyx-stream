@@ -229,6 +229,44 @@ function CarouselNext({
   )
 }
 
+function useCarouselDots() {
+  const { api } = useCarousel()
+
+  const [selectedIndex, setSelectedIndex] = React.useState(0)
+  const [scrollSnaps, setScrollSnaps] = React.useState<number[]>([])
+
+  const scrollTo = React.useCallback(
+    (index: number) => api?.scrollTo(index),
+    [api]
+  )
+
+  const onInit = React.useCallback((api: any) => {
+    setScrollSnaps(api.scrollSnapList())
+  }, [])
+
+  const onSelect = React.useCallback((api: any) => {
+    setSelectedIndex(api.selectedScrollSnap())
+  }, [])
+
+  React.useEffect(() => {
+    if (!api) return
+
+    onInit(api)
+    onSelect(api)
+
+    api
+      .on("reInit", onInit)
+      .on("reInit", onSelect)
+      .on("select", onSelect)
+  }, [api, onInit, onSelect])
+
+  return {
+    selectedIndex,
+    scrollSnaps,
+    scrollTo,
+  }
+}
+
 export {
   type CarouselApi,
   Carousel,
@@ -236,4 +274,5 @@ export {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
+  useCarouselDots,
 }

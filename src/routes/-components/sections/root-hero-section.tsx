@@ -1,10 +1,12 @@
+import Autoplay from "embla-carousel-autoplay"
 import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
 import { useQuery } from "@tanstack/react-query"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { Carousel, CarouselContent, CarouselItem, useCarouselDots } from "@/components/ui/carousel"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Button } from "@/components/ui/button"
 import { Info, PlayIcon } from "lucide-react"
 import { Link } from "@tanstack/react-router"
+import { cn } from "@/lib/utils"
 
 const genres: { tv: { id: number; name: string }[]; movie: { id: number; name: string }[] } = {
     tv: [
@@ -64,6 +66,36 @@ const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString("en-US", options)
 }
 
+function CarouselDots({ className }: { className?: string }) {
+    const { scrollSnaps, selectedIndex, scrollTo } = useCarouselDots()
+
+    if (!scrollSnaps.length) return null
+
+    const prevI = 0
+    const currentI = 1
+    const nextI = 3
+    return (
+        <div data-slot="carousel-dots" className={cn("flex gap-2 justify-center items-center", className)}>
+            {/* {scrollSnaps.length} */}
+            {scrollSnaps.map((_, index) => (
+                <button
+                    key={index}
+                    type="button"
+                    aria-label={`Go to slide ${index + 1}`}
+                    aria-current={index === selectedIndex}
+                    onClick={() => scrollTo(index)}
+                    className={cn(
+                        "rounded-full transition",
+                        index === selectedIndex
+                            ? "bg-foreground h-3 w-3 "
+                            : "bg-muted-foreground/40 hover:bg-muted-foreground h-2 w-2",
+                    )}
+                />
+            ))}
+        </div>
+    )
+}
+
 export function RootHeroSection() {
     const { isLoading, isError, error, data } = useQuery({
         queryKey: ["trending", "movies"],
@@ -74,8 +106,16 @@ export function RootHeroSection() {
 
     return (
         <section>
-            <Carousel>
-                <CarouselContent className="py-2">
+            <Carousel
+                plugins={[
+                    Autoplay({
+                        delay: 4000,
+                        stopOnInteraction: true,
+                        stopOnMouseEnter: true,
+                    }),
+                ]}
+            >
+                <CarouselContent className="pt-2">
                     {isError && (
                         <section className="w-full min-h-96 grid place-items-center text-destructive bg-destructive/10 text-2xl">
                             <div>{error.message}</div>
@@ -197,12 +237,7 @@ export function RootHeroSection() {
                         </>
                     )}
                 </CarouselContent>
-                <div className="flex justify-end p-4 pr-20">
-                    <div className="relative">
-                        <CarouselPrevious />
-                        <CarouselNext />
-                    </div>
-                </div>
+                <CarouselDots />
             </Carousel>
         </section>
     )
