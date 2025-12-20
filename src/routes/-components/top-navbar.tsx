@@ -3,7 +3,7 @@ import { TopSearchBar } from "./top-search-bar/search"
 
 export function TopNavbar() {
     return (
-        <div className="sticky top-0 bg-sidebar shadow">
+        <div className="z-40 sticky top-0 bg-sidebar shadow">
             <nav className="max-w-384 mx-auto flex justify-between items-center px-3 sm:px-4 lg:px-6 py-2">
                 <Link to="/">
                     <span className="group inline-flex items-center text-xl font-bold">
