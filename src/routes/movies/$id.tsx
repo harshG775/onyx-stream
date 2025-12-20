@@ -142,8 +142,8 @@ function RouteComponent() {
     const details = loaderData.details
 
     return (
-        <main className="max-w-384 mx-auto flex flex-col gap-4 xl:flex-row sm:px-4 lg:px-6 sm:py-4 lg:py-6">
-            <section className="flex-2 space-y-2">
+        <main className="max-w-384 mx-auto gap-4 grid xl:grid-cols-[2fr_1fr] sm:px-4 lg:px-6 sm:py-4 lg:py-6 mb-4">
+            <section className="space-y-2">
                 <picture className="w-full aspect-video object-cover order sm:rounded-2xl shadow">
                     <source media="(max-width: 640px)" srcSet={getTMDBImageUrl(details.backdrop_path, "w780") || ""} />
                     <source
@@ -210,11 +210,11 @@ function RouteComponent() {
                     </div>
                 </div>
             </section>
-            <section className="px-4 pb-4 sm:px-0 flex-1 space-y-2">
+            <section className="px-4 sm:px-0 space-y-2 flex flex-col">
                 <div>
                     <p className="text-lg font-bold">Overview</p>
                 </div>
-                <div className="space-y-4 p-4 border rounded-2xl shadow">
+                <div className="h-full space-y-4 p-4 border rounded-2xl shadow">
                     <div>
                         <div className="italic text-xl">&quot;{details.tagline}&quot;</div>
                         <div className="text-muted-foreground text-sm">{details.overview}</div>
@@ -255,6 +255,15 @@ function RouteComponent() {
                         label="Production Companies"
                         value={details.production_companies.map((c) => c.name).join(", ")}
                     />
+                </div>
+            </section>
+            <section className="xl:col-span-2 px-4 sm:px-0 space-y-2 flex flex-col">
+                <div>
+                    <p className="text-lg font-bold">Comments</p>
+                </div>
+                <div className="h-full space-y-4 p-4 border rounded-2xl shadow">
+                    <Skeleton className="h-4 rounded max-w-xs"/>
+                    <Skeleton className="h-4 rounded"/>
                 </div>
             </section>
         </main>
