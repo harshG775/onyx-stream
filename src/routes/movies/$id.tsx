@@ -150,13 +150,13 @@ function RouteComponent() {
         setIsPlaying(true)
     }
     return (
-        <main className="max-w-384 mx-auto gap-4 grid lg:grid-cols-[2fr_1fr] sm:px-4 lg:px-6 sm:py-4 lg:py-6 mb-4">
+        <main className="max-w-384 mx-auto gap-4 grid lg:grid-cols-[2fr_1fr] px-4 py-4 mb-4">
             <section className="space-y-2">
-                <div className="w-full sm:rounded-2xl relative">
+                <div className="w-full relative">
                     {isPlaying ? (
                         <iframe
                             src={`https://vidsrc.to/embed/movie/${details.id}`}
-                            className="w-full h-full aspect-video sm:rounded-2xl bg-muted-foreground/80"
+                            className="w-full h-full aspect-video rounded-2xl bg-muted-foreground/80"
                         />
                     ) : (
                         <div>
@@ -172,22 +172,23 @@ function RouteComponent() {
                                 <img
                                     src={getTMDBImageUrl(details.backdrop_path, "original") || ""}
                                     alt={`Backdrop of ${details.title}`}
-                                    className="w-full h-full object-cover aspect-14/9 xl:aspect-video sm:rounded-2xl"
+                                    className="w-full h-full object-cover aspect-14/9 xl:aspect-video rounded-2xl"
                                     loading="lazy"
                                 />
                             </picture>
                             <div className="absolute bottom-0 left-0 right-0 w-full flex justify-start">
-                                <div className="flex items-end relative">
-                                    <div className="absolute bottom-[calc(100%-8.5px)] -left-2 border-b-9 border-l-9 border-background rounded-bl-[20px] h-10 w-10"></div>
-                                    <div className="absolute -bottom-2 left-[calc(100%-8.5px)] border-b-9 border-l-9 border-background rounded-bl-[20px] h-10 w-10"></div>
-                                    <div className="bg-background p-2 rounded-tl-none rounded-t-2xl">
+                                <div className="z-10 flex items-end relative">
+                                    <div className="-z-10 absolute bottom-[calc(100%-10px)] -left-[9.8px] border-b-10 border-l-10 border-background rounded-bl-3xl size-10"></div>
+                                    <div className="-z-10 absolute -bottom-[10px] left-[calc(100%-10px)] border-b-10 border-l-10 border-background rounded-bl-3xl size-10"></div>
+                                    <div className="bg-background p-3 rounded-tl-none rounded-t-2xl">
                                         <img
                                             src={getTMDBImageUrl(details.poster_path, "w780") || undefined}
                                             alt={`poster_path of ${details.title}`}
                                             className="max-w-32 rounded-md"
                                         />
                                     </div>
-                                    <div className="bg-background p-2 rounded-tl-none rounded-t-2xl">
+                                    <div className="relative bg-background p-3 rounded-tl-none rounded-t-2xl">
+                                        <div className="-z-10 absolute bottom-[calc(100%-9.5px)] -left-[9.5px] border-b-10 border-l-10 border-background rounded-bl-3xl size-12"></div>
                                         <Button title="Watch" onClick={onClickWatch} size={"lg"}>
                                             <Play />
                                             <span>Watch</span>
