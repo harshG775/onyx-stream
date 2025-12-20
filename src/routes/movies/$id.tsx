@@ -150,7 +150,7 @@ function RouteComponent() {
     return (
         <main className="max-w-384 mx-auto gap-4 grid lg:grid-cols-[2fr_1fr] sm:px-4 lg:px-6 sm:py-4 lg:py-6 mb-4">
             <section className="space-y-2">
-                <div className="w-full aspect-14/9 sm:aspect-video sm:rounded-2xl relative">
+                <div className="w-full aspect-14/9 xl:aspect-video sm:rounded-2xl relative">
                     {isPlaying ? (
                         <iframe
                             src={`https://vidsrc.to/embed/movie/${details.id}`}
@@ -170,17 +170,19 @@ function RouteComponent() {
                                 <img
                                     src={getTMDBImageUrl(details.backdrop_path, "original") || ""}
                                     alt={`Backdrop of ${details.title}`}
-                                    className="w-full h-full object-cover sm:rounded-2xl"
+                                    className="w-full h-full object-cover aspect-14/9 xl:aspect-video sm:rounded-2xl"
                                     loading="lazy"
                                 />
                             </picture>
                             <div className="absolute bottom-0 left-0 right-0 w-full flex justify-start">
                                 <div className="flex items-end">
-                                    <img
-                                        src={getTMDBImageUrl(details.poster_path, "w780") || undefined}
-                                        alt={`poster_path of ${details.title}`}
-                                        className="max-w-32 bg-background p-2 rounded-tl-none rounded-t-2xl"
-                                    />
+                                    <div className="bg-background p-2 rounded-tl-none rounded-t-2xl">
+                                        <img
+                                            src={getTMDBImageUrl(details.poster_path, "w780") || undefined}
+                                            alt={`poster_path of ${details.title}`}
+                                            className="max-w-32 rounded-md"
+                                        />
+                                    </div>
                                     <div className="bg-background p-2 rounded-tl-none rounded-t-2xl">
                                         <Button title="Watch" onClick={onClickWatch} size={"lg"}>
                                             <Play />
