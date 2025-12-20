@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Info, PlayIcon } from "lucide-react"
 import { Link } from "@tanstack/react-router"
 import { cn } from "@/lib/utils"
-import { genreArray, genresMap } from "@/lib/services/tmdb/genres"
+import { genreArray } from "@/lib/services/tmdb/genres"
 const useIsReleased = () => {
     const today = new Date()
     return {
@@ -28,11 +28,8 @@ function CarouselDots({ className }: { className?: string }) {
 
     if (!scrollSnaps.length) return null
 
-    const prevI = 0
-    const currentI = 1
-    const nextI = 3
     return (
-        <div data-slot="carousel-dots" className={cn("flex gap-2 justify-center items-center", className)}>
+        <div data-slot="carousel-dots" className={cn("flex gap-1 sm:gap-2 justify-center items-center", className)}>
             {/* {scrollSnaps.length} */}
             {scrollSnaps.map((_, index) => (
                 <button
@@ -42,10 +39,10 @@ function CarouselDots({ className }: { className?: string }) {
                     aria-current={index === selectedIndex}
                     onClick={() => scrollTo(index)}
                     className={cn(
-                        "rounded-full transition",
+                        "rounded transition",
                         index === selectedIndex
-                            ? "bg-foreground h-3 w-3 "
-                            : "bg-muted-foreground/40 hover:bg-muted-foreground h-2 w-2",
+                            ? "bg-primary h-3 w-3 "
+                            : "bg-muted-foreground/40 hover:bg-primary/80 h-2.5 w-2.5",
                     )}
                 />
             ))}
@@ -64,15 +61,19 @@ export function RootHeroSection() {
     return (
         <section>
             <Carousel
+                opts={{
+                    loop: true,
+                }}
                 plugins={[
                     Autoplay({
                         delay: 4000,
-                        stopOnInteraction: true,
-                        stopOnMouseEnter: true,
+                        stopOnInteraction: false,
+                        stopOnMouseEnter: false,
                     }),
                 ]}
+                className="space-y-4"
             >
-                <CarouselContent className="pt-2">
+                <CarouselContent className="p-2">
                     {isError && (
                         <section className="w-full min-h-96 grid place-items-center text-destructive bg-destructive/10 text-2xl">
                             <div>{error.message}</div>
@@ -111,7 +112,7 @@ export function RootHeroSection() {
                             {data?.results.map((media, idx) => {
                                 return (
                                     <CarouselItem key={idx}>
-                                        <div className="relative grid lg:grid-cols-2 lg:items-center px-4 overflow-hidden">
+                                        <div className="relative grid lg:grid-cols-2 lg:items-center overflow-hidden">
                                             <div className="lg:order-1 order-2 p-4 space-y-4">
                                                 {/* Metadata Row */}
                                                 <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
