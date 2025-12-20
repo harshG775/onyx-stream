@@ -1,12 +1,16 @@
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
-import { formatDate, formatRuntime, sharePage } from "@/lib/utils"
+import { sharePage } from "@/lib/utils"
 import { MovieDetails } from "@/types/tmdb.types"
 import { createFileRoute, notFound } from "@tanstack/react-router"
-import { Calendar, Clock, Tag, Globe, Flag, Building2, Youtube, Bookmark, Share2, PlayCircle } from "lucide-react"
+import { Youtube, Bookmark, Share2, PlayCircle } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
+import CommentsSection from "../-components/comments/comments-section"
+import { OverviewTab } from "./-components/sections/overview-tab"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { CreditsTab } from "./-components/sections/credits-tab"
 
 export const Route = createFileRoute("/movies/$id")({
     ssr: false,
@@ -124,22 +128,6 @@ function MovieDetailsSkeleton() {
         </main>
     )
 }
-
-type MetaRowProps = {
-    icon: React.ReactNode
-    label: string
-    value: string | React.ReactNode
-}
-
-const MetaRow: React.FC<MetaRowProps> = ({ icon, label, value }) => (
-    <div className="flex flex-col">
-        <div className="flex items-center gap-2">
-            {icon}
-            <span>{label}</span>
-        </div>
-        <div className="text-muted-foreground text-sm">{value}</div>
-    </div>
-)
 function RouteComponent() {
     const [isPlaying, setIsPlaying] = useState(false)
     const loaderData: { details: MovieDetails; host: string } = Route.useLoaderData()
@@ -242,61 +230,30 @@ function RouteComponent() {
                     </div>
                 </div>
             </section>
-            <section className="px-4 sm:px-0 space-y-2 flex flex-col">
-                <div>
-                    <p className="text-lg font-bold">Overview</p>
-                </div>
-                <div className="h-full space-y-4 p-4 border rounded-2xl shadow">
-                    <div>
-                        <div className="italic text-xl">&quot;{details.tagline}&quot;</div>
-                        <div className="text-muted-foreground text-sm">{details.overview}</div>
-                    </div>
+            <Tabs defaultValue="overview" asChild>
+                <section className="px-4 sm:px-0 space-y-2 flex flex-col">
+                    <TabsList>
+                        <TabsTrigger value="overview" className="text-lg font-bold">
+                            Overview
+                        </TabsTrigger>
+                        <TabsTrigger value="credits" className="text-lg font-bold">
+                            Credits
+                        </TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="overview" asChild>
+                        <OverviewTab details={details} />
+                    </TabsContent>
+                    <TabsContent value="credits" asChild>
+                        <CreditsTab media_type="movie" mediaId={details.id} />
+                    </TabsContent>
+                </section>
+            </Tabs>
 
-                    <MetaRow
-                        icon={<Calendar className="w-4 h-4 text-muted-foreground" />}
-                        label="Released"
-                        value={formatDate(details.release_date)}
-                    />
-
-                    <MetaRow
-                        icon={<Clock className="w-4 h-4 text-muted-foreground" />}
-                        label="Runtime"
-                        value={formatRuntime(Number(details.runtime))}
-                    />
-
-                    <MetaRow
-                        icon={<Tag className="w-4 h-4 text-muted-foreground" />}
-                        label="Genre"
-                        value={details.genres.map((g) => g.name).join(", ")}
-                    />
-
-                    <MetaRow
-                        icon={<Globe className="w-4 h-4 text-muted-foreground" />}
-                        label="Spoken Languages"
-                        value={details.spoken_languages.map((l) => l.name).join(", ")}
-                    />
-
-                    <MetaRow
-                        icon={<Flag className="w-4 h-4 text-muted-foreground" />}
-                        label="Production Countries"
-                        value={details.production_countries.map((c) => c.name).join(", ")}
-                    />
-
-                    <MetaRow
-                        icon={<Building2 className="w-4 h-4 text-muted-foreground" />}
-                        label="Production Companies"
-                        value={details.production_companies.map((c) => c.name).join(", ")}
-                    />
-                </div>
-            </section>
             <section className="xl:col-span-2 px-4 sm:px-0 space-y-2 flex flex-col">
                 <div>
                     <p className="text-lg font-bold">Comments</p>
                 </div>
-                <div className="h-full space-y-4 p-4 border rounded-2xl shadow">
-                    <Skeleton className="h-4 rounded max-w-xs" />
-                    <Skeleton className="h-4 rounded" />
-                </div>
+                <CommentsSection media_type="movie" mediaId={details.id} />
             </section>
         </main>
     )
