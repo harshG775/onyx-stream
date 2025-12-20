@@ -177,7 +177,9 @@ function RouteComponent() {
                                 />
                             </picture>
                             <div className="absolute bottom-0 left-0 right-0 w-full flex justify-start">
-                                <div className="flex items-end">
+                                <div className="flex items-end relative">
+                                    <div className="absolute bottom-[calc(100%-8.5px)] -left-2 border-b-9 border-l-9 border-background rounded-bl-[20px] h-10 w-10"></div>
+                                    <div className="absolute -bottom-2 left-[calc(100%-8.5px)] border-b-9 border-l-9 border-background rounded-bl-[20px] h-10 w-10"></div>
                                     <div className="bg-background p-2 rounded-tl-none rounded-t-2xl">
                                         <img
                                             src={getTMDBImageUrl(details.poster_path, "w780") || undefined}
