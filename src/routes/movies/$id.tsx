@@ -178,8 +178,8 @@ function RouteComponent() {
                             </picture>
                             <div className="absolute bottom-0 left-0 right-0 w-full flex justify-start">
                                 <div className="z-10 flex items-end relative">
-                                    <div className="-z-10 absolute bottom-[calc(100%-10px)] -left-[9.8px] border-b-10 border-l-10 border-background rounded-bl-3xl size-10"></div>
-                                    <div className="-z-10 absolute -bottom-[10px] left-[calc(100%-10px)] border-b-10 border-l-10 border-background rounded-bl-3xl size-10"></div>
+                                    <div className="-z-10 absolute bottom-[calc(100%-16px)] -left-[16px] border-b-16 border-l-16 border-background rounded-bl-4xl size-16"></div>
+                                    <div className="-z-10 absolute -bottom-[16px] left-[calc(100%-16px)] border-b-16 border-l-16 border-background rounded-bl-4xl size-16"></div>
                                     <div className="bg-background p-3 rounded-tl-none rounded-t-2xl">
                                         <img
                                             src={getTMDBImageUrl(details.poster_path, "w780") || undefined}
@@ -188,7 +188,7 @@ function RouteComponent() {
                                         />
                                     </div>
                                     <div className="relative bg-background p-3 rounded-tl-none rounded-t-2xl">
-                                        <div className="-z-10 absolute bottom-[calc(100%-9.5px)] -left-[9.5px] border-b-10 border-l-10 border-background rounded-bl-3xl size-12"></div>
+                                        <div className="-z-10 absolute bottom-[calc(100%-16px)] -left-[16px] border-b-16 border-l-16 border-background rounded-bl-4xl size-16"></div>
                                         <Button title="Watch" onClick={onClickWatch} size={"lg"}>
                                             <Play />
                                             <span>Watch</span>
