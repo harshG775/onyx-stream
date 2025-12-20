@@ -83,11 +83,13 @@ function MovieDetailsSkeleton() {
             {/* Left section */}
             <section className="flex-2 space-y-4">
                 {/* Backdrop */}
-                <Skeleton className="w-full h-55 sm:sm:h-80 lg:h-105 rounded-2xl" />
+                <Skeleton className="aspect-14/9 xl:aspect-video rounded-2xl" />
+
+                {/* title */}
+                <Skeleton className="h-6 w-1/3 rounded-lg" />
 
                 {/* Buttons */}
                 <div className="flex items-center gap-2 sm:gap-4">
-                    <Skeleton className="h-11 w-28 rounded-lg" />
                     <Skeleton className="h-11 w-28 rounded-lg" />
                     <Skeleton className="h-10 w-10 rounded-full ml-auto" />
                     <Skeleton className="h-10 w-10 rounded-full" />
@@ -150,11 +152,11 @@ function RouteComponent() {
     return (
         <main className="max-w-384 mx-auto gap-4 grid lg:grid-cols-[2fr_1fr] sm:px-4 lg:px-6 sm:py-4 lg:py-6 mb-4">
             <section className="space-y-2">
-                <div className="w-full aspect-14/9 xl:aspect-video sm:rounded-2xl relative">
+                <div className="w-full sm:rounded-2xl relative">
                     {isPlaying ? (
                         <iframe
                             src={`https://vidsrc.to/embed/movie/${details.id}`}
-                            className="w-full h-full sm:rounded-2xl bg-muted-foreground/80"
+                            className="w-full h-full aspect-video sm:rounded-2xl bg-muted-foreground/80"
                         />
                     ) : (
                         <div>
