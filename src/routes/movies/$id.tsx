@@ -150,9 +150,9 @@ function RouteComponent() {
         setIsPlaying(true)
     }
     return (
-        <main className="max-w-384 mx-auto gap-4 grid lg:grid-cols-[2fr_1fr] px-4 py-4 mb-4">
+        <main className="max-w-384 mx-auto gap-4 grid lg:grid-cols-[2fr_1fr] px-3 sm:px-4 py-3 sm:py-4 mb-4">
             <section className="space-y-2">
-                <div className="w-full relative">
+                <div className="w-full relative overflow-hidden">
                     {isPlaying ? (
                         <iframe
                             src={`https://vidsrc.to/embed/movie/${details.id}`}
@@ -172,7 +172,7 @@ function RouteComponent() {
                                 <img
                                     src={getTMDBImageUrl(details.backdrop_path, "original") || ""}
                                     alt={`Backdrop of ${details.title}`}
-                                    className="w-full h-full object-cover aspect-14/9 xl:aspect-video rounded-2xl"
+                                    className="w-full h-full object-cover min-h-96 xl:aspect-video rounded-2xl"
                                     loading="lazy"
                                 />
                             </picture>
@@ -180,14 +180,14 @@ function RouteComponent() {
                                 <div className="z-10 flex items-end relative">
                                     <div className="-z-10 absolute bottom-[calc(100%-16px)] -left-[16px] border-b-16 border-l-16 border-background rounded-bl-4xl size-16"></div>
                                     <div className="-z-10 absolute -bottom-[16px] left-[calc(100%-16px)] border-b-16 border-l-16 border-background rounded-bl-4xl size-16"></div>
-                                    <div className="bg-background p-3 rounded-tl-none rounded-t-2xl">
+                                    <div className="bg-background pl-0 p-3 rounded-tl-none rounded-t-2xl">
                                         <img
                                             src={getTMDBImageUrl(details.poster_path, "w780") || undefined}
                                             alt={`poster_path of ${details.title}`}
                                             className="max-w-32 rounded-md"
                                         />
                                     </div>
-                                    <div className="relative bg-background p-3 rounded-tl-none rounded-t-2xl">
+                                    <div className="relative bg-background pl-0 p-3 rounded-tl-none rounded-t-2xl">
                                         <div className="-z-10 absolute bottom-[calc(100%-16px)] -left-[16px] border-b-16 border-l-16 border-background rounded-bl-4xl size-16"></div>
                                         <Button title="Watch" onClick={onClickWatch} size={"lg"}>
                                             <Play />
