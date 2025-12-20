@@ -23,7 +23,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         const description =
             "Stream the latest movies and TV shows on OnyxStream. Discover trending, popular, and top-rated content in one place."
 
-        const poster = `${loaderData?.host}/branding/logo/og-cover.png`
+        const image = `${loaderData?.host}/logo-icon.svg`
 
         const url = `${loaderData?.host}`
 
@@ -48,14 +48,14 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 { property: "og:type", content: "website" },
                 { property: "og:title", content: title },
                 { property: "og:description", content: description },
-                { property: "og:image", content: poster },
+                { property: "og:image", content: image },
                 { property: "og:url", content: url },
 
                 // Twitter
                 { name: "twitter:card", content: "summary_large_image" },
                 { name: "twitter:title", content: title },
                 { name: "twitter:description", content: description },
-                { name: "twitter:image", content: poster },
+                { name: "twitter:image", content: image },
                 { name: "twitter:url", content: url },
             ],
             links: [
