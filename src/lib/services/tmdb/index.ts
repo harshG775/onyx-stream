@@ -98,7 +98,6 @@ export class TMDBClient {
     }
 
     /* ===================== Trending ===================== */
-
     getTrendingAll(timeWindow: "day" | "week" = "day", page = 1) {
         return this.request<PaginatedResponse<any>>(`/trending/all/${timeWindow}`, {
             page,
@@ -111,6 +110,15 @@ export class TMDBClient {
 
     getTrendingTV(timeWindow: "day" | "week" = "day", page = 1) {
         return this.request<TVShowsResponse>(`/trending/tv/${timeWindow}`, { page })
+    }
+
+    /* ===================== Genres ===================== */
+    getMovieGenres() {
+        return this.request<{ genres: { id: number; name: string }[] }>("/genre/movie/list")
+    }
+
+    getTVGenres() {
+        return this.request<{ genres: { id: number; name: string }[] }>("/genre/tv/list")
     }
 }
 
