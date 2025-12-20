@@ -1,3 +1,11 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+# Block internal / non-SEO routes if any
+Disallow: /api/
+Disallow: /_dev/
+Disallow: /auth/
+
+Allow: /
+
+# Sitemap
+Sitemap: https://onyxstream.vercel.app/sitemap.xml

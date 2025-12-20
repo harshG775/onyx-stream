@@ -23,7 +23,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         const description =
             "Stream the latest movies and TV shows on OnyxStream. Discover trending, popular, and top-rated content in one place."
 
-        const poster = "branding/logo/logo-icon.svg"
+        const poster = `${loaderData?.host}/branding/logo/og-cover.png`
 
         const url = `${loaderData?.host}`
 
@@ -45,7 +45,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 },
 
                 // Open Graph
-                { property: "og:type", content: "video.movie" },
+                { property: "og:type", content: "website" },
                 { property: "og:title", content: title },
                 { property: "og:description", content: description },
                 { property: "og:image", content: poster },

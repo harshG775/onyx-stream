@@ -4,9 +4,11 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
+import { RootHeroSection } from "./-components/sections/root-hero-section"
 
 export const Route = createFileRoute("/")({
     ssr: false,
+
     pendingComponent: () => (
         <div className="grid place-content-center p-4">
             <Spinner className="size-6" />
@@ -15,23 +17,6 @@ export const Route = createFileRoute("/")({
     component: RootPage,
 })
 
-function RootHeroSection() {
-    const { isLoading, isError, data } = useQuery({
-        queryKey: ["trending", "movies"],
-        queryFn: () => tmdb.getTrendingAll("day", 1),
-    })
-    return (
-        <div>
-            {isError && "Error"}
-            {isLoading && "Loading"}
-            {!isLoading &&
-                !isError &&
-                data?.results.map((media, idx) => {
-                    return <div key={idx}>{media.media_type}</div>
-                })}
-        </div>
-    )
-}
 function RootPage() {
     const { isLoading, isError, data } = useQuery({
         queryKey: ["trending", "movies"],
@@ -41,9 +26,7 @@ function RootPage() {
     const mediaPath: "movies" | "tv-shows" = "movies"
     return (
         <main>
-            <section>
-                <RootHeroSection />
-            </section>
+            <RootHeroSection />
             <div className="px-3 sm:px-4 lg:px-6   py-3 sm:py-4 lg:py-6">
                 <section>
                     <div className="flex items-center justify-between">
