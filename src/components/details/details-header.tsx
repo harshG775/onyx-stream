@@ -1,3 +1,4 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Bookmark, Share2, Youtube } from "lucide-react"
 import { Button } from "../ui/button"
 
@@ -12,15 +13,29 @@ export function DetailsHeader({ title, onTrailer, onShare }: DetailsHeaderProps)
                     <span>Trailer</span>
                 </Button>
 
-                <Button variant="ghost" size="icon-sm" className="ml-auto" title="Add to watch list">
-                    <Bookmark />
-                    <span className="sr-only">Add to watch list</span>
-                </Button>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon-sm" className="ml-auto" title="Add to list">
+                            <Bookmark />
+                            <span className="sr-only">Add to list</span>
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        <p>Add to list</p>
+                    </TooltipContent>
+                </Tooltip>
 
-                <Button variant="ghost" size="icon-sm" onClick={onShare}>
-                    <Share2 />
-                    <span className="sr-only">Share</span>
-                </Button>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon-sm" onClick={onShare}>
+                            <Share2 />
+                            <span className="sr-only">Share</span>
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        <p>Share</p>
+                    </TooltipContent>
+                </Tooltip>
             </div>
         </header>
     )
