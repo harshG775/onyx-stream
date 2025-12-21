@@ -5,7 +5,7 @@ import { Carousel, CarouselContent, CarouselItem, useCarouselDots } from "@/comp
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Button } from "@/components/ui/button"
-import { AlertCircle, Info, PlayIcon, Terminal } from "lucide-react"
+import { AlertCircle, Info, PlayIcon } from "lucide-react"
 import { Link } from "@tanstack/react-router"
 import { cn } from "@/lib/utils"
 import { genreArray } from "@/lib/services/tmdb/genres"
@@ -53,7 +53,7 @@ function CarouselDots({ className }: { className?: string }) {
 
 export function RootHeroSection() {
     const { isLoading, isError, error, data } = useQuery({
-        queryKey: ["trending", "movies"],
+        queryKey: ["trending", "multi"],
         queryFn: () => tmdb.getTrendingAll("day", 1),
     })
 
