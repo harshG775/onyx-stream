@@ -5,6 +5,8 @@ import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
 import { RootHeroSection } from "./-components/sections/root-hero-section"
+import { FlatList } from "@/components/flat-list"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export const Route = createFileRoute("/")({
     // ssr: false,
@@ -27,52 +29,39 @@ function RootPage() {
     return (
         <main>
             <RootHeroSection />
-            <div className="px-3 sm:px-4 lg:px-6   py-3 sm:py-4 lg:py-6">
-                <section>
-                    <div className="flex items-center justify-between">
-                        <h2 className="scroll-m-20 pb-2 text-2xl sm:text-3xl font-semibold tracking-tight first:mt-0">
-                            TrendingMovies
-                        </h2>
-                        <div className="flex items-center gap-1 font-semibold">
-                            <Button variant={"ghost"} size={"icon"}>
-                                <ChevronLeft />
-                            </Button>
-                            <span>Swipe</span>
-                            <Button variant={"ghost"} size={"icon"}>
-                                <ChevronRight />
-                            </Button>
-                        </div>
+            <FlatList
+                title="Trending Movies"
+                data={data?.results || []}
+                isLoading={isLoading}
+                isError={isError}
+                skeletonCount={12}
+                itemClassName="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6"
+                keyExtractor={(item) => item.id.toString()}
+                renderSkeleton={() => (
+                    <div className="space-y-2">
+                        <Skeleton className="aspect-2/3 w-full rounded-lg" />
+                        <Skeleton className="h-4 w-3/4" />
                     </div>
-                    <div className="flex gap-2 overflow-x-auto">
-                        {isError && "Error"}
-                        {isLoading && "Loading"}
-                        {!isLoading &&
-                            !isError &&
-                            data?.results.map((media, idx) => {
-                                return (
-                                    <Link
-                                        to={`/${mediaPath}/$id`}
-                                        params={{id: media.id.toString(),}}
-                                        key={`${idx}-${media.id}`}
-                                        className="shrink-0 max-w-44 group"
-                                    >
-                                        <img
-                                            src={
-                                                getTMDBImageUrl(media.poster_path, "w185") ||
-                                                "https://placehold.co/400x600?text=No+Image"
-                                            }
-                                            alt={`poster_path-${media.title}`}
-                                            className="rounded-lg transition-all group-hover:opacity-90"
-                                        />
-                                        <h3 className="scroll-m-20 text-sm font-semibold tracking-tight">
-                                            <div className="line-clamp-2">{media.title}</div>
-                                        </h3>
-                                    </Link>
-                                )
-                            })}
+                )}
+                renderError={() => (
+                    <div className="space-y-2">
+                        <Skeleton className="aspect-2/3 w-full rounded-lg bg-destructive" />
+                        <Skeleton className="h-4 w-3/4 bg-destructive" />
                     </div>
-                </section>
-            </div>
+                )}
+                renderItem={(media) => (
+                    <Link to={`/${mediaPath}/$id`} params={{ id: media.id.toString() }} className="group">
+                        <img
+                            src={
+                                getTMDBImageUrl(media.poster_path, "w185") ||
+                                "https://placehold.co/400x600?text=No+Image"
+                            }
+                            className="w-full rounded-lg transition-opacity group-hover:opacity-90"
+                        />
+                        <h3 className="text-sm font-semibold line-clamp-2">{media.title}</h3>
+                    </Link>
+                )}
+            />
         </main>
     )
 }

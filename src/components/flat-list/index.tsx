@@ -8,7 +8,18 @@ import { cn } from "@/lib/utils"
 type FlatListProps<T> = {
     title: string
     data: T[]
-    renderItem: (item: T, idx: number | string) => React.ReactNode
+    renderItem: (item: T, idx: number) => React.ReactNode
+    keyExtractor?: (item: T, index: number) => string
+
+    /** loading */
+    isLoading?: boolean
+    skeletonCount?: number
+    renderSkeleton?: (idx: number) => React.ReactNode
+
+    /** error */
+    isError?: boolean
+    errorCount?: string
+    renderError?: (idx: number) => React.ReactNode
 
     /** slots */
     startItem?: () => React.ReactNode
@@ -28,6 +39,7 @@ export function FlatList<T>({
     title,
     data,
     renderItem,
+    keyExtractor,
     startItem,
     endItem,
     dragFree = true,
@@ -35,7 +47,15 @@ export function FlatList<T>({
     itemClassName,
     contentClassName,
     headerClassName,
+    isLoading,
+    skeletonCount,
+    renderSkeleton,
+    isError,
+    errorCount,
+    renderError,
 }: FlatListProps<T>) {
+    const items = isLoading ? Array.from({ length: skeletonCount ?? 10 }) : data
+    const hasError = isError && !isLoading
     return (
         <section>
             <Carousel
@@ -46,10 +66,16 @@ export function FlatList<T>({
                     }),
                 ]}
             >
-                <div className={cn("px-3 sm:px-4 lg:px-6 flex items-center justify-between", headerClassName)}>
+                <div
+                    className={cn(
+                        "px-3 sm:px-4 lg:px-6 flex items-center justify-between",
+                        hasError && "text-destructive",
+                        headerClassName,
+                    )}
+                >
                     <h2 className="scroll-m-20 text-xl sm:text-2xl font-semibold tracking-tight">{title}</h2>
 
-                    {showControls && (
+                    {showControls && !hasError && (
                         <div className="flex items-center gap-1 font-semibold">
                             <CarouselPrevious />
                             <span className="text-sm opacity-80">Swipe</span>
@@ -59,28 +85,28 @@ export function FlatList<T>({
                 </div>
 
                 <CarouselContent className={cn("px-3 sm:px-4 lg:px-6 py-3 -ml-3 min-h-56", contentClassName)}>
-                    {startItem && (
-                        <CarouselItem
-                            className={cn("pl-3", itemClassName)}
-                        >
-                            {startItem()}
-                        </CarouselItem>
-                    )}
-                    {data.map((item, idx) => (
-                        <CarouselItem
-                            key={idx}
-                            className={cn("pl-3", itemClassName)}
-                        >
-                            {renderItem(item, idx)}
-                        </CarouselItem>
-                    ))}
-                    {endItem && (
-                        <CarouselItem
-                            className={cn("pl-3", itemClassName)}
-                        >
-                            {endItem()}
-                        </CarouselItem>
-                    )}
+                    {startItem && <CarouselItem className={cn("pl-3", itemClassName)}>{startItem()}</CarouselItem>}
+
+                    {items.map((item, idx) => {
+                        const key =
+                            isLoading || isError
+                                ? `item-${idx}`
+                                : keyExtractor
+                                  ? keyExtractor(item as T, idx)
+                                  : idx.toString()
+                        const content = isLoading
+                            ? renderSkeleton?.(idx)
+                            : isError
+                              ? renderError?.(idx)
+                              : renderItem(item as T, idx)
+                        return (
+                            <CarouselItem key={key} className={cn("pl-3", itemClassName)}>
+                                {content}
+                            </CarouselItem>
+                        )
+                    })}
+
+                    {endItem && <CarouselItem className={cn("pl-3", itemClassName)}>{endItem()}</CarouselItem>}
                 </CarouselContent>
             </Carousel>
         </section>
