@@ -2,11 +2,14 @@ import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Placehold } from "@/lib/placehold"
 import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
+import { useTopSearchBar } from "@/stores"
 import { useQuery } from "@tanstack/react-query"
 import { Link } from "@tanstack/react-router"
 import { useState } from "react"
 
 function ResultList({ items }: { items: any[] }) {
+    const searchBarOpenState = useTopSearchBar(({ setSearchBarState }) => setSearchBarState)
+
     if (items.length === 0) {
         return <p className="p-4 text-sm text-muted-foreground">No results found</p>
     }
@@ -20,6 +23,7 @@ function ResultList({ items }: { items: any[] }) {
                         params={{
                             id: item.id,
                         }}
+                        onClick={() => searchBarOpenState(false)}
                         className="rounded-md border bg-background p-3 hover:bg-accent transition flex gap-2"
                     >
                         <img

@@ -6,19 +6,21 @@ import { SearchResult } from "./search-result"
 import { SearchIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useDebounce } from "@/hooks/use-debounce"
+import { useTopSearchBar } from "@/stores"
 
 export function TopSearchBar() {
-    const [open, setOpen] = useState(false)
+    const isSearchBarOpen = useTopSearchBar((state) => state.isSearchBarOpen)
+    const searchBarOpenState = useTopSearchBar(({ setSearchBarState }) => setSearchBarState)
     const [query, setQuery] = useState("")
     const [debounceQuery] = useDebounce(query, 400)
 
     const resetSearch = () => {
         setQuery("")
-        setOpen(false)
+        searchBarOpenState(false)
     }
 
     return (
-        <Sheet open={open} onOpenChange={setOpen}>
+        <Sheet open={isSearchBarOpen} onOpenChange={searchBarOpenState}>
             <SheetTrigger asChild>
                 <Button variant="secondary">
                     <SearchIcon />
