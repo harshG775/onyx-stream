@@ -98,7 +98,24 @@ export interface TVShowDetails extends Omit<TVShow, "genre_ids"> {
     number_of_episodes: number
     number_of_seasons: number
     production_companies: Array<ProductionCompany>
+    production_countries: Array<ProductionCountry>
     seasons: Array<Season>
+    last_episode_to_air: {
+        id: number
+        name: string
+        overview: string
+        vote_average: number
+        vote_count: number
+        air_date: string
+        episode_number: number
+        episode_type: string
+        production_code: string
+        runtime: number
+        season_number: number
+        show_id: number
+        still_path: string
+    }
+    spoken_languages: Array<SpokenLanguage>
     status: TVStatus
     tagline: string | null
     type: string

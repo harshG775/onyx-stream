@@ -9,6 +9,9 @@ import CommentsSection from "@/components/details/comments/comments-section"
 import { useState } from "react"
 import { DetailsHero } from "@/components/details/details-hero"
 import { DetailsHeader } from "@/components/details/details-header"
+import { OverviewTab } from "@/components/details/details-tabs/overview-tab"
+import { formatDate, formatRuntime } from "@/lib/utils"
+import { Building2, Calendar, Flag, Globe, Tag, Tv } from "lucide-react"
 
 export const Route = createFileRoute("/tv/$id")({
     ssr: false,
@@ -179,7 +182,54 @@ function RouteComponent() {
                         </TabsTrigger>
                     </TabsList>
                     <TabsContent value="overview" asChild>
-                        {/* <OverviewTab details={details} /> */}
+                        <OverviewTab
+                            tagline={details?.tagline || ""}
+                            overview={details.overview}
+                            MetaGroupList={[
+                                {
+                                    icon: <Calendar className="w-4 h-4 text-primary/80" />,
+                                    label: "Release",
+                                    values: formatDate(details.first_air_date),
+                                },
+                                {
+                                    icon: <Tv className="w-4 h-4 text-primary/80" />,
+                                    label: "Info",
+                                    values: [
+                                        `Status: ${details.status}`,
+                                        `Seasons: ${details.seasons.length}`,
+                                        `Episodes: ${details.number_of_episodes}`,
+                                        `Runtime: ${formatRuntime(Number(details.last_episode_to_air?.runtime))}`,
+                                        `Aired: ${formatDate(details.first_air_date)} - ${
+                                            details.last_air_date
+                                                ? formatDate(details.last_air_date)
+                                                : details.status === "Ended"
+                                                  ? "Ended"
+                                                  : "Present"
+                                        }`,
+                                    ],
+                                },
+                                {
+                                    icon: <Tag className="w-4 h-4 text-primary/80" />,
+                                    label: "Genre",
+                                    values: details.genres.map((g) => g.name).join(", "),
+                                },
+                                {
+                                    icon: <Globe className="w-4 h-4 text-primary/80" />,
+                                    label: "Spoken Languages",
+                                    values: details.spoken_languages.map((l) => l.name).join(", "),
+                                },
+                                {
+                                    icon: <Flag className="w-4 h-4 text-primary/80" />,
+                                    label: "Production Countries",
+                                    values: details.production_countries.map((c) => c.name).join(", "),
+                                },
+                                {
+                                    icon: <Building2 className="w-4 h-4 text-primary/80" />,
+                                    label: "Production Companies",
+                                    values: details.production_companies.map((c) => c.name).join(", "),
+                                },
+                            ]}
+                        />
                     </TabsContent>
                     <TabsContent value="credits" asChild>
                         {/* <CreditsTab media_type="movie" mediaId={details.id} /> */}
