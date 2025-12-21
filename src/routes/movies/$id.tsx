@@ -90,6 +90,7 @@ function RouteComponent() {
                                 altLabel: details.title,
                                 backdrop_path: details.backdrop_path,
                                 poster_path: details.poster_path,
+                                status: details.status,
                             }}
                             onClickWatch={() => {
                                 // () => toast.info("Coming soon! We're still cooking this feature!")
