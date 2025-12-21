@@ -160,12 +160,12 @@ export function RootHeroSection() {
                                             ) : (
                                                 <span
                                                     className={`font-semibold ${
-                                                        isReleased(media.release_date)
+                                                        isReleased(media.first_air_date)
                                                             ? "text-green-600"
                                                             : "text-destructive"
                                                     }`}
                                                 >
-                                                    {formatDate(media.last_air_date)}
+                                                    {formatDate(media.first_air_date)} {media.status}
                                                 </span>
                                             )}
                                             <span>{media.vote_average.toFixed(1)}/10</span>

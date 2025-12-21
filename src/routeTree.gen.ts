@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TestRouteImport } from './routes/test'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SearchIndexRouteImport } from './routes/search/index'
 import { Route as TvIdRouteImport } from './routes/tv/$id'
 import { Route as MoviesIdRouteImport } from './routes/movies/$id'
 
+const TestRoute = TestRouteImport.update({
+  id: '/test',
+  path: '/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +43,14 @@ const MoviesIdRoute = MoviesIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/test': typeof TestRoute
   '/movies/$id': typeof MoviesIdRoute
   '/tv/$id': typeof TvIdRoute
   '/search': typeof SearchIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/test': typeof TestRoute
   '/movies/$id': typeof MoviesIdRoute
   '/tv/$id': typeof TvIdRoute
   '/search': typeof SearchIndexRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/test': typeof TestRoute
   '/movies/$id': typeof MoviesIdRoute
   '/tv/$id': typeof TvIdRoute
   '/search/': typeof SearchIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/movies/$id' | '/tv/$id' | '/search'
+  fullPaths: '/' | '/test' | '/movies/$id' | '/tv/$id' | '/search'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/movies/$id' | '/tv/$id' | '/search'
-  id: '__root__' | '/' | '/movies/$id' | '/tv/$id' | '/search/'
+  to: '/' | '/test' | '/movies/$id' | '/tv/$id' | '/search'
+  id: '__root__' | '/' | '/test' | '/movies/$id' | '/tv/$id' | '/search/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  TestRoute: typeof TestRoute
   MoviesIdRoute: typeof MoviesIdRoute
   TvIdRoute: typeof TvIdRoute
   SearchIndexRoute: typeof SearchIndexRoute
@@ -71,6 +81,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/test': {
+      id: '/test'
+      path: '/test'
+      fullPath: '/test'
+      preLoaderRoute: typeof TestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  TestRoute: TestRoute,
   MoviesIdRoute: MoviesIdRoute,
   TvIdRoute: TvIdRoute,
   SearchIndexRoute: SearchIndexRoute,
