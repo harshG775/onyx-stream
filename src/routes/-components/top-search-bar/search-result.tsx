@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { tmdb } from "@/lib/services/tmdb"
+import { Placehold } from "@/lib/placehold"
+import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
 import { useQuery } from "@tanstack/react-query"
 import { Link } from "@tanstack/react-router"
 import { useState } from "react"
@@ -9,16 +10,28 @@ function ResultList({ items }: { items: any[] }) {
     if (items.length === 0) {
         return <p className="p-4 text-sm text-muted-foreground">No results found</p>
     }
-
+    const placeholder = Placehold.create({ width: 300, height: 450, font: "playfair-display", format: "webp" })
     return (
         <ul className="grid gap-2 p-2">
             {items.map((item) => (
-                <li
-                    key={`${item.media_type}-${item.id}`}
-                    className="rounded-md border bg-background p-3 hover:bg-accent transition"
-                >
-                    <p className="font-medium">{item.title || item.name}</p>
-                    <p className="text-xs text-muted-foreground capitalize">{item.media_type}</p>
+                <li key={`${item.media_type}-${item.id}`}>
+                    <Link
+                        to={`/${item.media_type === "movie" ? "movies" : "tv"}/$id`}
+                        params={{
+                            id: item.id,
+                        }}
+                        className="rounded-md border bg-background p-3 hover:bg-accent transition flex gap-2"
+                    >
+                        <img
+                            src={getTMDBImageUrl(item.poster_path) || placeholder(item.title || item.name)}
+                            alt={`${item.media_type}-${item.id}`}
+                            className="size-16 object-cover rounded"
+                        />
+                        <div>
+                            <p className="font-medium">{item.title || item.name}</p>
+                            <p className="text-xs text-muted-foreground capitalize">{item.media_type}</p>
+                        </div>
+                    </Link>
                 </li>
             ))}
         </ul>
