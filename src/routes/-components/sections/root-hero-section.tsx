@@ -194,8 +194,8 @@ export function RootHeroSection() {
                                         {/* CTA Button */}
                                         <Button asChild className="mt-2">
                                             <Link
-                                                to={`/${media.media_type === "movie" ? "movies" : "tv-shows"}/$id`}
-                                                params={{ id: media.id }}
+                                                to={`/${media.media_type === "movie" ? "movies" : "tv"}/$id`}
+                                                params={{ id: media.id.toString() }}
                                             >
                                                 {isReleased(media.release_date) ? (
                                                     <>

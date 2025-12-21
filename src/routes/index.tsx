@@ -23,7 +23,7 @@ function RootPage() {
         queryFn: () => tmdb.getTrendingMovies("day", 1),
     })
 
-    const mediaPath: "movies" | "tv-shows" = "movies"
+    const mediaPath: "movies" | "tv" = "movies"
     return (
         <main>
             <RootHeroSection />
@@ -52,9 +52,7 @@ function RootPage() {
                                 return (
                                     <Link
                                         to={`/${mediaPath}/$id`}
-                                        params={{
-                                            id: media.id.toString(),
-                                        }}
+                                        params={{id: media.id.toString(),}}
                                         key={`${idx}-${media.id}`}
                                         className="shrink-0 max-w-44 group"
                                     >
