@@ -12,6 +12,7 @@ import { DetailsHeader } from "@/components/details/details-header"
 import { OverviewTab } from "@/components/details/details-tabs/overview-tab"
 import { formatDate, formatRuntime } from "@/lib/utils"
 import { Building2, Calendar, Flag, Globe, Tag, Tv } from "lucide-react"
+import { CreditsTab } from "@/components/details/details-tabs/credits-tab"
 
 export const Route = createFileRoute("/tv/$id")({
     ssr: false,
@@ -70,7 +71,7 @@ export const Route = createFileRoute("/tv/$id")({
     },
     component: RouteComponent,
 })
-function MetaRowSkeleton() {
+export function MetaRowSkeleton() {
     return (
         <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
@@ -81,7 +82,7 @@ function MetaRowSkeleton() {
         </div>
     )
 }
-function DetailsSkeleton() {
+export function DetailsSkeleton() {
     return (
         <main className="flex flex-col gap-4 lg:flex-row px-3 sm:px-4 lg:px-6 py-3 sm:py-4 lg:py-6">
             {/* Left section */}
@@ -232,7 +233,7 @@ function RouteComponent() {
                         />
                     </TabsContent>
                     <TabsContent value="credits" asChild>
-                        {/* <CreditsTab media_type="movie" mediaId={details.id} /> */}
+                        <CreditsTab media_type="tv" mediaId={details.id} />
                     </TabsContent>
                 </section>
             </Tabs>
