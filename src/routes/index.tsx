@@ -34,7 +34,7 @@ function RootPage() {
                 data={data?.results || []}
                 isLoading={isLoading}
                 isError={isError}
-                skeletonCount={12}
+                emptyItemCount={12}
                 itemClassName="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6"
                 keyExtractor={(item) => item.id.toString()}
                 renderSkeleton={() => (

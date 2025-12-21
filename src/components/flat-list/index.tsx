@@ -11,14 +11,14 @@ type FlatListProps<T> = {
     renderItem: (item: T, idx: number) => React.ReactNode
     keyExtractor?: (item: T, index: number) => string
 
+    emptyItemCount?: number
+
     /** loading */
     isLoading?: boolean
-    skeletonCount?: number
     renderSkeleton?: (idx: number) => React.ReactNode
 
     /** error */
     isError?: boolean
-    errorCount?: string
     renderError?: (idx: number) => React.ReactNode
 
     /** slots */
@@ -48,13 +48,12 @@ export function FlatList<T>({
     contentClassName,
     headerClassName,
     isLoading,
-    skeletonCount,
+    emptyItemCount,
     renderSkeleton,
     isError,
-    errorCount,
     renderError,
 }: FlatListProps<T>) {
-    const items = isLoading ? Array.from({ length: skeletonCount ?? 10 }) : data
+    const items = isLoading || isError ? Array.from({ length: emptyItemCount ?? 10 }) : data
     const hasError = isError && !isLoading
     return (
         <section>
