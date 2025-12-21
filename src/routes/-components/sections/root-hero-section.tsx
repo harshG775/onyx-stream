@@ -5,7 +5,7 @@ import { Carousel, CarouselContent, CarouselItem, useCarouselDots } from "@/comp
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Button } from "@/components/ui/button"
-import { AlertCircle, Info, PlayIcon } from "lucide-react"
+import { AlertCircle, Bookmark, Info, PlayIcon } from "lucide-react"
 import { Link } from "@tanstack/react-router"
 import { cn } from "@/lib/utils"
 import { genreArray } from "@/lib/services/tmdb/genres"
@@ -40,10 +40,8 @@ function CarouselDots({ className }: { className?: string }) {
                     aria-current={index === selectedIndex}
                     onClick={() => scrollTo(index)}
                     className={cn(
-                        "rounded transition",
-                        index === selectedIndex
-                            ? "bg-primary h-3 w-3 "
-                            : "bg-muted-foreground/40 hover:bg-primary/80 h-2.5 w-2.5",
+                        "h-2.5 w-2.5 rounded-full transition-all duration-700",
+                        index === selectedIndex ? "bg-primary scale-150" : "bg-muted-foreground/40 hover:bg-primary/80",
                     )}
                 />
             ))}
@@ -136,10 +134,15 @@ export function RootHeroSection() {
                         stopOnMouseEnter: false,
                     }),
                 ]}
-                className="space-y-4"
             >
                 <CarouselContent className="p-2">
                     {data?.results.map((media, idx) => {
+                        //  const canWatch =
+                        //      media?.status === "Released" ||
+                        //      media?.status === "Returning Series" ||
+                        //      media?.status === "Ended" ||
+                        //      media?.status === "Canceled"
+
                         return (
                             <CarouselItem key={idx}>
                                 <div className="relative grid lg:grid-cols-2 lg:items-center overflow-hidden">
@@ -192,24 +195,30 @@ export function RootHeroSection() {
                                         <p className="text-sm text-muted-foreground line-clamp-3">{media.overview}</p>
 
                                         {/* CTA Button */}
-                                        <Button asChild className="mt-2">
-                                            <Link
-                                                to={`/${media.media_type === "movie" ? "movies" : "tv"}/$id`}
-                                                params={{ id: media.id.toString() }}
-                                            >
-                                                {isReleased(media.release_date) ? (
-                                                    <>
-                                                        <PlayIcon className="h-4 w-4" />
-                                                        Watch Now
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <Info className="h-4 w-4" />
-                                                        Info
-                                                    </>
-                                                )}
-                                            </Link>
-                                        </Button>
+                                        <div className="mt-2 flex gap-2">
+                                            <Button asChild>
+                                                <Link
+                                                    to={`/${media.media_type === "movie" ? "movies" : "tv"}/$id`}
+                                                    params={{ id: media.id.toString() }}
+                                                >
+                                                    {isReleased(media.release_date) ? (
+                                                        <>
+                                                            <PlayIcon className="h-4 w-4" />
+                                                            Watch
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <Info className="h-4 w-4" />
+                                                            Info
+                                                        </>
+                                                    )}
+                                                </Link>
+                                            </Button>
+                                            <Button variant="ghost" title="Add to list">
+                                                <Bookmark />
+                                                <span>Add to list</span>
+                                            </Button>
+                                        </div>
                                     </div>
                                     <img
                                         src={getTMDBImageUrl(media.backdrop_path, "w1280") || ""}
@@ -222,7 +231,7 @@ export function RootHeroSection() {
                     })}
                 </CarouselContent>
                 {/*  */}
-                <CarouselDots />
+                <CarouselDots className="absolute bottom-0 left-0 w-full" />
             </Carousel>
         </section>
     )
