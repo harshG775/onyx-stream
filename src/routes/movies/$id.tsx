@@ -117,10 +117,10 @@ function RouteComponent() {
             <Tabs defaultValue="overview" asChild>
                 <section className="space-y-2 flex flex-col">
                     <TabsList>
-                        <TabsTrigger value="overview" className="text-lg font-bold">
+                        <TabsTrigger value="overview" className="sm:text-lg font-bold">
                             Overview
                         </TabsTrigger>
-                        <TabsTrigger value="credits" className="text-lg font-bold">
+                        <TabsTrigger value="credits" className="sm:text-lg font-bold">
                             Credits
                         </TabsTrigger>
                     </TabsList>
