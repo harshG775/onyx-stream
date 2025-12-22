@@ -12,6 +12,7 @@ import { PagesTopLoader } from "@/components/PagesTopLoader"
 import { TopNavbar } from "./-components/top-navbar"
 import { ThemeProvider } from "@/components/contexts/theme-provider"
 import { getThemeServerFn } from "@/lib/server-fn/theme"
+import { TabBar } from "./-components/tab-navigation/tab-bar"
 interface MyRouterContext {
     queryClient: QueryClient
 }
@@ -84,9 +85,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             <head>
                 <HeadContent />
             </head>
-            <body>
+            <body className="relative">
                 <PagesTopLoader />
                 <TopNavbar />
+                <TabBar />
                 <ThemeProvider theme={theme}>{children}</ThemeProvider>
                 <Toaster richColors={true} />
                 <TanStackDevtools
