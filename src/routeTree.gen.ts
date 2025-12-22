@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TestRouteImport } from './routes/test'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as SearchIndexRouteImport } from './routes/search/index'
 import { Route as TvIdRouteImport } from './routes/tv/$id'
 import { Route as MoviesIdRouteImport } from './routes/movies/$id'
@@ -23,6 +24,11 @@ const TestRoute = TestRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsIndexRoute = SettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SearchIndexRoute = SearchIndexRouteImport.update({
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/movies/$id': typeof MoviesIdRoute
   '/tv/$id': typeof TvIdRoute
   '/search': typeof SearchIndexRoute
+  '/settings': typeof SettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/movies/$id': typeof MoviesIdRoute
   '/tv/$id': typeof TvIdRoute
   '/search': typeof SearchIndexRoute
+  '/settings': typeof SettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +70,21 @@ export interface FileRoutesById {
   '/movies/$id': typeof MoviesIdRoute
   '/tv/$id': typeof TvIdRoute
   '/search/': typeof SearchIndexRoute
+  '/settings/': typeof SettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/test' | '/movies/$id' | '/tv/$id' | '/search'
+  fullPaths: '/' | '/test' | '/movies/$id' | '/tv/$id' | '/search' | '/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/test' | '/movies/$id' | '/tv/$id' | '/search'
-  id: '__root__' | '/' | '/test' | '/movies/$id' | '/tv/$id' | '/search/'
+  to: '/' | '/test' | '/movies/$id' | '/tv/$id' | '/search' | '/settings'
+  id:
+    | '__root__'
+    | '/'
+    | '/test'
+    | '/movies/$id'
+    | '/tv/$id'
+    | '/search/'
+    | '/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +93,7 @@ export interface RootRouteChildren {
   MoviesIdRoute: typeof MoviesIdRoute
   TvIdRoute: typeof TvIdRoute
   SearchIndexRoute: typeof SearchIndexRoute
+  SettingsIndexRoute: typeof SettingsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -93,6 +110,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/': {
+      id: '/settings/'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/search/': {
@@ -125,6 +149,7 @@ const rootRouteChildren: RootRouteChildren = {
   MoviesIdRoute: MoviesIdRoute,
   TvIdRoute: TvIdRoute,
   SearchIndexRoute: SearchIndexRoute,
+  SettingsIndexRoute: SettingsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -10,13 +10,16 @@ import type { QueryClient } from "@tanstack/react-query"
 import { Toaster } from "@/components/ui/sonner"
 import { PagesTopLoader } from "@/components/PagesTopLoader"
 import { TopNavbar } from "./-components/top-navbar"
+import { ThemeProvider } from "@/components/contexts/theme-provider"
+import { getThemeServerFn } from "@/lib/server-fn/theme"
 interface MyRouterContext {
     queryClient: QueryClient
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
     loader: async ({ location }) => {
-        return { host: location.url.origin }
+        const theme = await getThemeServerFn()
+        return { host: location.url.origin, theme }
     },
     head: async ({ loaderData }) => {
         const title = "OnyxStream – Watch Movies & TV Shows Online"
@@ -74,15 +77,17 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+    const { theme } = Route.useLoaderData()
+
     return (
-        <html lang="en">
+        <html lang="en" className={theme} suppressHydrationWarning>
             <head>
                 <HeadContent />
             </head>
             <body>
                 <PagesTopLoader />
                 <TopNavbar />
-                {children}
+                <ThemeProvider theme={theme}>{children}</ThemeProvider>
                 <Toaster richColors={true} />
                 <TanStackDevtools
                     config={{
