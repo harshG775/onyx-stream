@@ -30,7 +30,6 @@ export function DetailsHero({ details, onClickWatch }: DetailsHeroProps) {
             <div className="absolute bottom-0 left-0 right-0 w-full flex justify-start">
                 <div className="z-10 flex items-end relative">
                     <div className="-z-10 absolute bottom-[calc(100%-16px)] -left-[16px] border-b-16 border-l-16 border-background rounded-bl-4xl size-12"></div>
-                    <div className="-z-10 absolute -bottom-[16px] left-[calc(100%-16px)] border-b-16 border-l-16 border-background rounded-bl-4xl size-12"></div>
                     <div className="bg-background pl-0 p-3 rounded-tl-none rounded-t-2xl">
                         <img
                             src={getTMDBImageUrl(poster_path, "w780") || undefined}
@@ -40,6 +39,7 @@ export function DetailsHero({ details, onClickWatch }: DetailsHeroProps) {
                     </div>
                     <div className="relative bg-background pl-0 p-3 rounded-tl-none rounded-t-2xl">
                         <div className="-z-10 absolute bottom-[calc(100%-16px)] -left-[16px] border-b-16 border-l-16 border-background rounded-bl-4xl size-12"></div>
+                        <div className="-z-10 absolute -bottom-[16px] left-[calc(100%-16px)] border-b-16 border-l-16 border-background rounded-bl-4xl size-12"></div>
                         <Button
                             size={"lg"}
                             title={canWatch ? "Watch" : "media not available"}

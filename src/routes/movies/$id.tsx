@@ -115,7 +115,7 @@ function RouteComponent() {
                 </div>
             </section>
             <Tabs defaultValue="overview" asChild>
-                <section className="px-4 sm:px-0 space-y-2 flex flex-col">
+                <section className="space-y-2 flex flex-col">
                     <TabsList>
                         <TabsTrigger value="overview" className="text-lg font-bold">
                             Overview
@@ -163,7 +163,7 @@ function RouteComponent() {
                 </section>
             </Tabs>
 
-            <section className="xl:col-span-2 px-4 sm:px-0 space-y-2 flex flex-col">
+            <section className="xl:col-span-2 space-y-2 flex flex-col">
                 <div>
                     <p className="text-lg font-bold">Comments</p>
                 </div>
