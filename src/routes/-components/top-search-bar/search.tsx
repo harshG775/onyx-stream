@@ -29,9 +29,11 @@ export function TopSearchBar() {
             </SheetTrigger>
 
             <SheetContent side="top" className="data-[state=closed]:duration-200 data-[state=open]:duration-400">
-                <SearchHeader />
-                <SearchInput query={query} onQueryChange={setQuery} resetSearch={resetSearch} />
-                <SearchResult query={debounceQuery} resetSearch={resetSearch} />
+                <div className="w-full max-w-8xl mx-auto ">
+                    <SearchHeader />
+                    <SearchInput query={query} onQueryChange={setQuery} resetSearch={resetSearch} />
+                    <SearchResult query={debounceQuery} resetSearch={resetSearch} />
+                </div>
             </SheetContent>
         </Sheet>
     )

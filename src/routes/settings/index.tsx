@@ -11,7 +11,7 @@ function RouteComponent() {
 
     return (
         <div className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 ">
-            <main className="p-4 max-w-[96rem] mx-auto bg-card shadow border rounded-md">
+            <main className="p-4 max-w-8xl mx-auto bg-card shadow border rounded-md">
                 <h1 className="font-semibold text-xl">Settings</h1>
                 <section className="mt-2">
                     <div>
