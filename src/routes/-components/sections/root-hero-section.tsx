@@ -231,7 +231,7 @@ export function RootHeroSection() {
                     })}
                 </CarouselContent>
                 {/*  */}
-                <CarouselDots className="absolute bottom-0 left-0 w-full" />
+                <CarouselDots className="absolute -bottom-3 left-0 w-full"  />
             </Carousel>
         </section>
     )
