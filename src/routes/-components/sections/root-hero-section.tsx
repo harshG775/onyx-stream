@@ -154,7 +154,7 @@ export function RootHeroSection() {
                                                 <span
                                                     className={`font-semibold ${
                                                         isReleased(media.release_date)
-                                                            ? "text-green-600"
+                                                            ? "text-green-800"
                                                             : "text-destructive"
                                                     }`}
                                                 >
@@ -164,7 +164,7 @@ export function RootHeroSection() {
                                                 <span
                                                     className={`font-semibold ${
                                                         isReleased(media.first_air_date)
-                                                            ? "text-green-600"
+                                                            ? "text-green-800"
                                                             : "text-destructive"
                                                     }`}
                                                 >
