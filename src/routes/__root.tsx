@@ -27,7 +27,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         const description =
             "Stream the latest movies and TV shows on OnyxStream. Discover trending, popular, and top-rated content in one place."
 
-        const image = `${loaderData?.host}/logo-icon.svg`
+        const image = `${loaderData?.host}/logo.png`
 
         const url = `${loaderData?.host}`
 
