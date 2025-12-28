@@ -10,6 +10,7 @@ export const getRouter = () => {
     const rqContext = TanstackQuery.getContext()
 
     const router = createRouter({
+        scrollRestoration: true,
         routeTree,
         context: { ...rqContext },
         defaultPreload: "intent",
