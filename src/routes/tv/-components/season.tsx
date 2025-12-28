@@ -1,8 +1,8 @@
 import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
-import { formatRuntime } from "@/lib/utils"
+import { cn, formatRuntime } from "@/lib/utils"
 import { Season, TvSeasonDetails } from "@/types/tmdb.types"
 import { useQuery } from "@tanstack/react-query"
-import { useState } from "react"
+import { useNavigate, useSearch } from "@tanstack/react-router"
 type SeasonProps = {
     media_type: "tv" | "movie"
     mediaId: number
@@ -10,9 +10,11 @@ type SeasonProps = {
 }
 function Episodes({
     episodes,
+    selectedEpisode,
     onEpisodeSelect,
 }: {
     episodes: TvSeasonDetails["episodes"]
+    selectedEpisode: number | undefined
     onEpisodeSelect: (ep: number) => void
 }) {
     return (
@@ -21,7 +23,12 @@ function Episodes({
                 episodes.map((ep) => (
                     <div
                         key={ep.id}
-                        className="p-2 flex gap-2 hover:bg-muted/80 active:bg-muted"
+                        className={cn(
+                            "p-2 flex gap-2 ",
+                            selectedEpisode === ep.episode_number
+                                ? "bg-primary text-primary-foreground"
+                                : "hover:bg-muted/80 active:bg-muted",
+                        )}
                         onClick={() => onEpisodeSelect(ep.episode_number)}
                     >
                         <img
@@ -44,23 +51,35 @@ function Episodes({
 }
 
 export function SeasonTab({ mediaId, seasons }: SeasonProps) {
-    const [selectedEpisode, setSelectedEpisode] = useState(1)
-    const [selectedSeason, setSelectedSeason] = useState(1)
+    const queryParams = useSearch({ from: "/tv/$id" })
+    const navigate = useNavigate({ from: "/tv/$id" })
+    const selectedSeason = queryParams.season || 1
+    const selectedEpisode = queryParams.episode
 
     const { data } = useQuery({
         queryKey: ["season", selectedSeason],
         queryFn: () => tmdb.getTVSeason(mediaId, selectedSeason),
     })
     const onSeasonSelect = (season: number) => {
-        setSelectedSeason(season)
-        handlSelect(1)
+        navigate({
+            search: (prev) => ({
+                ...prev,
+                season,
+            }),
+        })
     }
     const handlSelect = (episode: number) => {
-        setSelectedEpisode(episode)
+        navigate({
+            search: (prev) => ({
+                ...prev,
+                season: selectedSeason,
+                episode,
+            }),
+        })
     }
+
     return (
         <div className="h-full space-y-4 p-4 border rounded-2xl shadow">
-            {selectedSeason}:{selectedEpisode}
             <div className="space-y-2 xl:space-y-4">
                 <div className="flex justify-between">
                     <div className="text-xl font-semibold">Episodes</div>
@@ -70,7 +89,9 @@ export function SeasonTab({ mediaId, seasons }: SeasonProps) {
                         onChange={(e) => onSeasonSelect(Number(e.target.value))}
                     >
                         {seasons.map((season, idx) => (
-                            <option value={idx + 1}>{season.name}</option>
+                            <option key={idx + 1} value={idx + 1}>
+                                {season.name}
+                            </option>
                         ))}
                     </select>
                 </div>
@@ -79,7 +100,13 @@ export function SeasonTab({ mediaId, seasons }: SeasonProps) {
                         Season:{" "}
                         <em className="truncate font-normal text-muted-foreground">{data?.name || selectedEpisode}</em>
                     </div>
-                    {data?.episodes && <Episodes episodes={data?.episodes} onEpisodeSelect={handlSelect} />}
+                    {data?.episodes && (
+                        <Episodes
+                            episodes={data?.episodes}
+                            selectedEpisode={selectedEpisode}
+                            onEpisodeSelect={handlSelect}
+                        />
+                    )}
                 </div>
             </div>
         </div>

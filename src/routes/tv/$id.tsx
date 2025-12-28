@@ -14,9 +14,14 @@ import { formatDate, formatRuntime } from "@/lib/utils"
 import { Building2, Calendar, Flag, Globe, Tag, Tv } from "lucide-react"
 import { CreditsTab } from "@/components/details/details-tabs/credits-tab"
 import { SeasonTab } from "./-components/season"
+import z from "zod"
 
 export const Route = createFileRoute("/tv/$id")({
     ssr: false,
+    validateSearch: z.object({
+        season: z.number().optional(),
+        episode: z.number().optional(),
+    }),
     pendingComponent: DetailsSkeleton,
     errorComponent: ({ error }) => {
         return <div>Error:{error.message}</div>
