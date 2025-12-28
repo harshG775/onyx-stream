@@ -64,6 +64,7 @@ export function SeasonTab({ mediaId, seasons }: SeasonProps) {
         navigate({
             search: (prev) => ({
                 ...prev,
+                episode: 1,
                 season,
             }),
         })
@@ -74,6 +75,7 @@ export function SeasonTab({ mediaId, seasons }: SeasonProps) {
                 ...prev,
                 season: selectedSeason,
                 episode,
+                play: true,
             }),
         })
     }

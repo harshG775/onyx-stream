@@ -15,10 +15,13 @@ import { Building2, Calendar, Flag, Globe, Tag, Tv } from "lucide-react"
 import { CreditsTab } from "@/components/details/details-tabs/credits-tab"
 import { SeasonTab } from "./-components/season"
 import z from "zod"
+import { Player } from "./-components/player"
 
 export const Route = createFileRoute("/tv/$id")({
     ssr: false,
     validateSearch: z.object({
+        currentTab: z.string().default("overview"),
+        play: z.boolean().default(false),
         season: z.number().optional(),
         episode: z.number().optional(),
     }),
@@ -136,18 +139,41 @@ export function DetailsSkeleton() {
     )
 }
 function RouteComponent() {
-    const [isPlaying, setIsPlaying] = useState(false)
-    const loaderData: { details: TVShowDetails; host: string } = Route.useLoaderData()
+    const loaderData = Route.useLoaderData()
+    const queryParams = Route.useSearch()
+    const navigate = Route.useNavigate()
     const details = loaderData.details
+    const currentTabValue = queryParams.currentTab
+    const isPlaying = queryParams.play
+    //
+    const season = queryParams.season
+    const episode = queryParams.episode
+
+    //
+    const onTabChange = (currentTab: string) => {
+        navigate({
+            search: (prev) => ({
+                ...prev,
+                currentTab,
+            }),
+        })
+    }
+    const onClickWatch = () => {
+        navigate({
+            search: (prev) => ({
+                ...prev,
+                play: true,
+                season: 1,
+                episode: 1,
+            }),
+        })
+    }
     return (
         <main className="max-w-384 mx-auto gap-4 grid xl:grid-cols-[2fr_1fr] px-3 sm:px-4 py-3 sm:py-4 mb-4">
             <section className="space-y-2">
                 <div className="w-full">
                     {isPlaying ? (
-                        <iframe
-                            src={`https://vidsrc.to/embed/tv/${details.id}`}
-                            className="w-full h-full aspect-video rounded-2xl bg-muted-foreground/80"
-                        />
+                        <Player mediaId={details.id} season={season} episode={episode} />
                     ) : (
                         <DetailsHero
                             details={{
@@ -156,10 +182,7 @@ function RouteComponent() {
                                 poster_path: details.poster_path,
                                 status: details.status,
                             }}
-                            onClickWatch={() => {
-                                // () => toast.info("Coming soon! We're still cooking this feature!")
-                                setIsPlaying(true)
-                            }}
+                            onClickWatch={onClickWatch}
                         />
                     )}
                     <DetailsHeader
@@ -178,7 +201,7 @@ function RouteComponent() {
                     />
                 </div>
             </section>
-            <Tabs defaultValue="overview" asChild>
+            <Tabs value={currentTabValue} onValueChange={onTabChange} asChild>
                 <section className="space-y-2 flex flex-col">
                     <TabsList>
                         <TabsTrigger value="season" className="sm:text-lg font-bold">
