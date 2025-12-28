@@ -13,6 +13,7 @@ import { OverviewTab } from "@/components/details/details-tabs/overview-tab"
 import { formatDate, formatRuntime } from "@/lib/utils"
 import { Building2, Calendar, Flag, Globe, Tag, Tv } from "lucide-react"
 import { CreditsTab } from "@/components/details/details-tabs/credits-tab"
+import { SeasonTab } from "./-components/season"
 
 export const Route = createFileRoute("/tv/$id")({
     ssr: false,
@@ -133,9 +134,8 @@ function RouteComponent() {
     const [isPlaying, setIsPlaying] = useState(false)
     const loaderData: { details: TVShowDetails; host: string } = Route.useLoaderData()
     const details = loaderData.details
-
     return (
-        <main className="max-w-384 mx-auto gap-4 grid lg:grid-cols-[2fr_1fr] px-3 sm:px-4 py-3 sm:py-4 mb-4">
+        <main className="max-w-384 mx-auto gap-4 grid xl:grid-cols-[2fr_1fr] px-3 sm:px-4 py-3 sm:py-4 mb-4">
             <section className="space-y-2">
                 <div className="w-full">
                     {isPlaying ? (
@@ -174,8 +174,11 @@ function RouteComponent() {
                 </div>
             </section>
             <Tabs defaultValue="overview" asChild>
-                <section className="px-4 sm:px-0 space-y-2 flex flex-col">
+                <section className="space-y-2 flex flex-col">
                     <TabsList>
+                        <TabsTrigger value="season" className="sm:text-lg font-bold">
+                            Season
+                        </TabsTrigger>
                         <TabsTrigger value="overview" className="sm:text-lg font-bold">
                             Overview
                         </TabsTrigger>
@@ -183,6 +186,9 @@ function RouteComponent() {
                             Credits
                         </TabsTrigger>
                     </TabsList>
+                    <TabsContent value="season" asChild>
+                        <SeasonTab media_type="tv" mediaId={details.id} seasons={details.seasons} />
+                    </TabsContent>
                     <TabsContent value="overview" asChild>
                         <OverviewTab
                             tagline={details?.tagline || ""}
@@ -239,7 +245,7 @@ function RouteComponent() {
                 </section>
             </Tabs>
 
-            <section className="xl:col-span-2 px-4 sm:px-0 space-y-2 flex flex-col">
+            <section className="space-y-2 flex flex-col">
                 <div>
                     <p className="text-lg font-bold">Comments</p>
                 </div>

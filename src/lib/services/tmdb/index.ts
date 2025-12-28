@@ -9,6 +9,7 @@ import type {
     MoviesResponse,
     PaginatedResponse,
     SearchMultiResponse,
+    TvSeasonDetails,
     TVShowDetails,
     TVShowsResponse,
     VideosResponse,
@@ -86,6 +87,9 @@ export class TMDBClient {
     }
     getTVImages(id: number) {
         return this.request<VideosResponse>(`/tv/${id}/images`)
+    }
+    getTVSeason(id: number, season: number) {
+        return this.request<TvSeasonDetails>(`/tv/${id}/season/${season}`)
     }
     /* ===================== Search ===================== */
 

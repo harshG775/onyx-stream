@@ -250,3 +250,66 @@ export interface Video {
 export interface VideosResponse {
     results: Array<Video>
 }
+
+
+
+
+/* =====================
+   Season
+===================== */
+type PersonBase = {
+    id: number
+    name: string
+    original_name: string
+    adult: boolean
+    gender: number
+    known_for_department: string
+    popularity: number
+    profile_path: string | null
+}
+export type CrewMember = PersonBase & {
+    job: string
+    department: string
+    credit_id: string
+}
+export type GuestStar = PersonBase & {
+    character: string
+    credit_id: string
+    order: number
+}
+export type Network = {
+    id: number
+    name: string
+    logo_path: string | null
+    origin_country: string
+}
+
+export type Episode = {
+    id: number
+    name: string
+    overview: string
+    air_date: string | null
+    episode_number: number
+    episode_type: "standard" | string
+    production_code: string
+    runtime: number | null
+    season_number: number
+    show_id: number
+    still_path: string | null
+    vote_average: number
+    vote_count: number
+    crew: CrewMember[]
+    guest_stars: GuestStar[]
+}
+export type TvSeasonDetails = {
+    _id: string
+    id: number
+    name: string
+    overview: string
+    air_date: string | null
+    poster_path: string | null
+    season_number: number
+    vote_average: number
+    episodes: Episode[]
+    networks: Network[]
+}
