@@ -1,12 +1,12 @@
 export type GenreType = {
-    movie: {
+    movie: Array<{
         id: number
         name: string
-    }[]
-    tv: {
+    }>
+    tv: Array<{
         id: number
         name: string
-    }[]
+    }>
 }
 export const genresMap: GenreType = {
     movie: [

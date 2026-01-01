@@ -1,6 +1,6 @@
 import { useRouterState } from "@tanstack/react-router"
-import { Progress } from "@/components/ui/progress"
 import { useEffect, useRef, useState } from "react"
+import { Progress } from "@/components/ui/progress"
 
 export function PagesTopLoader() {
     const { isLoading } = useRouterState()

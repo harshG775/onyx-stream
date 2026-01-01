@@ -1,16 +1,16 @@
-import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
-import { formatDate, sharePage } from "@/lib/utils"
-import { MovieDetails } from "@/types/tmdb.types"
 import { createFileRoute, notFound } from "@tanstack/react-router"
 import { useState } from "react"
 import { toast } from "sonner"
+import { Building2, Calendar, Flag, Globe, Tag } from "lucide-react"
 import CommentsSection from "../../components/details/comments/comments-section"
+import { DetailsSkeleton } from "../tv/$id"
+import type { MovieDetails } from "@/types/tmdb.types"
+import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
+import { formatDate, sharePage } from "@/lib/utils"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { DetailsHero } from "@/components/details/details-hero"
 import { DetailsHeader } from "@/components/details/details-header"
-import { DetailsSkeleton } from "../tv/$id"
 import { OverviewTab } from "@/components/details/details-tabs/overview-tab"
-import { Building2, Calendar, Flag, Globe, Tag } from "lucide-react"
 import { CreditsTab } from "@/components/details/details-tabs/credits-tab"
 
 export const Route = createFileRoute("/movies/$id")({
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/movies/$id")({
         return { details, host: location.url.origin }
     },
 
-    head: async ({ loaderData }) => {
+    head: ({ loaderData }) => {
         const details = loaderData?.details
         if (!details) return {}
 

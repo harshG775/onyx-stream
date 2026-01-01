@@ -1,6 +1,6 @@
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Bookmark, Share2, Youtube } from "lucide-react"
 import { Button } from "../ui/button"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 
 type DetailsHeaderProps = { title: string; onTrailer: () => void; onAddToWatchList: () => void; onShare: () => void }
 export function DetailsHeader({ title, onTrailer, onShare }: DetailsHeaderProps) {

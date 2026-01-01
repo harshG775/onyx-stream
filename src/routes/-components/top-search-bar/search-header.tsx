@@ -8,7 +8,7 @@ export function SearchHeader() {
             <SheetDescription className="sr-only">
                 Search movies, shows, and content across Onyx Stream
             </SheetDescription>
-            <Logo/>
+            <Logo />
         </SheetHeader>
     )
 }

@@ -1,4 +1,5 @@
 import { create } from "zustand"
+
 type State = {
     isSearchBarOpen: boolean
 }

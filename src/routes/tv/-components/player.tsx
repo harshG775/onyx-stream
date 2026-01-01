@@ -23,7 +23,6 @@
 //     },
 // ]
 
-
 export function Player({ mediaId, season = 1, episode = 1 }: { mediaId: number; season?: number; episode?: number }) {
     return (
         <div className="w-full h-full">

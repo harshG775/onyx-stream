@@ -1,6 +1,6 @@
+import { PlayCircle } from "lucide-react"
 import { getTMDBImageUrl } from "@/lib/services/tmdb"
 import { Button } from "@/components/ui/button"
-import { PlayCircle } from "lucide-react"
 
 type DetailsHeroProps = {
     details: {

@@ -6,13 +6,15 @@ import TanStackQueryDevtools from "../integrations/tanstack-query/devtools"
 
 import appCss from "../styles.css?url"
 
+import { TopNavbar } from "./-components/top-navbar"
+import { TabBar } from "./-components/tab-navigation/tab-bar"
 import type { QueryClient } from "@tanstack/react-query"
 import { Toaster } from "@/components/ui/sonner"
 import { PagesTopLoader } from "@/components/PagesTopLoader"
-import { TopNavbar } from "./-components/top-navbar"
 import { ThemeProvider } from "@/components/contexts/theme-provider"
 import { getThemeServerFn } from "@/lib/server-fn/theme"
-import { TabBar } from "./-components/tab-navigation/tab-bar"
+import { Footer } from "./-components/footer"
+
 interface MyRouterContext {
     queryClient: QueryClient
 }
@@ -22,7 +24,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         const theme = await getThemeServerFn()
         return { host: location.url.origin, theme }
     },
-    head: async ({ loaderData }) => {
+    head: ({ loaderData }) => {
         const title = "OnyxStream – Watch Movies & TV Shows Online"
         const description =
             "Stream the latest movies and TV shows on OnyxStream. Discover trending, popular, and top-rated content in one place."
@@ -90,6 +92,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 <TopNavbar />
                 <TabBar />
                 <ThemeProvider theme={theme}>{children}</ThemeProvider>
+                <Footer/>
                 <Toaster richColors={true} />
                 <TanStackDevtools
                     config={{
