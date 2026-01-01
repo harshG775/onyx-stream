@@ -13,6 +13,7 @@ import { Toaster } from "@/components/ui/sonner"
 import { PagesTopLoader } from "@/components/PagesTopLoader"
 import { ThemeProvider } from "@/components/contexts/theme-provider"
 import { getThemeServerFn } from "@/lib/server-fn/theme"
+import { Footer } from "./-components/footer"
 
 interface MyRouterContext {
     queryClient: QueryClient
@@ -91,6 +92,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 <TopNavbar />
                 <TabBar />
                 <ThemeProvider theme={theme}>{children}</ThemeProvider>
+                <Footer/>
                 <Toaster richColors={true} />
                 <TanStackDevtools
                     config={{
