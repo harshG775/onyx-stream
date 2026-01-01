@@ -1,3 +1,5 @@
+// Subtitles
+// https://sub.wyzie.ru/search?id=66732&season=1&episode=1
 // const mediaSources = [
 //     {
 //         id: "me",
@@ -15,7 +17,12 @@
 //         id: "2embed",
 //         url: "https://www.2embed.stream/embed/${mediaType}/${id}/${season}/${episode}",
 //     },
+//     {
+//         id: "vidfast",
+//         url: "https://vidfast.pro/tv/${mediaId}/${season}/${episode}?autoPlay=true",
+//     },
 // ]
+
 
 export function Player({ mediaId, season = 1, episode = 1 }: { mediaId: number; season?: number; episode?: number }) {
     return (
