@@ -49,7 +49,7 @@ function CarouselDots({ className }: { className?: string }) {
     )
 }
 
-export function RootHeroSection() {
+export function HomeHeroSection() {
     const { isLoading, isError, error, data } = useQuery({
         queryKey: ["trending", "multi"],
         queryFn: () => tmdb.getTrendingAll("day", 1),

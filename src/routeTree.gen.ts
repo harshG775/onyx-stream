@@ -15,6 +15,7 @@ import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as SearchIndexRouteImport } from './routes/search/index'
 import { Route as TvIdRouteImport } from './routes/tv/$id'
 import { Route as MoviesIdRouteImport } from './routes/movies/$id'
+import { Route as tabsHomeIndexRouteImport } from './routes/(tabs)/home/index'
 
 const TestRoute = TestRouteImport.update({
   id: '/test',
@@ -46,6 +47,11 @@ const MoviesIdRoute = MoviesIdRouteImport.update({
   path: '/movies/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const tabsHomeIndexRoute = tabsHomeIndexRouteImport.update({
+  id: '/(tabs)/home/',
+  path: '/home/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/tv/$id': typeof TvIdRoute
   '/search': typeof SearchIndexRoute
   '/settings': typeof SettingsIndexRoute
+  '/home': typeof tabsHomeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/tv/$id': typeof TvIdRoute
   '/search': typeof SearchIndexRoute
   '/settings': typeof SettingsIndexRoute
+  '/home': typeof tabsHomeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,12 +79,27 @@ export interface FileRoutesById {
   '/tv/$id': typeof TvIdRoute
   '/search/': typeof SearchIndexRoute
   '/settings/': typeof SettingsIndexRoute
+  '/(tabs)/home/': typeof tabsHomeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/test' | '/movies/$id' | '/tv/$id' | '/search' | '/settings'
+  fullPaths:
+    | '/'
+    | '/test'
+    | '/movies/$id'
+    | '/tv/$id'
+    | '/search'
+    | '/settings'
+    | '/home'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/test' | '/movies/$id' | '/tv/$id' | '/search' | '/settings'
+  to:
+    | '/'
+    | '/test'
+    | '/movies/$id'
+    | '/tv/$id'
+    | '/search'
+    | '/settings'
+    | '/home'
   id:
     | '__root__'
     | '/'
@@ -85,6 +108,7 @@ export interface FileRouteTypes {
     | '/tv/$id'
     | '/search/'
     | '/settings/'
+    | '/(tabs)/home/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -94,6 +118,7 @@ export interface RootRouteChildren {
   TvIdRoute: typeof TvIdRoute
   SearchIndexRoute: typeof SearchIndexRoute
   SettingsIndexRoute: typeof SettingsIndexRoute
+  tabsHomeIndexRoute: typeof tabsHomeIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -140,6 +165,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MoviesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(tabs)/home/': {
+      id: '/(tabs)/home/'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof tabsHomeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -150,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   TvIdRoute: TvIdRoute,
   SearchIndexRoute: SearchIndexRoute,
   SettingsIndexRoute: SettingsIndexRoute,
+  tabsHomeIndexRoute: tabsHomeIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
