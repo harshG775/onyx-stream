@@ -20,33 +20,32 @@ function Episodes({
 }) {
     return (
         <div className="overflow-auto max-h-116 flex flex-col divide-y">
-            {episodes &&
-                episodes.map((ep) => (
-                    <div
-                        key={ep.id}
-                        className={cn(
-                            "p-2 flex gap-2 ",
-                            selectedEpisode === ep.episode_number
-                                ? "bg-primary text-primary-foreground"
-                                : "hover:bg-muted/80 active:bg-muted",
-                        )}
-                        onClick={() => onEpisodeSelect(ep.episode_number)}
-                    >
-                        <img
-                            src={getTMDBImageUrl(ep.still_path, "w154") || undefined}
-                            alt="still_path"
-                            className="basis-38 object-cover aspect-video rounded-md"
-                        />
+            {episodes?.map((ep) => (
+                <div
+                    key={ep.id}
+                    className={cn(
+                        "p-2 flex gap-2 ",
+                        selectedEpisode === ep.episode_number
+                            ? "bg-primary text-primary-foreground"
+                            : "hover:bg-muted/80 active:bg-muted",
+                    )}
+                    onClick={() => onEpisodeSelect(ep.episode_number)}
+                >
+                    <img
+                        src={getTMDBImageUrl(ep.still_path, "w154") || undefined}
+                        alt="still_path"
+                        className="basis-38 object-cover aspect-video rounded-md"
+                    />
 
-                        <div className="flex-1 w-full space-y-1">
-                            <div className="flex justify-between">
-                                <div className="text-sm font-medium line-clamp-1">{ep.name}</div>
-                                <div className="text-sm font-bold shrink-0">{formatRuntime(Number(ep.runtime))}</div>
-                            </div>
-                            <p className="text-xs line-clamp-3">{ep.overview}</p>
+                    <div className="flex-1 w-full space-y-1">
+                        <div className="flex justify-between">
+                            <div className="text-sm font-medium line-clamp-1">{ep.name}</div>
+                            <div className="text-sm font-bold shrink-0">{formatRuntime(Number(ep.runtime))}</div>
                         </div>
+                        <p className="text-xs line-clamp-3">{ep.overview}</p>
                     </div>
-                ))}
+                </div>
+            ))}
         </div>
     )
 }

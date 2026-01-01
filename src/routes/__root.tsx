@@ -23,7 +23,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         const theme = await getThemeServerFn()
         return { host: location.url.origin, theme }
     },
-    head: async ({ loaderData }) => {
+    head: ({ loaderData }) => {
         const title = "OnyxStream – Watch Movies & TV Shows Online"
         const description =
             "Stream the latest movies and TV shows on OnyxStream. Discover trending, popular, and top-rated content in one place."

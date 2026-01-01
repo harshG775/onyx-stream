@@ -1,20 +1,11 @@
 import { Skeleton } from "@/components/ui/skeleton"
 
-type TvComment = {
-    media_type: "tv"
-    mediaId: number
-    session: number
-    episode: number
-}
-
-type MovieComment = {
-    media_type: "movie"
+type CommentsSectionType = {
+    media_type: "movie" | "tv"
     mediaId: number
     session?: number
     episode?: number
 }
-
-type CommentsSectionType = TvComment | MovieComment
 
 export default function CommentsSection({ media_type, mediaId, session, episode }: CommentsSectionType) {
     if (media_type === "tv") {

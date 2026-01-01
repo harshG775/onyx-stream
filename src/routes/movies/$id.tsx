@@ -29,7 +29,7 @@ export const Route = createFileRoute("/movies/$id")({
         return { details, host: location.url.origin }
     },
 
-    head: async ({ loaderData }) => {
+    head: ({ loaderData }) => {
         const details = loaderData?.details
         if (!details) return {}
 

@@ -117,7 +117,7 @@ export function HomeHeroSection() {
                 <Alert variant="destructive">
                     <AlertCircle />
                     <AlertTitle>Error</AlertTitle>
-                    <AlertDescription>{error?.message}</AlertDescription>
+                    <AlertDescription>{error.message}</AlertDescription>
                 </Alert>
             </section>
         )

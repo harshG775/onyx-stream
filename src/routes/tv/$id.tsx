@@ -1,15 +1,13 @@
 import { createFileRoute, notFound } from "@tanstack/react-router"
 import { toast } from "sonner"
-import { useState } from "react"
 import { Building2, Calendar, Flag, Globe, Tag, Tv } from "lucide-react"
 import z from "zod"
 import { SeasonTab } from "./-components/season"
 import { Player } from "./-components/player"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
-import { TVShowDetails } from "@/types/tmdb.types"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { formatDate, formatRuntime, sharePage  } from "@/lib/utils"
+import { formatDate, formatRuntime, sharePage } from "@/lib/utils"
 import CommentsSection from "@/components/details/comments/comments-section"
 import { DetailsHero } from "@/components/details/details-hero"
 import { DetailsHeader } from "@/components/details/details-header"
@@ -38,7 +36,7 @@ export const Route = createFileRoute("/tv/$id")({
         return { details, host: location.url.origin }
     },
 
-    head: async ({ loaderData }) => {
+    head: ({ loaderData }) => {
         const details = loaderData?.details
         if (!details) return {}
 
