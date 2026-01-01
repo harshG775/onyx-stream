@@ -50,6 +50,102 @@ function CarouselDots({ className }: { className?: string }) {
     )
 }
 
+type HeroCarouselItemProps = {
+    id: number
+    mediaType: "movie" | "tv"
+    title: string
+    overview: string
+    backdropPath: string | null
+    genreIds: number[]
+    voteAverage: number
+    releaseDate: string
+    status?: string
+    isReleased: (date: string) => boolean
+}
+
+function HeroCarouselItem({
+    id,
+    mediaType,
+    title,
+    overview,
+    backdropPath,
+    genreIds,
+    voteAverage,
+    releaseDate,
+    status,
+    isReleased,
+}: HeroCarouselItemProps) {
+    return (
+        <div className="relative grid lg:grid-cols-2 lg:items-center overflow-hidden">
+            {/* LEFT */}
+            <div className="lg:order-1 order-2 p-4 space-y-4">
+                {/* Metadata */}
+                <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                    <span className="capitalize">{mediaType}</span>
+
+                    <span
+                        className={cn("font-semibold", isReleased(releaseDate) ? "text-green-800" : "text-destructive")}
+                    >
+                        {formatDate(releaseDate)}
+                        {mediaType === "tv" && status ? ` ${status}` : null}
+                    </span>
+
+                    <span>{voteAverage.toFixed(1)}/10</span>
+                </div>
+
+                {/* Genres */}
+                <div className="flex flex-wrap gap-2">
+                    {genreIds.map((genre, i) => (
+                        <span
+                            key={`genre-${i}-${genre}`}
+                            className="text-xs bg-muted border border-border rounded-full px-3 py-1"
+                        >
+                            {genreArray?.[mediaType]?.[genre]}
+                        </span>
+                    ))}
+                </div>
+
+                {/* Title */}
+                <h1 className="text-2xl md:text-3xl font-semibold tracking-tight line-clamp-1">{title}</h1>
+
+                {/* Overview */}
+                <p className="text-sm text-muted-foreground line-clamp-3">{overview}</p>
+
+                {/* CTA */}
+                <div className="mt-2 flex gap-2">
+                    <Button asChild>
+                        <Link to={`/${mediaType === "movie" ? "movies" : "tv"}/$id`} params={{ id: id.toString() }}>
+                            {isReleased(releaseDate) ? (
+                                <>
+                                    <PlayIcon className="h-4 w-4" />
+                                    Watch
+                                </>
+                            ) : (
+                                <>
+                                    <Info className="h-4 w-4" />
+                                    Info
+                                </>
+                            )}
+                        </Link>
+                    </Button>
+
+                    <Button variant="ghost" title="Add to list">
+                        <Bookmark />
+                        <span>Add to list</span>
+                    </Button>
+                </div>
+            </div>
+
+            {/* RIGHT */}
+            <img
+                src={getTMDBImageUrl(backdropPath, "w1280") || ""}
+                alt={title}
+                className="rounded-3xl lg:order-2 order-1"
+            />
+        </div>
+    )
+}
+
 export function HomeHeroSection() {
     const { isLoading, isError, error, data } = useQuery({
         queryKey: ["trending", "multi"],
@@ -138,95 +234,22 @@ export function HomeHeroSection() {
             >
                 <CarouselContent className="p-2">
                     {data?.results.map((media, idx) => {
-                        //  const canWatch =
-                        //      media?.status === "Released" ||
-                        //      media?.status === "Returning Series" ||
-                        //      media?.status === "Ended" ||
-                        //      media?.status === "Canceled"
+                        const releaseDate = media.media_type === "movie" ? media.release_date : media.first_air_date
 
                         return (
                             <CarouselItem key={idx}>
-                                <div className="relative grid lg:grid-cols-2 lg:items-center overflow-hidden">
-                                    <div className="lg:order-1 order-2 p-4 space-y-4">
-                                        {/* Metadata Row */}
-                                        <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                                            <span className="capitalize">{media.media_type}</span>
-                                            {media.media_type === "movie" ? (
-                                                <span
-                                                    className={`font-semibold ${
-                                                        isReleased(media.release_date)
-                                                            ? "text-green-800"
-                                                            : "text-destructive"
-                                                    }`}
-                                                >
-                                                    {formatDate(media.release_date)}
-                                                </span>
-                                            ) : (
-                                                <span
-                                                    className={`font-semibold ${
-                                                        isReleased(media.first_air_date)
-                                                            ? "text-green-800"
-                                                            : "text-destructive"
-                                                    }`}
-                                                >
-                                                    {formatDate(media.first_air_date)} {media.status}
-                                                </span>
-                                            )}
-                                            <span>{media.vote_average.toFixed(1)}/10</span>
-                                        </div>
-
-                                        {/* Genres */}
-                                        <div className="flex flex-wrap gap-2">
-                                            {media.genre_ids.map((genre: number, i: number) => (
-                                                <span
-                                                    key={`genre-${i}-${genre}`}
-                                                    className="text-xs bg-muted border border-border rounded-full px-3 py-1"
-                                                >
-                                                    {genreArray?.[media.media_type as "movie" | "tv"]?.[genre]}
-                                                </span>
-                                            ))}
-                                        </div>
-
-                                        {/* Title */}
-                                        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight line-clamp-1">
-                                            {media.title}
-                                        </h1>
-
-                                        {/* Overview */}
-                                        <p className="text-sm text-muted-foreground line-clamp-3">{media.overview}</p>
-
-                                        {/* CTA Button */}
-                                        <div className="mt-2 flex gap-2">
-                                            <Button asChild>
-                                                <Link
-                                                    to={`/${media.media_type === "movie" ? "movies" : "tv"}/$id`}
-                                                    params={{ id: media.id.toString() }}
-                                                >
-                                                    {isReleased(media.release_date) ? (
-                                                        <>
-                                                            <PlayIcon className="h-4 w-4" />
-                                                            Watch
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            <Info className="h-4 w-4" />
-                                                            Info
-                                                        </>
-                                                    )}
-                                                </Link>
-                                            </Button>
-                                            <Button variant="ghost" title="Add to list">
-                                                <Bookmark />
-                                                <span>Add to list</span>
-                                            </Button>
-                                        </div>
-                                    </div>
-                                    <img
-                                        src={getTMDBImageUrl(media.backdrop_path, "w1280") || ""}
-                                        alt={media.title}
-                                        className="rounded-3xl lg:order-2 order-1"
-                                    />
-                                </div>
+                                <HeroCarouselItem
+                                    id={media.id}
+                                    mediaType={media.media_type}
+                                    title={media.title || media.name}
+                                    overview={media.overview}
+                                    backdropPath={media.backdrop_path}
+                                    genreIds={media.genre_ids}
+                                    voteAverage={media.vote_average}
+                                    releaseDate={releaseDate}
+                                    status={media.status}
+                                    isReleased={isReleased}
+                                />
                             </CarouselItem>
                         )
                     })}
