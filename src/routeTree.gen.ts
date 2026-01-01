@@ -11,10 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TestRouteImport } from './routes/test'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as SearchIndexRouteImport } from './routes/search/index'
 import { Route as TvIdRouteImport } from './routes/tv/$id'
 import { Route as MoviesIdRouteImport } from './routes/movies/$id'
 import { Route as tabsSettingsIndexRouteImport } from './routes/(tabs)/settings/index'
+import { Route as tabsSearchIndexRouteImport } from './routes/(tabs)/search/index'
 import { Route as tabsHomeIndexRouteImport } from './routes/(tabs)/home/index'
 
 const TestRoute = TestRouteImport.update({
@@ -25,11 +25,6 @@ const TestRoute = TestRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SearchIndexRoute = SearchIndexRouteImport.update({
-  id: '/search/',
-  path: '/search/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TvIdRoute = TvIdRouteImport.update({
@@ -47,6 +42,11 @@ const tabsSettingsIndexRoute = tabsSettingsIndexRouteImport.update({
   path: '/settings/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const tabsSearchIndexRoute = tabsSearchIndexRouteImport.update({
+  id: '/(tabs)/search/',
+  path: '/search/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const tabsHomeIndexRoute = tabsHomeIndexRouteImport.update({
   id: '/(tabs)/home/',
   path: '/home/',
@@ -58,8 +58,8 @@ export interface FileRoutesByFullPath {
   '/test': typeof TestRoute
   '/movies/$id': typeof MoviesIdRoute
   '/tv/$id': typeof TvIdRoute
-  '/search': typeof SearchIndexRoute
   '/home': typeof tabsHomeIndexRoute
+  '/search': typeof tabsSearchIndexRoute
   '/settings': typeof tabsSettingsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -67,8 +67,8 @@ export interface FileRoutesByTo {
   '/test': typeof TestRoute
   '/movies/$id': typeof MoviesIdRoute
   '/tv/$id': typeof TvIdRoute
-  '/search': typeof SearchIndexRoute
   '/home': typeof tabsHomeIndexRoute
+  '/search': typeof tabsSearchIndexRoute
   '/settings': typeof tabsSettingsIndexRoute
 }
 export interface FileRoutesById {
@@ -77,8 +77,8 @@ export interface FileRoutesById {
   '/test': typeof TestRoute
   '/movies/$id': typeof MoviesIdRoute
   '/tv/$id': typeof TvIdRoute
-  '/search/': typeof SearchIndexRoute
   '/(tabs)/home/': typeof tabsHomeIndexRoute
+  '/(tabs)/search/': typeof tabsSearchIndexRoute
   '/(tabs)/settings/': typeof tabsSettingsIndexRoute
 }
 export interface FileRouteTypes {
@@ -88,8 +88,8 @@ export interface FileRouteTypes {
     | '/test'
     | '/movies/$id'
     | '/tv/$id'
-    | '/search'
     | '/home'
+    | '/search'
     | '/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -97,8 +97,8 @@ export interface FileRouteTypes {
     | '/test'
     | '/movies/$id'
     | '/tv/$id'
-    | '/search'
     | '/home'
+    | '/search'
     | '/settings'
   id:
     | '__root__'
@@ -106,8 +106,8 @@ export interface FileRouteTypes {
     | '/test'
     | '/movies/$id'
     | '/tv/$id'
-    | '/search/'
     | '/(tabs)/home/'
+    | '/(tabs)/search/'
     | '/(tabs)/settings/'
   fileRoutesById: FileRoutesById
 }
@@ -116,8 +116,8 @@ export interface RootRouteChildren {
   TestRoute: typeof TestRoute
   MoviesIdRoute: typeof MoviesIdRoute
   TvIdRoute: typeof TvIdRoute
-  SearchIndexRoute: typeof SearchIndexRoute
   tabsHomeIndexRoute: typeof tabsHomeIndexRoute
+  tabsSearchIndexRoute: typeof tabsSearchIndexRoute
   tabsSettingsIndexRoute: typeof tabsSettingsIndexRoute
 }
 
@@ -135,13 +135,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/search/': {
-      id: '/search/'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tv/$id': {
@@ -165,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof tabsSettingsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(tabs)/search/': {
+      id: '/(tabs)/search/'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof tabsSearchIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(tabs)/home/': {
       id: '/(tabs)/home/'
       path: '/home'
@@ -180,8 +180,8 @@ const rootRouteChildren: RootRouteChildren = {
   TestRoute: TestRoute,
   MoviesIdRoute: MoviesIdRoute,
   TvIdRoute: TvIdRoute,
-  SearchIndexRoute: SearchIndexRoute,
   tabsHomeIndexRoute: tabsHomeIndexRoute,
+  tabsSearchIndexRoute: tabsSearchIndexRoute,
   tabsSettingsIndexRoute: tabsSettingsIndexRoute,
 }
 export const routeTree = rootRouteImport
