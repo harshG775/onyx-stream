@@ -1,6 +1,6 @@
+import { createFileRoute } from "@tanstack/react-router"
 import { useTheme } from "@/components/contexts/theme-provider"
 import { cn } from "@/lib/utils"
-import { createFileRoute } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/settings/")({
     component: RouteComponent,

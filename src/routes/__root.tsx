@@ -6,13 +6,14 @@ import TanStackQueryDevtools from "../integrations/tanstack-query/devtools"
 
 import appCss from "../styles.css?url"
 
+import { TopNavbar } from "./-components/top-navbar"
+import { TabBar } from "./-components/tab-navigation/tab-bar"
 import type { QueryClient } from "@tanstack/react-query"
 import { Toaster } from "@/components/ui/sonner"
 import { PagesTopLoader } from "@/components/PagesTopLoader"
-import { TopNavbar } from "./-components/top-navbar"
 import { ThemeProvider } from "@/components/contexts/theme-provider"
 import { getThemeServerFn } from "@/lib/server-fn/theme"
-import { TabBar } from "./-components/tab-navigation/tab-bar"
+
 interface MyRouterContext {
     queryClient: QueryClient
 }

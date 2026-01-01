@@ -1,12 +1,13 @@
-import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
-import { cn, formatRuntime } from "@/lib/utils"
-import { Season, TvSeasonDetails } from "@/types/tmdb.types"
 import { useQuery } from "@tanstack/react-query"
 import { useNavigate, useSearch } from "@tanstack/react-router"
+import type { Season, TvSeasonDetails } from "@/types/tmdb.types"
+import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
+import { cn, formatRuntime } from "@/lib/utils"
+
 type SeasonProps = {
     media_type: "tv" | "movie"
     mediaId: number
-    seasons: Season[]
+    seasons: Array<Season>
 }
 function Episodes({
     episodes,

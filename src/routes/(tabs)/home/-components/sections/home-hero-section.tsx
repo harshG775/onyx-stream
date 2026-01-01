@@ -1,14 +1,15 @@
 import Autoplay from "embla-carousel-autoplay"
-import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
 import { useQuery } from "@tanstack/react-query"
+import { AlertCircle, Bookmark, Info, PlayIcon } from "lucide-react"
+import { Link } from "@tanstack/react-router"
+import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
 import { Carousel, CarouselContent, CarouselItem, useCarouselDots } from "@/components/ui/carousel"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Button } from "@/components/ui/button"
-import { AlertCircle, Bookmark, Info, PlayIcon } from "lucide-react"
-import { Link } from "@tanstack/react-router"
 import { cn } from "@/lib/utils"
 import { genreArray } from "@/lib/services/tmdb/genres"
+
 const useIsReleased = () => {
     const today = new Date()
     return {
@@ -231,7 +232,7 @@ export function HomeHeroSection() {
                     })}
                 </CarouselContent>
                 {/*  */}
-                <CarouselDots className="absolute -bottom-3 left-0 w-full"  />
+                <CarouselDots className="absolute -bottom-3 left-0 w-full" />
             </Carousel>
         </section>
     )

@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils"
+
 type LogoProps = {
     variant?: "icon" | "full"
     size?: "sm" | "md" | "lg"

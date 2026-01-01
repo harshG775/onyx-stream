@@ -9,9 +9,9 @@ import type {
     MoviesResponse,
     PaginatedResponse,
     SearchMultiResponse,
-    TvSeasonDetails,
     TVShowDetails,
     TVShowsResponse,
+    TvSeasonDetails,
     VideosResponse,
 } from "@/types/tmdb.types"
 import { env } from "@/env"
@@ -118,11 +118,11 @@ export class TMDBClient {
 
     /* ===================== Genres ===================== */
     getMovieGenres() {
-        return this.request<{ genres: { id: number; name: string }[] }>("/genre/movie/list")
+        return this.request<{ genres: Array<{ id: number; name: string }> }>("/genre/movie/list")
     }
 
     getTVGenres() {
-        return this.request<{ genres: { id: number; name: string }[] }>("/genre/tv/list")
+        return this.request<{ genres: Array<{ id: number; name: string }> }>("/genre/tv/list")
     }
 }
 

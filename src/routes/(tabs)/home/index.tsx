@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { tmdb } from "@/lib/services/tmdb"
-import { Spinner } from "@/components/ui/spinner"
 import { HomeHeroSection } from "./-components/sections/home-hero-section"
 import CategorySection from "./-components/sections/category-section"
+import { tmdb } from "@/lib/services/tmdb"
+import { Spinner } from "@/components/ui/spinner"
 
 export const Route = createFileRoute("/(tabs)/home/")({
     ssr: false,

@@ -1,7 +1,7 @@
-import { cn } from "@/lib/utils"
 import { Link } from "@tanstack/react-router"
 import { Film, Home, Search, Settings, Tv } from "lucide-react"
 import { useEffect, useRef } from "react"
+import { cn } from "@/lib/utils"
 
 const NAVBAR_HEIGHT = 72
 
@@ -18,7 +18,7 @@ export function TabBar() {
             ticking.current = true
             requestAnimationFrame(() => {
                 const currentScrollY = window.scrollY
-                
+
                 const delta = currentScrollY - lastScrollY.current
 
                 translateY.current += delta

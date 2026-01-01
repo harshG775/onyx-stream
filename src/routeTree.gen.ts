@@ -8,191 +8,167 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as TestRouteImport } from './routes/test'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as SettingsIndexRouteImport } from './routes/settings/index'
-import { Route as SearchIndexRouteImport } from './routes/search/index'
-import { Route as TvIdRouteImport } from './routes/tv/$id'
-import { Route as MoviesIdRouteImport } from './routes/movies/$id'
-import { Route as tabsHomeIndexRouteImport } from './routes/(tabs)/home/index'
+import { Route as rootRouteImport } from "./routes/__root"
+import { Route as TestRouteImport } from "./routes/test"
+import { Route as IndexRouteImport } from "./routes/index"
+import { Route as SettingsIndexRouteImport } from "./routes/settings/index"
+import { Route as SearchIndexRouteImport } from "./routes/search/index"
+import { Route as TvIdRouteImport } from "./routes/tv/$id"
+import { Route as MoviesIdRouteImport } from "./routes/movies/$id"
+import { Route as tabsHomeIndexRouteImport } from "./routes/(tabs)/home/index"
 
 const TestRoute = TestRouteImport.update({
-  id: '/test',
-  path: '/test',
-  getParentRoute: () => rootRouteImport,
+    id: "/test",
+    path: "/test",
+    getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
+    id: "/",
+    path: "/",
+    getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsIndexRoute = SettingsIndexRouteImport.update({
-  id: '/settings/',
-  path: '/settings/',
-  getParentRoute: () => rootRouteImport,
+    id: "/settings/",
+    path: "/settings/",
+    getParentRoute: () => rootRouteImport,
 } as any)
 const SearchIndexRoute = SearchIndexRouteImport.update({
-  id: '/search/',
-  path: '/search/',
-  getParentRoute: () => rootRouteImport,
+    id: "/search/",
+    path: "/search/",
+    getParentRoute: () => rootRouteImport,
 } as any)
 const TvIdRoute = TvIdRouteImport.update({
-  id: '/tv/$id',
-  path: '/tv/$id',
-  getParentRoute: () => rootRouteImport,
+    id: "/tv/$id",
+    path: "/tv/$id",
+    getParentRoute: () => rootRouteImport,
 } as any)
 const MoviesIdRoute = MoviesIdRouteImport.update({
-  id: '/movies/$id',
-  path: '/movies/$id',
-  getParentRoute: () => rootRouteImport,
+    id: "/movies/$id",
+    path: "/movies/$id",
+    getParentRoute: () => rootRouteImport,
 } as any)
 const tabsHomeIndexRoute = tabsHomeIndexRouteImport.update({
-  id: '/(tabs)/home/',
-  path: '/home/',
-  getParentRoute: () => rootRouteImport,
+    id: "/(tabs)/home/",
+    path: "/home/",
+    getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/test': typeof TestRoute
-  '/movies/$id': typeof MoviesIdRoute
-  '/tv/$id': typeof TvIdRoute
-  '/search': typeof SearchIndexRoute
-  '/settings': typeof SettingsIndexRoute
-  '/home': typeof tabsHomeIndexRoute
+    "/": typeof IndexRoute
+    "/test": typeof TestRoute
+    "/movies/$id": typeof MoviesIdRoute
+    "/tv/$id": typeof TvIdRoute
+    "/search": typeof SearchIndexRoute
+    "/settings": typeof SettingsIndexRoute
+    "/home": typeof tabsHomeIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/test': typeof TestRoute
-  '/movies/$id': typeof MoviesIdRoute
-  '/tv/$id': typeof TvIdRoute
-  '/search': typeof SearchIndexRoute
-  '/settings': typeof SettingsIndexRoute
-  '/home': typeof tabsHomeIndexRoute
+    "/": typeof IndexRoute
+    "/test": typeof TestRoute
+    "/movies/$id": typeof MoviesIdRoute
+    "/tv/$id": typeof TvIdRoute
+    "/search": typeof SearchIndexRoute
+    "/settings": typeof SettingsIndexRoute
+    "/home": typeof tabsHomeIndexRoute
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/test': typeof TestRoute
-  '/movies/$id': typeof MoviesIdRoute
-  '/tv/$id': typeof TvIdRoute
-  '/search/': typeof SearchIndexRoute
-  '/settings/': typeof SettingsIndexRoute
-  '/(tabs)/home/': typeof tabsHomeIndexRoute
+    __root__: typeof rootRouteImport
+    "/": typeof IndexRoute
+    "/test": typeof TestRoute
+    "/movies/$id": typeof MoviesIdRoute
+    "/tv/$id": typeof TvIdRoute
+    "/search/": typeof SearchIndexRoute
+    "/settings/": typeof SettingsIndexRoute
+    "/(tabs)/home/": typeof tabsHomeIndexRoute
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/test'
-    | '/movies/$id'
-    | '/tv/$id'
-    | '/search'
-    | '/settings'
-    | '/home'
-  fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/test'
-    | '/movies/$id'
-    | '/tv/$id'
-    | '/search'
-    | '/settings'
-    | '/home'
-  id:
-    | '__root__'
-    | '/'
-    | '/test'
-    | '/movies/$id'
-    | '/tv/$id'
-    | '/search/'
-    | '/settings/'
-    | '/(tabs)/home/'
-  fileRoutesById: FileRoutesById
+    fileRoutesByFullPath: FileRoutesByFullPath
+    fullPaths: "/" | "/test" | "/movies/$id" | "/tv/$id" | "/search" | "/settings" | "/home"
+    fileRoutesByTo: FileRoutesByTo
+    to: "/" | "/test" | "/movies/$id" | "/tv/$id" | "/search" | "/settings" | "/home"
+    id: "__root__" | "/" | "/test" | "/movies/$id" | "/tv/$id" | "/search/" | "/settings/" | "/(tabs)/home/"
+    fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  TestRoute: typeof TestRoute
-  MoviesIdRoute: typeof MoviesIdRoute
-  TvIdRoute: typeof TvIdRoute
-  SearchIndexRoute: typeof SearchIndexRoute
-  SettingsIndexRoute: typeof SettingsIndexRoute
-  tabsHomeIndexRoute: typeof tabsHomeIndexRoute
+    IndexRoute: typeof IndexRoute
+    TestRoute: typeof TestRoute
+    MoviesIdRoute: typeof MoviesIdRoute
+    TvIdRoute: typeof TvIdRoute
+    SearchIndexRoute: typeof SearchIndexRoute
+    SettingsIndexRoute: typeof SettingsIndexRoute
+    tabsHomeIndexRoute: typeof tabsHomeIndexRoute
 }
 
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/test': {
-      id: '/test'
-      path: '/test'
-      fullPath: '/test'
-      preLoaderRoute: typeof TestRouteImport
-      parentRoute: typeof rootRouteImport
+declare module "@tanstack/react-router" {
+    interface FileRoutesByPath {
+        "/test": {
+            id: "/test"
+            path: "/test"
+            fullPath: "/test"
+            preLoaderRoute: typeof TestRouteImport
+            parentRoute: typeof rootRouteImport
+        }
+        "/": {
+            id: "/"
+            path: "/"
+            fullPath: "/"
+            preLoaderRoute: typeof IndexRouteImport
+            parentRoute: typeof rootRouteImport
+        }
+        "/settings/": {
+            id: "/settings/"
+            path: "/settings"
+            fullPath: "/settings"
+            preLoaderRoute: typeof SettingsIndexRouteImport
+            parentRoute: typeof rootRouteImport
+        }
+        "/search/": {
+            id: "/search/"
+            path: "/search"
+            fullPath: "/search"
+            preLoaderRoute: typeof SearchIndexRouteImport
+            parentRoute: typeof rootRouteImport
+        }
+        "/tv/$id": {
+            id: "/tv/$id"
+            path: "/tv/$id"
+            fullPath: "/tv/$id"
+            preLoaderRoute: typeof TvIdRouteImport
+            parentRoute: typeof rootRouteImport
+        }
+        "/movies/$id": {
+            id: "/movies/$id"
+            path: "/movies/$id"
+            fullPath: "/movies/$id"
+            preLoaderRoute: typeof MoviesIdRouteImport
+            parentRoute: typeof rootRouteImport
+        }
+        "/(tabs)/home/": {
+            id: "/(tabs)/home/"
+            path: "/home"
+            fullPath: "/home"
+            preLoaderRoute: typeof tabsHomeIndexRouteImport
+            parentRoute: typeof rootRouteImport
+        }
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings/': {
-      id: '/settings/'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/search/': {
-      id: '/search/'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/tv/$id': {
-      id: '/tv/$id'
-      path: '/tv/$id'
-      fullPath: '/tv/$id'
-      preLoaderRoute: typeof TvIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/movies/$id': {
-      id: '/movies/$id'
-      path: '/movies/$id'
-      fullPath: '/movies/$id'
-      preLoaderRoute: typeof MoviesIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(tabs)/home/': {
-      id: '/(tabs)/home/'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof tabsHomeIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-  }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  TestRoute: TestRoute,
-  MoviesIdRoute: MoviesIdRoute,
-  TvIdRoute: TvIdRoute,
-  SearchIndexRoute: SearchIndexRoute,
-  SettingsIndexRoute: SettingsIndexRoute,
-  tabsHomeIndexRoute: tabsHomeIndexRoute,
+    IndexRoute: IndexRoute,
+    TestRoute: TestRoute,
+    MoviesIdRoute: MoviesIdRoute,
+    TvIdRoute: TvIdRoute,
+    SearchIndexRoute: SearchIndexRoute,
+    SettingsIndexRoute: SettingsIndexRoute,
+    tabsHomeIndexRoute: tabsHomeIndexRoute,
 }
-export const routeTree = rootRouteImport
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+export const routeTree = rootRouteImport._addFileChildren(rootRouteChildren)._addFileTypes<FileRouteTypes>()
 
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
+import type { getRouter } from "./router.tsx"
+import type { createStart } from "@tanstack/react-start"
+declare module "@tanstack/react-start" {
+    interface Register {
+        ssr: true
+        router: Awaited<ReturnType<typeof getRouter>>
+    }
 }

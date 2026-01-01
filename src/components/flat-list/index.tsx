@@ -1,13 +1,13 @@
 import * as React from "react"
-import { Button } from "@/components/ui/button"
-import { Carousel, CarouselContent, CarouselItem, useCarousel } from "@/components/ui/carousel"
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Carousel, CarouselContent, CarouselItem, useCarousel } from "@/components/ui/carousel"
 import { cn } from "@/lib/utils"
 
 type FlatListProps<T> = {
     title: string
-    data: T[]
+    data: Array<T>
     renderItem: (item: T, idx: number) => React.ReactNode
     keyExtractor?: (item: T, index: number) => string
 

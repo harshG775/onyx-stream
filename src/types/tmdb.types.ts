@@ -251,9 +251,6 @@ export interface VideosResponse {
     results: Array<Video>
 }
 
-
-
-
 /* =====================
    Season
 ===================== */
@@ -298,8 +295,8 @@ export type Episode = {
     still_path: string | null
     vote_average: number
     vote_count: number
-    crew: CrewMember[]
-    guest_stars: GuestStar[]
+    crew: Array<CrewMember>
+    guest_stars: Array<GuestStar>
 }
 export type TvSeasonDetails = {
     _id: string
@@ -310,6 +307,6 @@ export type TvSeasonDetails = {
     poster_path: string | null
     season_number: number
     vote_average: number
-    episodes: Episode[]
-    networks: Network[]
+    episodes: Array<Episode>
+    networks: Array<Network>
 }

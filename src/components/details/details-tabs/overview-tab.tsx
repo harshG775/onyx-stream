@@ -1,8 +1,7 @@
-
 type MetaGroupProps = {
     icon: React.ReactNode
     label: string
-    values: React.ReactNode[] | React.ReactNode
+    values: Array<React.ReactNode> | React.ReactNode
 }
 
 const MetaGroup: React.FC<MetaGroupProps> = ({ icon, label, values }) => {
@@ -23,7 +22,7 @@ const MetaGroup: React.FC<MetaGroupProps> = ({ icon, label, values }) => {
         </div>
     )
 }
-type OverviewTabProps = { tagline: string; overview: string; MetaGroupList: MetaGroupProps[] }
+type OverviewTabProps = { tagline: string; overview: string; MetaGroupList: Array<MetaGroupProps> }
 export function OverviewTab({ tagline, overview, MetaGroupList }: OverviewTabProps) {
     return (
         <div className="h-full space-y-4 p-4 border rounded-2xl shadow">

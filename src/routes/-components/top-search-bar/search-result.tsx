@@ -1,13 +1,13 @@
+import { useQuery } from "@tanstack/react-query"
+import { Link } from "@tanstack/react-router"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Placehold } from "@/lib/placehold"
 import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
 import { useTopSearchBar } from "@/stores"
-import { useQuery } from "@tanstack/react-query"
-import { Link } from "@tanstack/react-router"
-import { useState } from "react"
 
-function ResultList({ items }: { items: any[] }) {
+function ResultList({ items }: { items: Array<any> }) {
     const searchBarOpenState = useTopSearchBar(({ setSearchBarState }) => setSearchBarState)
 
     if (items.length === 0) {

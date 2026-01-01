@@ -1,8 +1,8 @@
+import { Link } from "@tanstack/react-router"
+import { Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
 import { Label } from "@/components/ui/label"
-import { Link } from "@tanstack/react-router"
-import { Search } from "lucide-react"
 
 interface SearchInputProps {
     query: string
