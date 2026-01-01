@@ -1,19 +1,15 @@
-import { HeadContent, Scripts, createRootRouteWithContext } from "@tanstack/react-router"
-import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
-import { TanStackDevtools } from "@tanstack/react-devtools"
-
-import TanStackQueryDevtools from "../integrations/tanstack-query/devtools"
-
-import appCss from "../styles.css?url"
-
-import { TopNavbar } from "./-components/top-navbar"
-import { TabBar } from "./-components/tab-navigation/tab-bar"
-import type { QueryClient } from "@tanstack/react-query"
-import { Toaster } from "@/components/ui/sonner"
 import { PagesTopLoader } from "@/components/PagesTopLoader"
 import { ThemeProvider } from "@/components/contexts/theme-provider"
+import { Toaster } from "@/components/ui/sonner"
 import { getThemeServerFn } from "@/lib/server-fn/theme"
-import { Footer } from "./-components/footer"
+import { TanStackDevtools } from "@tanstack/react-devtools"
+import type { QueryClient } from "@tanstack/react-query"
+import { HeadContent, Scripts, createRootRouteWithContext } from "@tanstack/react-router"
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
+import TanStackQueryDevtools from "../integrations/tanstack-query/devtools"
+import appCss from "../styles.css?url"
+import { TabBar } from "./-components/tab-navigation/tab-bar"
+import { TopNavbar } from "./-components/top-navbar"
 
 interface MyRouterContext {
     queryClient: QueryClient
@@ -92,7 +88,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 <TopNavbar />
                 <TabBar />
                 <ThemeProvider theme={theme}>{children}</ThemeProvider>
-                <Footer/>
                 <Toaster richColors={true} />
                 <TanStackDevtools
                     config={{
