@@ -18,7 +18,7 @@ export const Route = createFileRoute("/(tabs)/home/")({
 function RouteComponent() {
     return (
         <>
-            <main className="space-y-4">
+            <main>
                 <HomeHeroSection />
                 <CategorySection
                     queryKey={["trending", "movies"]}

@@ -1,9 +1,9 @@
-import { useQuery } from "@tanstack/react-query"
-import { Link } from "@tanstack/react-router"
-import type { PaginatedResponse } from "@/types/tmdb.types"
-import { getTMDBImageUrl } from "@/lib/services/tmdb"
 import { FlatList } from "@/components/flat-list"
 import { Skeleton } from "@/components/ui/skeleton"
+import { getTMDBImageUrl } from "@/lib/services/tmdb"
+import type { PaginatedResponse } from "@/types/tmdb.types"
+import { useQuery } from "@tanstack/react-query"
+import { Link } from "@tanstack/react-router"
 
 type CategorySectionProps = {
     title: string
@@ -38,12 +38,20 @@ export default function CategorySection({ title, queryFn, queryKey, mediaPath }:
                 </div>
             )}
             renderItem={(media) => (
-                <Link to={`/${mediaPath}/$id`} params={{ id: media.id.toString() }} className="group">
+                <Link
+                    to={`/${mediaPath}/$id`}
+                    params={{ id: media.id.toString() }}
+                    className="group relative shadow-2xl"
+                >
                     <img
                         src={getTMDBImageUrl(media.poster_path, "w185") || "https://placehold.co/400x600?text=No+Image"}
-                        className="w-full rounded-lg transition-opacity group-hover:opacity-90"
+                        className="w-full rounded-lg"
                     />
-                    <h3 className="text-sm font-semibold line-clamp-2">{media?.title}</h3>
+                    <div className="absolute inset-0 w-full h-full rounded-md flex items-end bg-linear-to-t from-black to-primary/50 text-primary-foreground  mask-t-from-0 mask-t-to-40">
+                        <div className="p-2 sm:p-4 w-full">
+                            <h3 className="text-sm font-semibold line-clamp-1">{media?.title || media.name}</h3>
+                        </div>
+                    </div>
                 </Link>
             )}
         />

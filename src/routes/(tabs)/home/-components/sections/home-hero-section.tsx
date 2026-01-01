@@ -1,14 +1,14 @@
-import Autoplay from "embla-carousel-autoplay"
-import { useQuery } from "@tanstack/react-query"
-import { AlertCircle, Bookmark, Info, PlayIcon } from "lucide-react"
-import { Link } from "@tanstack/react-router"
-import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
-import { Carousel, CarouselContent, CarouselItem, useCarouselDots } from "@/components/ui/carousel"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Skeleton } from "@/components/ui/skeleton"
 import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import { Carousel, CarouselContent, CarouselItem, useCarouselDots } from "@/components/ui/carousel"
+import { Skeleton } from "@/components/ui/skeleton"
+import { getTMDBImageUrl, tmdb } from "@/lib/services/tmdb"
 import { genreArray } from "@/lib/services/tmdb/genres"
+import { cn } from "@/lib/utils"
+import { useQuery } from "@tanstack/react-query"
+import { Link } from "@tanstack/react-router"
+import Autoplay from "embla-carousel-autoplay"
+import { AlertCircle, Bookmark, Info, PlayIcon } from "lucide-react"
 
 const useIsReleased = () => {
     const today = new Date()
@@ -219,7 +219,7 @@ export function HomeHeroSection() {
         )
     }
     return (
-        <section>
+        <section className="pb-6">
             <Carousel
                 opts={{
                     loop: true,
