@@ -1,11 +1,12 @@
-import { useEffect } from "react"
 import { PlayerFrame } from "#/components/player-frame"
 import { GetExtensions } from "#/lib/get-extensions"
 import { resolveSources } from "#/lib/resolve-sources"
 import type { MediaType } from "#/types/tmdb.type"
-import { createFileRoute, notFound } from "@tanstack/react-router"
+import { createFileRoute } from "@tanstack/react-router"
 import z from "zod"
-import type { StreamAdapter } from "#/types/extension.type"
+import { WatchLayout } from "./-components/watch-layout"
+import { TvControls } from "./-components/tv-controls"
+import { useEffect } from "react"
 
 export const Route = createFileRoute("/$media_type/$id/watch/")({
     validateSearch: z.object({
@@ -15,48 +16,20 @@ export const Route = createFileRoute("/$media_type/$id/watch/")({
     component: RouteComponent,
 })
 
-const MoviePlayerFrame = ({
-    adapters,
-    id,
-}: {
-    adapters: { id: string; name: string; adapter: StreamAdapter }[]
-    id: string
-}) => {
-    const sources = resolveSources(adapters, "movie", id)
-    return <PlayerFrame sources={sources} />
-}
-
-const TvPlayerFrame = ({
-    adapters,
-    id,
-    season,
-    episode,
-}: {
-    adapters: { id: string; name: string; adapter: StreamAdapter }[]
-    id: string
-    season?: number
-    episode?: number
-}) => {
+function RouteComponent() {
+    const { media_type, id } = Route.useParams()
+    const { season, episode } = Route.useSearch()
+    const { extensions } = GetExtensions()
     const navigate = Route.useNavigate()
 
     useEffect(() => {
-        if (season === undefined || episode === undefined) {
+        if (media_type === "tv" && media_type && (season === undefined || episode === undefined)) {
             navigate({
                 search: (prev) => ({ ...prev, season: 1, episode: 1 }),
                 replace: true,
             })
         }
-    }, [season, episode, navigate])
-
-    const sources = resolveSources(adapters, "tv", id, season ?? 1, episode ?? 1)
-    return <PlayerFrame sources={sources} />
-}
-
-function RouteComponent() {
-    const { media_type, id } = Route.useParams()
-    const { season, episode } = Route.useSearch()
-    const { extensions } = GetExtensions()
-
+    }, [])
     const adapters = extensions.map((extension) => ({
         name: extension.name,
         id: extension.id,
@@ -75,12 +48,28 @@ function RouteComponent() {
     }))
 
     if (media_type === "tv") {
-        return <TvPlayerFrame id={id} season={season} episode={episode} adapters={adapters} />
+        const sources = resolveSources(adapters, "tv", id, season ?? 1, episode ?? 1)
+
+        return (
+            <WatchLayout
+                player={<PlayerFrame sources={sources} />}
+                controls={<TvControls season={season ?? 1} episode={episode ?? 1} />}
+                episodes={<div className="min-h-96">Episode List UI (grid/list)</div>}
+                comments={<div className="min-h-96">Comments system</div>}
+                recommended={<div className="min-h-96">Recommended shows</div>}
+            />
+        )
     }
 
     if (media_type === "movie") {
-        return <MoviePlayerFrame id={id} adapters={adapters} />
-    }
+        const sources = resolveSources(adapters, "movie", id)
 
-    throw notFound()
+        return (
+            <WatchLayout
+                player={<PlayerFrame sources={sources} />}
+                comments={<div className="min-h-96">Comments system</div>}
+                recommended={<div className="min-h-96">Recommended shows</div>}
+            />
+        )
+    }
 }
