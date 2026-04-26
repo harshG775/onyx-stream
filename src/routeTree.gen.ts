@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as Media_typeIdWatchIndexRouteImport } from './routes/$media_type/$id/watch/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Media_typeIdWatchIndexRoute = Media_typeIdWatchIndexRouteImport.update({
+  id: '/$media_type/$id/watch/',
+  path: '/$media_type/$id/watch/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$media_type/$id/watch/': typeof Media_typeIdWatchIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$media_type/$id/watch': typeof Media_typeIdWatchIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$media_type/$id/watch/': typeof Media_typeIdWatchIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/$media_type/$id/watch/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/$media_type/$id/watch'
+  id: '__root__' | '/' | '/$media_type/$id/watch/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  Media_typeIdWatchIndexRoute: typeof Media_typeIdWatchIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$media_type/$id/watch/': {
+      id: '/$media_type/$id/watch/'
+      path: '/$media_type/$id/watch'
+      fullPath: '/$media_type/$id/watch/'
+      preLoaderRoute: typeof Media_typeIdWatchIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  Media_typeIdWatchIndexRoute: Media_typeIdWatchIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
