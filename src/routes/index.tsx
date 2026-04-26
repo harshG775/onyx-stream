@@ -1,15 +1,14 @@
-import { createFileRoute, redirect } from "@tanstack/react-router"
+import { createFileRoute } from "@tanstack/react-router"
 
-export const Route = createFileRoute("/")({
-    beforeLoad: () => {
-        throw redirect({
-            to: "/home",
-            replace: true,
-        })
-    },
-    component: RootPage,
-})
+export const Route = createFileRoute("/")({ component: RouteComponent })
 
-function RootPage() {
-    return <main className="space-y-4">{/*  */}</main>
+function RouteComponent() {
+    return (
+        <div className="p-8">
+            <h1 className="text-4xl font-bold">Welcome to TanStack Start</h1>
+            <p className="mt-4 text-lg">
+                Edit <code>src/routes/index.tsx</code> to get started.
+            </p>
+        </div>
+    )
 }

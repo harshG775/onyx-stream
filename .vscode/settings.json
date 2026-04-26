@@ -7,7 +7,21 @@
     },
     "files.readonlyInclude": {
         "**/routeTree.gen.ts": true
-    },
+    }, 
+
+    // Indentation
+    "editor.detectIndentation": false,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+
+     // Formatting (Prettier & Languages)
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prettier.printWidth": 120,
     "prettier.tabWidth": 4,
-    "prettier.printWidth": 120
+    "js/ts.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "always",
+        // "source.organizeImports": "always",
+    },
+
 }

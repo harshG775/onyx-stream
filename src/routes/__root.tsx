@@ -1,94 +1,52 @@
-import { PagesTopLoader } from "@/components/PagesTopLoader"
-import { ThemeProvider } from "@/components/contexts/theme-provider"
-import { Toaster } from "@/components/ui/sonner"
-import { getThemeServerFn } from "@/lib/server-fn/theme"
-import { TanStackDevtools } from "@tanstack/react-devtools"
-import type { QueryClient } from "@tanstack/react-query"
 import { HeadContent, Scripts, createRootRouteWithContext } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
+import { TanStackDevtools } from "@tanstack/react-devtools"
+
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools"
+
 import appCss from "../styles.css?url"
-import { TabBar } from "./-components/tab-navigation/tab-bar"
-import { TopNavbar } from "./-components/top-navbar"
+
+import type { QueryClient } from "@tanstack/react-query"
 
 interface MyRouterContext {
     queryClient: QueryClient
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
-    loader: async ({ location }) => {
-        const theme = await getThemeServerFn()
-        return { host: location.url.origin, theme }
-    },
-    head: ({ loaderData }) => {
-        const title = "OnyxStream – Watch Movies & TV Shows Online"
-        const description =
-            "Stream the latest movies and TV shows on OnyxStream. Discover trending, popular, and top-rated content in one place."
-
-        const image = `${loaderData?.host}/logo.png`
-
-        const url = `${loaderData?.host}`
-
-        return {
-            meta: [
-                {
-                    charSet: "utf-8",
-                },
-                {
-                    name: "viewport",
-                    content: "width=device-width, initial-scale=1",
-                },
-                // SEO
-                { title: title },
-                { name: "description", content: description },
-                {
-                    name: "keywords",
-                    content: "movies, tv shows, streaming, watch online, latest movies, series, OnyxStream",
-                },
-
-                // Open Graph
-                { property: "og:type", content: "website" },
-                { property: "og:title", content: title },
-                { property: "og:description", content: description },
-                { property: "og:image", content: image },
-                { property: "og:url", content: url },
-
-                // Twitter
-                { name: "twitter:card", content: "summary_large_image" },
-                { name: "twitter:title", content: title },
-                { name: "twitter:description", content: description },
-                { name: "twitter:image", content: image },
-                { name: "twitter:url", content: url },
-            ],
-            links: [
-                {
-                    rel: "stylesheet",
-                    href: appCss,
-                },
-            ],
-        }
-    },
-
+    head: () => ({
+        meta: [
+            {
+                charSet: "utf-8",
+            },
+            {
+                name: "viewport",
+                content: "width=device-width, initial-scale=1",
+            },
+            {
+                title: "TanStack Start Starter",
+            },
+        ],
+        links: [
+            {
+                rel: "stylesheet",
+                href: appCss,
+            },
+        ],
+    }),
     shellComponent: RootDocument,
     notFoundComponent: () => {
-        return <p>page doesn't exist!</p>
+        return <p>not found!</p>
     },
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-    const { theme } = Route.useLoaderData()
-
     return (
-        <html lang="en" className={theme} suppressHydrationWarning>
+        <html lang="en">
             <head>
                 <HeadContent />
             </head>
-            <body className="relative">
-                <PagesTopLoader />
-                <TopNavbar />
-                <TabBar />
-                <ThemeProvider theme={theme}>{children}</ThemeProvider>
-                <Toaster richColors={true} />
+            <body>
+                {children}
                 <TanStackDevtools
                     config={{
                         position: "bottom-right",

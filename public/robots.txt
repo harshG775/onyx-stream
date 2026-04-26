@@ -1,10 +1,10 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
+
 # Block internal / non-SEO routes if any
 Disallow: /api/
-Disallow: /_dev/
-Disallow: /auth/
 
+# Allow rest
 Allow: /
 
 # Sitemap
