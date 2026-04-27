@@ -190,6 +190,7 @@ const sampleData = {
     vote_average: 8.2,
     vote_count: 2652,
 }
+// accordian with scroll to season when clicked on seasion
 export const TvControls = ({ season, episode }: { season: number; episode: number }) => {
     const navigate = Route.useNavigate()
     const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
