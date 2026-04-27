@@ -209,7 +209,7 @@ export const TvControls = ({ season, episode }: { season: number; episode: numbe
         sampleData.seasons.find((s) => s.season_number === browsingSeason) || sampleData.seasons[0]
 
     return (
-        <div className="flex flex-col h-full max-h-[80vh] w-full max-w-md border rounded-lg bg-background/50 backdrop-blur-sm overflow-hidden">
+        <div className="flex flex-col h-full max-h-[80vh] w-full border rounded-lg bg-background/50 backdrop-blur-sm overflow-hidden">
             {/* Header: Season Selector */}
             <div className="p-4 border-b space-y-4">
                 <div className="flex items-center justify-between">
