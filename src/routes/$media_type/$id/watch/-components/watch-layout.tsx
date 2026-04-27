@@ -1,13 +1,11 @@
 export function WatchLayout({
     player,
     controls,
-    episodes,
     recommended,
     comments,
 }: {
     player: React.ReactNode
     controls?: React.ReactNode
-    episodes?: React.ReactNode
     recommended?: React.ReactNode
     comments?: React.ReactNode
 }) {
@@ -18,7 +16,6 @@ export function WatchLayout({
                 <div>{player}</div>
                 <div className="px-4 py-4">
                     {controls && <div>{controls}</div>}
-                    {episodes && <div>{episodes}</div>}
                 </div>
             </div>
             {comments && <div>{comments}</div>}

@@ -54,7 +54,6 @@ function RouteComponent() {
             <WatchLayout
                 player={<PlayerFrame sources={sources} />}
                 controls={<TvControls season={season ?? 1} episode={episode ?? 1} />}
-                episodes={<div className="min-h-96">Episode List UI (grid/list)</div>}
                 comments={<div className="min-h-96">Comments system</div>}
                 recommended={<div className="min-h-96">Recommended shows</div>}
             />
