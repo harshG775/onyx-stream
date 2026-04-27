@@ -1,4 +1,4 @@
-import type { ResolvedSource } from "#/lib/resolve-sources"
+import type { ResolvedSource } from "#/routes/$media_type/$id/watch/-lib/resolve-sources"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 

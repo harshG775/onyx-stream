@@ -1,4 +1,4 @@
-import type { ExtensionManifest } from "#/types/extension.type"
+import type { ExtensionManifest } from "#/routes/$media_type/$id/watch/-types/extension.type"
 
 const extension: ExtensionManifest = {
     version: "1.0",

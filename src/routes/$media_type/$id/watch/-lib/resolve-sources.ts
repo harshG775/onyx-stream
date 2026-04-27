@@ -1,5 +1,5 @@
-import type { StreamAdapter } from "#/types/extension.type"
-import type { MediaType } from "#/types/tmdb.type"
+import type { StreamAdapter } from "#/routes/$media_type/$id/watch/-types/extension.type"
+import type { MediaType } from "#/routes/$media_type/$id/watch/-types/tmdb.type"
 
 export type ResolvedSource = {
     id: string
