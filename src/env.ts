@@ -15,6 +15,7 @@ export const env = createEnv({
     client: {
         VITE_APP_TITLE: z.string().min(1).optional(),
         VITE_TMDB_API_KEY: z.string().min(1).optional(),
+        VITE_TMDB_ACCESS_TOKEN: z.string().min(1),
         VITE_TMDB_BASE_URL: z.string().min(1).optional(),
         VITE_TMDB_IMAGE_BASE_URL: z.string().min(1).optional(),
     },

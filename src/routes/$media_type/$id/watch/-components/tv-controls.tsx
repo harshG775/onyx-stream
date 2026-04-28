@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { LayoutGrid, List, Play } from "lucide-react"
-import { Route } from "#/routes/$media_type/$id/watch"
+import { useNavigate } from "@tanstack/react-router"
 
 const sampleData = {
     adult: false,
@@ -192,7 +192,9 @@ const sampleData = {
 }
 // accordian with scroll to season when clicked on seasion
 export const TvControls = ({ season, episode }: { season: number; episode: number }) => {
-    const navigate = Route.useNavigate()
+    const navigate = useNavigate({
+        from: "/$media_type/$id/watch/",
+    })
     const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
 
     // We track which season the user is CURRENTLY BROWSING in the UI
