@@ -2,13 +2,26 @@ import { PlayerFrame } from "#/routes/$media_type/$id/watch/-components/player-f
 import { GetExtensions } from "#/routes/$media_type/$id/watch/-lib/get-extensions"
 import { resolveSources } from "#/routes/$media_type/$id/watch/-lib/resolve-sources"
 import type { MediaType } from "#/routes/$media_type/$id/watch/-types/tmdb.type"
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, notFound } from "@tanstack/react-router"
 import z from "zod"
 import { WatchLayout } from "./-components/watch-layout"
 import { TvControls } from "./-components/tv-controls"
 import { useEffect } from "react"
+import { tmdb } from "#/lib/services/tmdb"
 
 export const Route = createFileRoute("/$media_type/$id/watch/")({
+    async loader({ params }) {
+        const id = Number(params.id)
+        if (params.media_type === "tv") {
+            const data = await tmdb.tvShows.details(id)
+            return { tvDetails: data }
+        } else if (params.media_type === "movie") {
+            const data = await tmdb.tvShows.details(id)
+            return { movieDetails: data }
+        } else {
+            return notFound()
+        }
+    },
     validateSearch: z.object({
         season: z.number().optional(),
         episode: z.number().optional(),
