@@ -231,7 +231,7 @@ export const TvControls = ({ season, episode }: { season: number; episode: numbe
                     </div>
                 </div>
 
-                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                <div className="flex gap-2 overflow-x-auto pb-2 scroll-thin">
                     {sampleData.seasons.map((s) => (
                         <button
                             key={s.id}
@@ -249,7 +249,7 @@ export const TvControls = ({ season, episode }: { season: number; episode: numbe
             </div>
 
             {/* Episode List/Grid Area */}
-            <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-4 scroll-thin">
                 {viewMode === "grid" ? (
                     <div className="grid grid-cols-5 gap-2">
                         {Array.from({ length: currentSeasonData.episode_count }).map((_, i) => {
