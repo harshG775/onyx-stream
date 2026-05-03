@@ -8,19 +8,23 @@ import { WatchLayout } from "./-components/watch-layout"
 import { TvControls } from "./-components/tv-controls"
 import { useEffect } from "react"
 import { tmdb } from "#/lib/services/tmdb"
+import type { MovieDetails, TvShowDetails } from "tmdb-ts"
 
 export const Route = createFileRoute("/$media_type/$id/watch/")({
     async loader({ params }) {
         const id = Number(params.id)
-        if (params.media_type === "tv") {
-            const data = await tmdb.tvShows.details(id)
-            return { tvDetails: data }
-        } else if (params.media_type === "movie") {
-            const data = await tmdb.tvShows.details(id)
-            return { movieDetails: data }
-        } else {
-            return notFound()
-        }
+        // if (params.media_type === "tv") {
+        //     const data: TvShowDetails = await tmdb.tvShows.details(id)
+        //     return { tvDetails: data }
+        // } else if (params.media_type === "movie") {
+        //     const data: MovieDetails = await tmdb.movies.details(id)
+        //     return { movieDetails: data }
+        // } else {
+        //     return notFound()
+        // }
+        const data: TvShowDetails = await tmdb.tvShows.details(id)
+
+        return { tvShowDetails: data }
     },
     validateSearch: z.object({
         season: z.number().optional(),
@@ -32,6 +36,7 @@ export const Route = createFileRoute("/$media_type/$id/watch/")({
 function RouteComponent() {
     const { media_type, id } = Route.useParams()
     const { season, episode } = Route.useSearch()
+    const { tvShowDetails } = Route.useLoaderData()
     const { extensions } = GetExtensions()
     const navigate = Route.useNavigate()
 
@@ -65,10 +70,14 @@ function RouteComponent() {
 
         return (
             <WatchLayout
-                player={<PlayerFrame sources={sources} />}
-                controls={<TvControls season={season ?? 1} episode={episode ?? 1} />}
-                comments={<div className="min-h-96">Comments system</div>}
-                recommended={<div className="min-h-96">Recommended shows</div>}
+                player={<PlayerFrame sources={sources} title={tvShowDetails.name} />}
+                controls={<TvControls tvShowDetails={tvShowDetails} season={season ?? 1} episode={episode ?? 1} />}
+                comments={
+                    <div className="min-h-96 border rounded-lg xl:rounded-xl p-4">
+                        <h2 className="font-bold text-lg uppercase">Comments</h2>
+                    </div>
+                }
+                // recommended={<div className="min-h-96">Recommended shows</div>}
             />
         )
     }
@@ -78,9 +87,13 @@ function RouteComponent() {
 
         return (
             <WatchLayout
-                player={<PlayerFrame sources={sources} />}
-                comments={<div className="min-h-96">Comments system</div>}
-                recommended={<div className="min-h-96">Recommended shows</div>}
+                player={<PlayerFrame sources={sources} title={tvShowDetails.name} />}
+                comments={
+                    <div className="min-h-96 border rounded-lg xl:rounded-xl p-4">
+                        <h2 className="font-bold text-lg uppercase">Comments</h2>
+                    </div>
+                }
+                // recommended={<div className="min-h-96">Recommended shows</div>}
             />
         )
     }

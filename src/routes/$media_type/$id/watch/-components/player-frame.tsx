@@ -5,11 +5,12 @@ import { AlertTriangle, RefreshCw, WifiOff } from "lucide-react"
 
 interface Props {
     sources: ResolvedSource[]
+    title: string
 }
 
 type FrameState = "loading" | "loaded" | "error"
 
-export function PlayerFrame({ sources }: Props) {
+export function PlayerFrame({ sources, title }: Props) {
     const [activeIndex, setActiveIndex] = useState(0)
     const [frameState, setFrameState] = useState<FrameState>("loading")
     const [retryKey, setRetryKey] = useState(0)
@@ -90,7 +91,11 @@ export function PlayerFrame({ sources }: Props) {
                     )}
                 />
             </div>
-
+            {title && (
+                <div className="px-4 xl:px-0">
+                    <h1 className="text-lg font-semibold text-wrap line-clamp-4">{title}</h1>
+                </div>
+            )}
             {sources.length > 1 && (
                 <div className="px-4 xl:px-0 space-y-4">
                     <span className="text-sm font-bold text-muted-foreground">Source</span>
