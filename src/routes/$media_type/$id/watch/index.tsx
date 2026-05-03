@@ -13,18 +13,15 @@ import type { MovieDetails, TvShowDetails } from "tmdb-ts"
 export const Route = createFileRoute("/$media_type/$id/watch/")({
     async loader({ params }) {
         const id = Number(params.id)
-        // if (params.media_type === "tv") {
-        //     const data: TvShowDetails = await tmdb.tvShows.details(id)
-        //     return { tvDetails: data }
-        // } else if (params.media_type === "movie") {
-        //     const data: MovieDetails = await tmdb.movies.details(id)
-        //     return { movieDetails: data }
-        // } else {
-        //     return notFound()
-        // }
-        const data: TvShowDetails = await tmdb.tvShows.details(id)
-
-        return { tvShowDetails: data }
+        let tvShowDetails: TvShowDetails | null = null
+        let movieDetails: MovieDetails | null = null
+        if (params.media_type === "tv") {
+            tvShowDetails = await tmdb.tvShows.details(id)
+        }
+        if (params.media_type === "movie") {
+            movieDetails = await tmdb.movies.details(id)
+        }
+        return { tvShowDetails, movieDetails }
     },
     validateSearch: z.object({
         season: z.number().optional(),
@@ -36,7 +33,7 @@ export const Route = createFileRoute("/$media_type/$id/watch/")({
 function RouteComponent() {
     const { media_type, id } = Route.useParams()
     const { season, episode } = Route.useSearch()
-    const { tvShowDetails } = Route.useLoaderData()
+    const loaderData = Route.useLoaderData()
     const { extensions } = GetExtensions()
     const navigate = Route.useNavigate()
 
@@ -65,13 +62,15 @@ function RouteComponent() {
         },
     }))
 
-    if (media_type === "tv") {
+    if (media_type === "tv" && loaderData?.tvShowDetails) {
         const sources = resolveSources(adapters, "tv", id, season ?? 1, episode ?? 1)
 
         return (
             <WatchLayout
-                player={<PlayerFrame sources={sources} title={tvShowDetails.name} />}
-                controls={<TvControls tvShowDetails={tvShowDetails} season={season ?? 1} episode={episode ?? 1} />}
+                player={<PlayerFrame sources={sources} title={loaderData?.tvShowDetails.name} />}
+                controls={
+                    <TvControls tvShowDetails={loaderData?.tvShowDetails} season={season ?? 1} episode={episode ?? 1} />
+                }
                 comments={
                     <div className="min-h-96 border rounded-lg xl:rounded-xl p-4">
                         <h2 className="font-bold text-lg uppercase">Comments</h2>
@@ -82,12 +81,12 @@ function RouteComponent() {
         )
     }
 
-    if (media_type === "movie") {
+    if (media_type === "movie" && loaderData.movieDetails) {
         const sources = resolveSources(adapters, "movie", id)
 
         return (
             <WatchLayout
-                player={<PlayerFrame sources={sources} title={tvShowDetails.name} />}
+                player={<PlayerFrame sources={sources} title={loaderData.movieDetails.title} />}
                 comments={
                     <div className="min-h-96 border rounded-lg xl:rounded-xl p-4">
                         <h2 className="font-bold text-lg uppercase">Comments</h2>
@@ -97,4 +96,5 @@ function RouteComponent() {
             />
         )
     }
+    return notFound()
 }
