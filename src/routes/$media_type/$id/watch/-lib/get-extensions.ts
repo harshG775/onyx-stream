@@ -4,27 +4,27 @@ const extension: ExtensionManifest = {
     version: "1.0",
     extensions: [
         {
-            id: "vidking",
-            name: "VidKing",
-            enabled: true,
-            required: false,
-            priority: 1,
-            baseUrl: "https://www.vidking.net/embed",
-            embedPatterns: {
-                movie: "{baseUrl}/movie/{id}",
-                tv: "{baseUrl}/tv/{id}/{season}/{episode}",
-            },
-        },
-        {
             id: "vidfast",
             name: "VidFast",
             enabled: true,
             required: false,
-            priority: 2,
+            priority: 1,
             baseUrl: "https://vidfast.pro",
             embedPatterns: {
-                movie: "{baseUrl}/movie/{id}?autoPlay=true",
-                tv: "{baseUrl}/tv/{id}/{season}/{episode}?autoPlay=true",
+                movie: "{baseUrl}/movie/{id}?autoPlay=true&theme=dc2828",
+                tv: "{baseUrl}/tv/{id}/{season}/{episode}?autoPlay=true&theme=dc2828",
+            },
+        },
+        {
+            id: "vidking",
+            name: "VidKing",
+            enabled: true,
+            required: false,
+            priority: 2,
+            baseUrl: "https://www.vidking.net/embed",
+            embedPatterns: {
+                movie: "{baseUrl}/movie/{id}/?autoPlay=true&color=dc2828",
+                tv: "{baseUrl}/tv/{id}/{season}/{episode}/?autoPlay=true&color=dc2828",
             },
         },
         {
@@ -63,18 +63,18 @@ const extension: ExtensionManifest = {
                 tv: "{baseUrl}/tv?tmdb={id}&season={season}&episode={episode}",
             },
         },
-        {
-            id: "superembed",
-            name: "SuperEmbed",
-            enabled: true,
-            required: false,
-            priority: 6,
-            baseUrl: "https://multiembed.mov/directstream.php",
-            embedPatterns: {
-                movie: "{baseUrl}?video_id={id}&tmdb=1",
-                tv: "{baseUrl}?video_id={id}&tmdb=1&s={season}&e={episode}",
-            },
-        },
+        // {
+        //     id: "superembed",
+        //     name: "SuperEmbed",
+        //     enabled: true,
+        //     required: false,
+        //     priority: 6,
+        //     baseUrl: "https://multiembed.mov/directstream.php",
+        //     embedPatterns: {
+        //         movie: "{baseUrl}?video_id={id}&tmdb=1",
+        //         tv: "{baseUrl}?video_id={id}&tmdb=1&s={season}&e={episode}",
+        //     },
+        // },
     ],
 }
 
